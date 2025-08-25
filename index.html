@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -212,6 +213,125 @@
             color: white;
             font-weight: 500;
         }
+        .photo-container {
+            position: relative;
+            width: 100%;
+            height: 200px;
+            margin-bottom: 1rem;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+        .photo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .photo-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+            display: flex;
+            align-items: flex-end;
+            padding: 1rem;
+        }
+        .photo-count {
+            background-color: rgba(0,0,0,0.5);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+        }
+        .private-badge {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background-color: rgba(0,0,0,0.7);
+            color: white;
+            padding: 0.25rem 0.5rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+        }
+        .private-badge i {
+            margin-right: 0.25rem;
+        }
+        .message-input {
+            position: fixed;
+            bottom: 70px;
+            left: 0;
+            right: 0;
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 0.5rem;
+            display: none;
+            z-index: 40;
+        }
+        .message-input.active {
+            display: flex;
+        }
+        .message-input input {
+            flex: 1;
+            background-color: #334155;
+            border: none;
+            color: #e2e8f0;
+            padding: 0.5rem;
+            border-radius: 8px;
+            margin-right: 0.5rem;
+        }
+        .message-input button {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .subscription-badge {
+            background: linear-gradient(45deg, #F59E0B, #D97706);
+            color: white;
+            font-weight: 500;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 12px;
+            margin-left: 0.5rem;
+        }
+        .premium-feature {
+            background-color: #334155;
+            border-left: 3px solid #F59E0B;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        .premium-feature i {
+            color: #F59E0B;
+            margin-right: 0.5rem;
+        }
+        .heart-level {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 4rem;
+            color: rgba(255, 255, 255, 0.8);
+            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        .heart-level.show {
+            opacity: 1;
+        }
+        .heart-1 { color: #EF4444; }
+        .heart-2 { color: #F59E0B; }
+        .heart-3 { color: #8B5CF6; }
+        .heart-4 { color: #059669; }
+        .heart-5 { color: #06D6A0; }
     </style>
 </head>
 <body class="bg-gray-900">
@@ -221,11 +341,11 @@
             <div class="max-w-md mx-auto px-4 py-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
-                        <div class="app-icon">C</div>
+                        <div id="appIcon" class="app-icon">C</div>
                         <div>
                             <h1 class="text-lg font-semibold text-white">Conexión</h1>
                             <p class="text-xs text-gray-400">Privada & Segura</p>
-                        </div>
+                        </h1>
                     </div>
                     <div class="flex items-center space-x-2">
                         <button id="notificationsBtn" class="p-2 text-gray-400 hover:text-white relative">
@@ -294,6 +414,12 @@
                 </div>
             </div>
         </main>
+
+        <!-- Input de mensajes -->
+        <div id="messageInput" class="message-input">
+            <input type="text" id="messageText" placeholder="Escribe un mensaje...">
+            <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
+        </div>
 
         <!-- Modal de inicio de sesión/registro -->
         <div id="loginModal" class="modal">
@@ -414,6 +540,17 @@
                     <div class="form-group">
                         <label class="form-label" for="descripcion">Descripción (opcional)</label>
                         <textarea id="descripcion" class="form-control" rows="3" placeholder="Cuéntanos sobre ti..."></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Fotos de perfil</label>
+                        <div class="text-sm text-gray-400 mb-2">Selecciona hasta 5 fotos</div>
+                        <div id="photoPreview" class="grid grid-cols-5 gap-2 mb-3">
+                            <div class="photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer" style="height: 80px;">
+                                <i class="fas fa-plus text-gray-400"></i>
+                                <input type="file" id="photoUpload" accept="image/*" multiple class="hidden">
+                            </div>
+                        </div>
                     </div>
                     
                     <div class="flex space-x-2 pt-2">
@@ -569,11 +706,34 @@
                         <textarea id="editDescripcion" class="form-control" rows="3"></textarea>
                     </div>
                     
+                    <div class="form-group">
+                        <label class="form-label">Fotos de perfil</label>
+                        <div class="text-sm text-gray-400 mb-2">Selecciona hasta 5 fotos</div>
+                        <div id="editPhotoPreview" class="grid grid-cols-5 gap-2 mb-3">
+                            <!-- Las fotos se agregarán dinámicamente -->
+                        </div>
+                    </div>
+                    
                     <div class="flex space-x-2 pt-2">
                         <button type="button" id="cancelEdit" class="btn-secondary flex-1">Cancelar</button>
                         <button type="submit" class="btn-primary flex-1">Guardar</button>
                     </div>
                 </form>
+            </div>
+        </div>
+
+        <!-- Modal de fotos del perfil -->
+        <div id="photoModal" class="modal">
+            <div class="modal-content" style="max-width: 800px;">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-white" id="photoModalTitle">Fotos de <span id="photoUserName"></span></h2>
+                    <button id="closePhotoModal" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div id="photoGallery" class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                    <!-- Las fotos se agregarán dinámicamente -->
+                </div>
             </div>
         </div>
 
@@ -717,6 +877,178 @@
                 </button>
             </div>
         </div>
+
+        <!-- Modal de configuración -->
+        <div id="settingsModal" class="modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-white">Configuración</h2>
+                    <button id="closeSettings" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-gray-700 rounded-xl p-4">
+                        <h3 class="font-semibold text-white mb-3">Privacidad</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-300 font-medium">Modo discreto</span>
+                                    <p class="text-xs text-gray-400">Oculta tu actividad</p>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" id="modoDiscreto">
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-300 font-medium">Visibilidad</span>
+                                    <p class="text-xs text-gray-400">Quién puede verte</p>
+                                </div>
+                                <select id="visibilidad" class="form-control" style="width: auto; padding: 0.25rem 0.5rem;">
+                                    <option value="cercanos">Cercanos (10km)</option>
+                                    <option value="amigos">Solo amigos</option>
+                                    <option value="oculto">Oculto</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-700 rounded-xl p-4">
+                        <h3 class="font-semibold text-white mb-3">Notificaciones</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-300 font-medium">Mensajes</span>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked id="notificacionesMensajes">
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-300 font-medium">Matchs</span>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked id="notificacionesMatchs">
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-300 font-medium">Sistema</span>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked id="notificacionesSistema">
+                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-700 rounded-xl p-4">
+                        <h3 class="font-semibold text-white mb-3">Seguridad</h3>
+                        <div class="space-y-3">
+                            <button id="cambiarLogo" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
+                                <i class="fas fa-image mr-2"></i> Cambiar logo de la app
+                            </button>
+                            <button id="centroSeguridad" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
+                                <i class="fas fa-shield-alt mr-2"></i> Centro de seguridad
+                            </button>
+                            <button id="bloquearUsuarios" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
+                                <i class="fas fa-user-slash mr-2"></i> Bloquear usuarios
+                            </button>
+                            <button id="reportarProblema" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
+                                <i class="fas fa-exclamation-triangle mr-2"></i> Reportar problema
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-700 rounded-xl p-4">
+                        <h3 class="font-semibold text-white mb-3">Suscripción</h3>
+                        <div class="premium-feature">
+                            <i class="fas fa-crown"></i> <strong>Conexión Premium</strong>
+                        </div>
+                        <div class="space-y-2 text-sm text-gray-300 mb-3">
+                            <div class="flex justify-between">
+                                <span>✓ Ver quién te ha dado like</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✓ Mensajes ilimitados</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✓ Filtros avanzados</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✓ Perfil destacado</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span>✓ Análisis de compatibilidad</span>
+                            </div>
+                        </div>
+                        <button id="upgradePremium" class="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-2 px-4 rounded-lg">
+                            <i class="fas fa-crown mr-2"></i> Actualizar a Premium
+                        </button>
+                    </div>
+
+                    <button id="guardarConfiguracion" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-semibold text-lg">
+                        Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de selección de logo -->
+        <div id="logoModal" class="modal">
+            <div class="modal-content" style="max-width: 400px;">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-white">Seleccionar Logo</h2>
+                    <button id="closeLogoModal" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="grid grid-cols-3 gap-4">
+                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="C">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
+                            C
+                        </div>
+                        <span class="text-sm text-gray-300">Conexión</span>
+                    </div>
+                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="M">
+                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
+                            M
+                        </div>
+                        <span class="text-sm text-gray-300">Meet</span>
+                    </div>
+                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="S">
+                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
+                            S
+                        </div>
+                        <span class="text-sm text-gray-300">Social</span>
+                    </div>
+                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="F">
+                        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
+                            F
+                        </div>
+                        <span class="text-sm text-gray-300">Friends</span>
+                    </div>
+                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="L">
+                        <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
+                            L
+                        </div>
+                        <span class="text-sm text-gray-300">Link</span>
+                    </div>
+                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="V">
+                        <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
+                            V
+                        </div>
+                        <span class="text-sm text-gray-300">Vibe</span>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <script>
@@ -734,18 +1066,28 @@
             tribu: [],
             preferencia: []
         };
+        let selectedPhotos = [];
+        let messageRecipient = null;
+        let currentAppIcon = 'C';
 
         // Elementos del DOM
         const loginModal = document.getElementById('loginModal');
         const profileModal = document.getElementById('profileModal');
         const editProfileModal = document.getElementById('editProfileModal');
+        const photoModal = document.getElementById('photoModal');
         const filterModal = document.getElementById('filterModal');
         const notificationsModal = document.getElementById('notificationsModal');
+        const settingsModal = document.getElementById('settingsModal');
+        const logoModal = document.getElementById('logoModal');
         const profilesContainer = document.getElementById('profilesContainer');
         const locationStatus = document.getElementById('locationStatus');
         const userCount = document.getElementById('userCount');
         const notificationCount = document.getElementById('notificationCount');
         const searchInput = document.getElementById('searchInput');
+        const messageInput = document.getElementById('messageInput');
+        const messageText = document.getElementById('messageText');
+        const sendButton = document.getElementById('sendButton');
+        const appIcon = document.getElementById('appIcon');
 
         // Mostrar modal de login al cargar si no hay usuario
         window.onload = function() {
@@ -753,6 +1095,12 @@
             if (savedUser) {
                 currentUser = JSON.parse(savedUser);
                 checkLocationPermission();
+                
+                // Restaurar el icono de la app
+                if (currentUser.appIcon) {
+                    currentAppIcon = currentUser.appIcon;
+                    appIcon.textContent = currentAppIcon;
+                }
             } else {
                 loginModal.style.display = 'block';
             }
@@ -802,6 +1150,9 @@
                 tribu: tribu,
                 preferencia: preferencia,
                 descripcion: descripcion,
+                photos: selectedPhotos,
+                isPremium: false,
+                appIcon: currentAppIcon,
                 createdAt: new Date().toISOString(),
                 lastActive: new Date().toISOString()
             };
@@ -950,6 +1301,18 @@
                     userPreferencias.push(shuffledPreferencias[j]);
                 }
                 
+                // Generar fotos aleatorias
+                const numPhotos = 1 + Math.floor(Math.random() * 4); // 1-4 fotos
+                const userPhotos = [];
+                for (let k = 0; k < numPhotos; k++) {
+                    const colors = ['6366F1', '8B5CF6', 'EC4899', '10B981', 'F59E0B', '059669', 'DC2626', '7C3AED'];
+                    userPhotos.push({
+                        url: `https://placehold.co/400x600/${colors[Math.floor(Math.random() * colors.length)]}/white?text=${nombres[i % nombres.length]}+${k+1}`,
+                        isPrivate: Math.random() > 0.7, // 30% de fotos privadas
+                        isVerified: Math.random() > 0.9 // 10% de fotos verificadas
+                    });
+                }
+                
                 users.push({
                     id: `user${i}`,
                     nombre: nombres[i % nombres.length],
@@ -960,11 +1323,13 @@
                     tribu: userTribus,
                     preferencia: userPreferencias,
                     descripcion: `Hola, soy ${nombres[i % nombres.length]} y me encanta conocer gente nueva. Busco conexiones reales y momentos especiales.`,
+                    photos: userPhotos,
                     lat: lat,
                     lng: lng,
                     lastActive: new Date(Date.now() - Math.random() * 3600000).toISOString(), // Última actividad en la última hora
                     verified: Math.random() > 0.7,
-                    avatar: `https://placehold.co/80x80/${['6366F1', '8B5CF6', 'EC4899', '10B981', 'F59E0B', '059669', 'DC2626', '7C3AED'][i % 8]}/white?text=${nombres[i % nombres.length][0]}`
+                    isPremium: Math.random() > 0.8, // 20% de usuarios premium
+                    avatar: userPhotos[0].url
                 });
             }
         }
@@ -1066,10 +1431,13 @@
                     <div class="profile-card border-b border-gray-700">
                         <div class="flex items-center p-4">
                             <div class="relative mr-4">
-                                <img src="${user.avatar}" alt="${user.nombre}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                                <img src="${user.photos[0].url}" alt="${user.nombre}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
                                 <span class="absolute -bottom-1 -right-1 status-dot ${statusDot}"></span>
                                 ${user.verified ? `<span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
                                     <i class="fas fa-check text-xs"></i>
+                                </span>` : ''}
+                                ${user.isPremium ? `<span class="absolute -top-1 -left-1 subscription-badge">
+                                    <i class="fas fa-crown text-xs"></i>
                                 </span>` : ''}
                             </div>
                             <div class="flex-1 min-w-0">
@@ -1096,9 +1464,23 @@
                                 </div>
                             </div>
                             <div class="flex flex-col space-y-2 ml-2">
-                                <button class="action-btn p-2 text-gray-400 hover:text-purple-400 bg-gray-700 rounded-full like-btn" data-id="${user.id}">
-                                    <i class="fas fa-heart text-xs"></i>
-                                </button>
+                                <div class="flex space-x-1">
+                                    <button class="action-btn p-2 text-gray-400 hover:text-red-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="1">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="action-btn p-2 text-gray-400 hover:text-orange-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="2">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="action-btn p-2 text-gray-400 hover:text-purple-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="3">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="action-btn p-2 text-gray-400 hover:text-green-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="4">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                    <button class="action-btn p-2 text-gray-400 hover:text-teal-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="5">
+                                        <i class="fas fa-heart text-xs"></i>
+                                    </button>
+                                </div>
                                 <button class="action-btn p-2 text-gray-400 hover:text-purple-400 bg-gray-700 rounded-full message-btn" data-id="${user.id}">
                                     <i class="fas fa-comment text-xs"></i>
                                 </button>
@@ -1120,10 +1502,11 @@
             });
         }
 
-        // Manejar "Me gusta"
+        // Manejar "Me gusta" con niveles
         function handleLike(e) {
             e.stopPropagation();
             const userId = e.currentTarget.getAttribute('data-id');
+            const level = parseInt(e.currentTarget.getAttribute('data-level'));
             const user = users.find(u => u.id === userId);
             
             // Crear notificación
@@ -1133,6 +1516,7 @@
                 userId: userId,
                 userName: user.nombre,
                 userAvatar: user.avatar,
+                level: level,
                 timestamp: new Date().toISOString(),
                 read: false
             };
@@ -1142,14 +1526,48 @@
             renderNotifications();
             renderProfiles();
             
-            // Animación
-            const icon = e.currentTarget.querySelector('i');
-            icon.classList.remove('fa-heart');
-            icon.classList.add('fa-heart');
-            icon.style.color = '#6366F1';
+            // Mostrar animación de corazón
+            const heartLevels = document.querySelectorAll('.heart-level');
+            heartLevels.forEach(heart => {
+                heart.className = 'heart-level';
+            });
+            
+            const heart = document.querySelector(`.heart-${level}`);
+            if (heart) {
+                heart.classList.add('show');
+                setTimeout(() => {
+                    heart.classList.remove('show');
+                }, 1000);
+            }
+            
+            // Animación del botón
+            const buttons = document.querySelectorAll(`.like-btn[data-id="${userId}"]`);
+            buttons.forEach(btn => {
+                const btnLevel = parseInt(btn.getAttribute('data-level'));
+                const icon = btn.querySelector('i');
+                if (btnLevel <= level) {
+                    icon.style.color = getHeartColor(level);
+                } else {
+                    icon.style.color = '';
+                }
+            });
+            
             setTimeout(() => {
-                icon.style.color = '';
-            }, 500);
+                buttons.forEach(btn => {
+                    btn.querySelector('i').style.color = '';
+                });
+            }, 1000);
+        }
+
+        function getHeartColor(level) {
+            switch(level) {
+                case 1: return '#EF4444';
+                case 2: return '#F59E0B';
+                case 3: return '#8B5CF6';
+                case 4: return '#059669';
+                case 5: return '#06D6A0';
+                default: return '#6366F1';
+            }
         }
 
         // Manejar mensaje
@@ -1157,6 +1575,10 @@
             e.stopPropagation();
             const userId = e.currentTarget.getAttribute('data-id');
             const user = users.find(u => u.id === userId);
+            
+            messageRecipient = user;
+            messageInput.classList.add('active');
+            messageText.focus();
             
             // Crear notificación de chat
             const notification = {
@@ -1174,9 +1596,38 @@
             saveNotifications();
             renderNotifications();
             renderProfiles();
-            
-            alert(`Mensaje enviado a ${user.nombre}. Pronto podrás conversar en la pestaña de mensajes.`);
         }
+
+        // Enviar mensaje
+        sendButton.addEventListener('click', function() {
+            if (messageText.value.trim() && messageRecipient) {
+                const notification = {
+                    id: Date.now().toString(),
+                    type: 'message',
+                    userId: messageRecipient.id,
+                    userName: messageRecipient.nombre,
+                    userAvatar: messageRecipient.avatar,
+                    message: messageText.value,
+                    timestamp: new Date().toISOString(),
+                    read: false
+                };
+                
+                notifications.unshift(notification);
+                saveNotifications();
+                renderNotifications();
+                renderProfiles();
+                
+                messageText.value = '';
+                messageInput.classList.remove('active');
+                messageRecipient = null;
+            }
+        });
+
+        messageText.addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                sendButton.click();
+            }
+        });
 
         // Renderizar notificaciones
         function renderNotifications() {
@@ -1210,14 +1661,15 @@
                     timeText = `${minutesAgo}m`;
                 }
                 
-                let content;
+                let content, iconColor;
                 if (notification.type === 'like') {
+                    const heartColor = getHeartColor(notification.level);
                     content = `
-                        <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style="background-color: ${heartColor}">
                             <i class="fas fa-heart"></i>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm text-white"><strong>${notification.userName}</strong> te dio "Me gusta"</p>
+                            <p class="text-sm text-white"><strong>${notification.userName}</strong> te dio <span style="color: ${heartColor}">${getLevelText(notification.level)}</span></p>
                             <p class="text-xs text-gray-400">${timeText} atrás</p>
                         </div>
                     `;
@@ -1248,6 +1700,17 @@
                     markNotificationAsRead(id);
                 });
             });
+        }
+
+        function getLevelText(level) {
+            switch(level) {
+                case 1: return 'un poco de interés';
+                case 2: return 'interés moderado';
+                case 3: return 'mucho interés';
+                case 4: return 'gran interés';
+                case 5: return 'interés extremo!';
+                default: return 'interés';
+            }
         }
 
         // Marcar notificación como leída
@@ -1297,6 +1760,7 @@
                     </div>
                     <h3 class="text-xl font-bold text-white">${currentUser.nombre}</h3>
                     <p class="text-gray-300">${currentUser.edad}</p>
+                    ${currentUser.isPremium ? '<span class="subscription-badge"><i class="fas fa-crown"></i> Premium</span>' : ''}
                     <p class="text-gray-400 text-sm">Miembro desde ${new Date(currentUser.createdAt).toLocaleDateString()}</p>
                 </div>
                 
@@ -1348,6 +1812,31 @@
                 <div class="bg-gray-700 rounded-xl p-4 mb-4">
                     <h4 class="font-semibold text-white mb-3">Sobre mí</h4>
                     <p class="text-gray-300">${currentUser.descripcion}</p>
+                </div>
+                ` : ''}
+                
+                ${currentUser.photos && currentUser.photos.length > 0 ? `
+                <div class="bg-gray-700 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-white mb-3 flex items-center">
+                        <i class="fas fa-images mr-2"></i> Fotos (${currentUser.photos.length})
+                    </h4>
+                    <div class="grid grid-cols-3 gap-2">
+                        ${currentUser.photos.slice(0, 6).map((photo, index) => `
+                            <div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer" onclick="showPhotoGallery('${currentUser.id}')">
+                                <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover">
+                                ${photo.isPrivate ? `
+                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                                        <i class="fas fa-lock text-white text-lg"></i>
+                                    </div>
+                                ` : ''}
+                            </div>
+                        `).join('')}
+                        ${currentUser.photos.length > 6 ? `
+                            <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-600 flex items-center justify-center cursor-pointer" onclick="showPhotoGallery('${currentUser.id}')">
+                                <span class="text-white text-lg font-bold">+${currentUser.photos.length - 6}</span>
+                            </div>
+                        ` : ''}
+                    </div>
                 </div>
                 ` : ''}
                 
@@ -1410,9 +1899,130 @@
             
             document.getElementById('editDescripcion').value = currentUser.descripcion || '';
             
+            // Fotos
+            const editPhotoPreview = document.getElementById('editPhotoPreview');
+            editPhotoPreview.innerHTML = '';
+            
+            if (currentUser.photos && currentUser.photos.length > 0) {
+                currentUser.photos.forEach((photo, index) => {
+                    const photoDiv = document.createElement('div');
+                    photoDiv.className = 'relative';
+                    photoDiv.style.height = '80px';
+                    photoDiv.innerHTML = `
+                        <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
+                        <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    editPhotoPreview.appendChild(photoDiv);
+                });
+            }
+            
+            // Añadir botón de subida
+            const uploadDiv = document.createElement('div');
+            uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
+            uploadDiv.style.height = '80px';
+            uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
+            editPhotoPreview.appendChild(uploadDiv);
+            
+            // Añadir evento para subir fotos
+            const photoUpload = document.createElement('input');
+            photoUpload.type = 'file';
+            photoUpload.accept = 'image/*';
+            photoUpload.multiple = true;
+            photoUpload.className = 'hidden';
+            photoUpload.onchange = handlePhotoUpload;
+            uploadDiv.appendChild(photoUpload);
+            
+            uploadDiv.onclick = () => photoUpload.click();
+            
+            // Añadir evento para eliminar fotos
+            document.querySelectorAll('.remove-photo').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    currentUser.photos.splice(index, 1);
+                    showEditPhotoPreview();
+                });
+            });
+            
             editProfileModal.style.display = 'block';
             profileModal.style.display = 'none';
         });
+
+        function showEditPhotoPreview() {
+            const editPhotoPreview = document.getElementById('editPhotoPreview');
+            editPhotoPreview.innerHTML = '';
+            
+            if (currentUser.photos && currentUser.photos.length > 0) {
+                currentUser.photos.forEach((photo, index) => {
+                    const photoDiv = document.createElement('div');
+                    photoDiv.className = 'relative';
+                    photoDiv.style.height = '80px';
+                    photoDiv.innerHTML = `
+                        <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
+                        <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    `;
+                    editPhotoPreview.appendChild(photoDiv);
+                });
+            }
+            
+            // Añadir botón de subida
+            const uploadDiv = document.createElement('div');
+            uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
+            uploadDiv.style.height = '80px';
+            uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
+            editPhotoPreview.appendChild(uploadDiv);
+            
+            // Añadir evento para subir fotos
+            const photoUpload = document.createElement('input');
+            photoUpload.type = 'file';
+            photoUpload.accept = 'image/*';
+            photoUpload.multiple = true;
+            photoUpload.className = 'hidden';
+            photoUpload.onchange = handlePhotoUpload;
+            uploadDiv.appendChild(photoUpload);
+            
+            uploadDiv.onclick = () => photoUpload.click();
+            
+            // Añadir evento para eliminar fotos
+            document.querySelectorAll('.remove-photo').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    currentUser.photos.splice(index, 1);
+                    showEditPhotoPreview();
+                });
+            });
+        }
+
+        function handlePhotoUpload(e) {
+            const files = e.target.files;
+            if (files.length + (currentUser.photos ? currentUser.photos.length : 0) > 5) {
+                alert('Solo puedes tener hasta 5 fotos en tu perfil');
+                return;
+            }
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    if (!currentUser.photos) {
+                        currentUser.photos = [];
+                    }
+                    currentUser.photos.push({
+                        url: e.target.result,
+                        isPrivate: false,
+                        isVerified: false,
+                        uploaded: new Date().toISOString()
+                    });
+                    showEditPhotoPreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        }
 
         // Cerrar edición de perfil
         document.getElementById('closeEditProfile').addEventListener('click', function() {
@@ -1463,6 +2073,12 @@
             currentUser.preferencia = preferencia;
             currentUser.descripcion = descripcion;
             currentUser.lastActive = new Date().toISOString();
+            
+            // Asegurarse de que hay al menos una foto
+            if (!currentUser.photos || currentUser.photos.length === 0) {
+                alert('Por favor sube al menos una foto de perfil');
+                return;
+            }
             
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             editProfileModal.style.display = 'none';
@@ -1555,6 +2171,79 @@
             notificationsModal.style.display = 'none';
         });
 
+        // Configuración
+        document.getElementById('settingsBtn').addEventListener('click', function() {
+            if (!currentUser) {
+                loginModal.style.display = 'block';
+                return;
+            }
+            
+            // Rellenar configuración actual
+            document.getElementById('modoDiscreto').checked = currentUser.modoDiscreto || false;
+            document.getElementById('visibilidad').value = currentUser.visibilidad || 'cercanos';
+            document.getElementById('notificacionesMensajes').checked = currentUser.notificacionesMensajes !== false;
+            document.getElementById('notificacionesMatchs').checked = currentUser.notificacionesMatchs !== false;
+            document.getElementById('notificacionesSistema').checked = currentUser.notificacionesSistema !== false;
+            
+            settingsModal.style.display = 'block';
+        });
+
+        document.getElementById('closeSettings').addEventListener('click', function() {
+            settingsModal.style.display = 'none';
+        });
+
+        document.getElementById('cambiarLogo').addEventListener('click', function() {
+            settingsModal.style.display = 'none';
+            logoModal.style.display = 'block';
+        });
+
+        document.getElementById('closeLogoModal').addEventListener('click', function() {
+            logoModal.style.display = 'none';
+            settingsModal.style.display = 'block';
+        });
+
+        document.querySelectorAll('.logo-option').forEach(option => {
+            option.addEventListener('click', function() {
+                const newIcon = this.getAttribute('data-logo');
+                currentAppIcon = newIcon;
+                appIcon.textContent = newIcon;
+                
+                if (currentUser) {
+                    currentUser.appIcon = newIcon;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+                
+                logoModal.style.display = 'none';
+                settingsModal.style.display = 'block';
+            });
+        });
+
+        document.getElementById('upgradePremium').addEventListener('click', function() {
+            if (confirm('¿Deseas actualizar a Conexión Premium por $9.99/mes?')) {
+                if (currentUser) {
+                    currentUser.isPremium = true;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    alert('¡Felicidades! Ahora eres un usuario Premium con acceso a todas las funciones avanzadas.');
+                    settingsModal.style.display = 'none';
+                    showProfile();
+                    profileModal.style.display = 'block';
+                }
+            }
+        });
+
+        document.getElementById('guardarConfiguracion').addEventListener('click', function() {
+            if (currentUser) {
+                currentUser.modoDiscreto = document.getElementById('modoDiscreto').checked;
+                currentUser.visibilidad = document.getElementById('visibilidad').value;
+                currentUser.notificacionesMensajes = document.getElementById('notificacionesMensajes').checked;
+                currentUser.notificacionesMatchs = document.getElementById('notificacionesMatchs').checked;
+                currentUser.notificacionesSistema = document.getElementById('notificacionesSistema').checked;
+                
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+            settingsModal.style.display = 'none';
+        });
+
         // Pestañas
         document.getElementById('tabNearby').addEventListener('click', function() {
             document.getElementById('tabNearby').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
@@ -1636,6 +2325,9 @@
                     <button id="editProfileBtnFooter" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg mr-2">
                         <i class="fas fa-edit mr-1"></i> Editar
                     </button>
+                    <button id="settingsBtnFooter" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg mr-2">
+                        <i class="fas fa-cog mr-1"></i> Config
+                    </button>
                     <button id="logoutBtnFooter" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded-lg">
                         <i class="fas fa-sign-out-alt mr-1"></i> Salir
                     </button>
@@ -1675,7 +2367,67 @@
                 
                 document.getElementById('editDescripcion').value = currentUser.descripcion || '';
                 
+                // Fotos
+                const editPhotoPreview = document.getElementById('editPhotoPreview');
+                editPhotoPreview.innerHTML = '';
+                
+                if (currentUser.photos && currentUser.photos.length > 0) {
+                    currentUser.photos.forEach((photo, index) => {
+                        const photoDiv = document.createElement('div');
+                        photoDiv.className = 'relative';
+                        photoDiv.style.height = '80px';
+                        photoDiv.innerHTML = `
+                            <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
+                            <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        `;
+                        editPhotoPreview.appendChild(photoDiv);
+                    });
+                }
+                
+                // Añadir botón de subida
+                const uploadDiv = document.createElement('div');
+                uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
+                uploadDiv.style.height = '80px';
+                uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
+                editPhotoPreview.appendChild(uploadDiv);
+                
+                // Añadir evento para subir fotos
+                const photoUpload = document.createElement('input');
+                photoUpload.type = 'file';
+                photoUpload.accept = 'image/*';
+                photoUpload.multiple = true;
+                photoUpload.className = 'hidden';
+                photoUpload.onchange = handlePhotoUpload;
+                uploadDiv.appendChild(photoUpload);
+                
+                uploadDiv.onclick = () => photoUpload.click();
+                
+                // Añadir evento para eliminar fotos
+                document.querySelectorAll('.remove-photo').forEach(btn => {
+                    btn.addEventListener('click', function(e) {
+                        e.stopPropagation();
+                        const index = parseInt(this.getAttribute('data-index'));
+                        currentUser.photos.splice(index, 1);
+                        showEditPhotoPreview();
+                    });
+                });
+                
                 editProfileModal.style.display = 'block';
+            });
+            
+            document.getElementById('settingsBtnFooter').addEventListener('click', function() {
+                if (!currentUser) return;
+                
+                // Rellenar configuración actual
+                document.getElementById('modoDiscreto').checked = currentUser.modoDiscreto || false;
+                document.getElementById('visibilidad').value = currentUser.visibilidad || 'cercanos';
+                document.getElementById('notificacionesMensajes').checked = currentUser.notificacionesMensajes !== false;
+                document.getElementById('notificacionesMatchs').checked = currentUser.notificacionesMatchs !== false;
+                document.getElementById('notificacionesSistema').checked = currentUser.notificacionesSistema !== false;
+                
+                settingsModal.style.display = 'block';
             });
             
             document.getElementById('logoutBtnFooter').addEventListener('click', function() {
@@ -1712,13 +2464,123 @@
             if (event.target === editProfileModal) {
                 editProfileModal.style.display = 'none';
             }
+            if (event.target === photoModal) {
+                photoModal.style.display = 'none';
+            }
             if (event.target === filterModal) {
                 filterModal.style.display = 'none';
             }
             if (event.target === notificationsModal) {
                 notificationsModal.style.display = 'none';
             }
+            if (event.target === settingsModal) {
+                settingsModal.style.display = 'none';
+            }
+            if (event.target === logoModal) {
+                logoModal.style.display = 'none';
+                settingsModal.style.display = 'block';
+            }
         };
+
+        // Función para mostrar galería de fotos
+        window.showPhotoGallery = function(userId) {
+            const user = users.find(u => u.id === userId) || currentUser;
+            if (!user || !user.photos) return;
+            
+            const photoGallery = document.getElementById('photoGallery');
+            photoGallery.innerHTML = '';
+            
+            document.getElementById('photoUserName').textContent = user.nombre;
+            photoModalTitle.textContent = `Fotos de ${user.nombre}`;
+            
+            user.photos.forEach((photo, index) => {
+                const photoDiv = document.createElement('div');
+                photoDiv.className = 'relative';
+                photoDiv.innerHTML = `
+                    <div class="photo-container">
+                        <img src="${photo.url}" alt="Foto ${index + 1}" class="photo">
+                        <div class="photo-overlay">
+                            <span class="photo-count">${index + 1}/${user.photos.length}</span>
+                        </div>
+                        ${photo.isPrivate ? `
+                            <div class="private-badge">
+                                <i class="fas fa-lock"></i> Privada
+                            </div>
+                        ` : ''}
+                    </div>
+                `;
+                photoGallery.appendChild(photoDiv);
+            });
+            
+            photoModal.style.display = 'block';
+        };
+
+        // Subir fotos en el modal de registro
+        document.getElementById('photoUpload').addEventListener('change', function(e) {
+            const files = e.target.files;
+            if (files.length + selectedPhotos.length > 5) {
+                alert('Solo puedes subir hasta 5 fotos');
+                return;
+            }
+            
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    selectedPhotos.push({
+                        url: e.target.result,
+                        isPrivate: false,
+                        isVerified: false,
+                        uploaded: new Date().toISOString()
+                    });
+                    showPhotoPreview();
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        function showPhotoPreview() {
+            const photoPreview = document.getElementById('photoPreview');
+            photoPreview.innerHTML = '';
+            
+            selectedPhotos.forEach((photo, index) => {
+                const photoDiv = document.createElement('div');
+                photoDiv.className = 'relative';
+                photoDiv.style.height = '80px';
+                photoDiv.innerHTML = `
+                    <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
+                    <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
+                        <i class="fas fa-times"></i>
+                    </button>
+                `;
+                photoPreview.appendChild(photoDiv);
+            });
+            
+            // Añadir botón de subida si hay menos de 5 fotos
+            if (selectedPhotos.length < 5) {
+                const uploadDiv = document.createElement('div');
+                uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
+                uploadDiv.style.height = '80px';
+                uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
+                photoPreview.appendChild(uploadDiv);
+            }
+            
+            // Añadir evento para eliminar fotos
+            document.querySelectorAll('.remove-photo').forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const index = parseInt(this.getAttribute('data-index'));
+                    selectedPhotos.splice(index, 1);
+                    showPhotoPreview();
+                });
+            });
+        }
+
+        // Añadir evento al botón de subida
+        document.querySelector('.photo-upload').addEventListener('click', function() {
+            document.getElementById('photoUpload').click();
+        });
     </script>
 </body>
 </html>
+```
