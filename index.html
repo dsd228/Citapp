@@ -1,114 +1,533 @@
-```html
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conexión Privada</title>
+    <title>Privado | Conexiones Exclusivas</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
+        :root {
+            --primary: #6366F1;
+            --primary-dark: #4F46E5;
+            --secondary: #8B5CF6;
+            --accent: #EC4899;
+            --success: #10B981;
+            --warning: #F59E0B;
+            --danger: #EF4444;
+            --dark: #0F172A;
+            --darker: #020617;
+            --gray: #64748B;
+            --light: #F8FAFC;
+            --border: #334155;
+        }
+        
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #0f172a;
-            color: #e2e8f0;
+            background-color: var(--darker);
+            color: var(--light);
+            overflow-x: hidden;
         }
-        .profile-card {
-            transition: all 0.2s ease;
-            border: 1px solid #334155;
-            background: linear-gradient(135deg, #1e293b, #334155);
+        
+        .logo-text {
+            font-family: 'Playfair Display', serif;
         }
-        .profile-card:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        }
-        .online-status {
-            width: 8px;
-            height: 8px;
-            background-color: #10B981;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 4px;
-        }
-        .distance-badge {
-            background: linear-gradient(90deg, #6366F1, #8B5CF6);
+        
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
             font-weight: 500;
-            font-size: 0.75rem;
-            padding: 2px 8px;
-            border-radius: 20px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
         }
-        .app-icon {
-            width: 28px;
-            height: 28px;
-            background: linear-gradient(135deg, #6366F1, #8B5CF6);
-            border-radius: 10px;
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-outline {
+            border: 1px solid var(--primary);
+            color: var(--primary);
+            background: transparent;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-outline:hover {
+            background: rgba(99, 102, 241, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .card {
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--border);
+            border-radius: 1rem;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+        
+        .profile-img {
+            width: 100%;
+            height: 300px;
+            object-fit: cover;
+            border-radius: 0.5rem;
+        }
+        
+        .badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            display: inline-block;
+            margin: 0.125rem;
+        }
+        
+        .badge-primary {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+        }
+        
+        .badge-success {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+        }
+        
+        .badge-warning {
+            background: linear-gradient(135deg, var(--warning), #D97706);
+            color: white;
+        }
+        
+        .badge-accent {
+            background: linear-gradient(135deg, var(--accent), #DB2777);
+            color: white;
+        }
+        
+        .premium-badge {
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .verified-badge {
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
-            color: white;
-            font-weight: bold;
-            font-size: 14px;
+            font-size: 0.75rem;
+            margin-left: 0.5rem;
         }
+        
+        .distance-badge {
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 500;
+            position: absolute;
+            top: 0.75rem;
+            right: 0.75rem;
+            backdrop-filter: blur(5px);
+        }
+        
+        .online-dot {
+            width: 12px;
+            height: 12px;
+            background: var(--success);
+            border-radius: 50%;
+            border: 2px solid var(--darker);
+            position: absolute;
+            bottom: 0.5rem;
+            right: 0.5rem;
+            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+        }
+        
+        .heart-animation {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6rem;
+            opacity: 0;
+            z-index: 50;
+            pointer-events: none;
+            animation: float 1s ease-out;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .subscription-modal {
+            background: linear-gradient(135deg, var(--darker), #1E293B);
+            border: 1px solid var(--border);
+        }
+        
+        .feature-item {
+            display: flex;
+            align-items: center;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .feature-item:last-child {
+            border-bottom: none;
+        }
+        
+        .feature-icon {
+            color: var(--primary);
+            margin-right: 0.75rem;
+            font-size: 1.25rem;
+        }
+        
+        .premium-feature {
+            background: rgba(99, 102, 241, 0.1);
+            border-left: 3px solid var(--primary);
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0 0.5rem 0.5rem 0;
+        }
+        
+        .premium-feature i {
+            color: var(--warning);
+            margin-right: 0.5rem;
+        }
+        
+        .blur-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .blur-overlay:hover .unlock-text {
+            transform: scale(1.1);
+        }
+        
+        .unlock-text {
+            color: white;
+            font-weight: 600;
+            text-align: center;
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        
+        .privacy-badge {
+            background: linear-gradient(135deg, #059669, var(--success));
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
         .tab-active {
-            color: #6366F1;
+            color: var(--primary);
             font-weight: 600;
             border-bottom-2 border-purple-600;
         }
+        
         .tab-inactive {
             color: #94a3b8;
         }
-        .badge {
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 12px;
-            font-weight: 500;
+        
+        .match-percentage {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 3px;
+            overflow: hidden;
+            margin: 0.5rem 0;
         }
-        .interest-badge {
-            background-color: #334155;
-            color: #e2e8f0;
-            border: 1px solid #475569;
+        
+        .match-percentage-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--success), var(--warning));
+            border-radius: 3px;
+            transition: width 1s ease;
         }
-        .verified-badge {
-            background: linear-gradient(90deg, #10B981, #059669);
+        
+        @keyframes pulse {
+            0% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
+            }
+            70% {
+                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
+            }
+            100% {
+                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
+            }
+        }
+        
+        .pulse {
+            animation: pulse 2s infinite;
+        }
+        
+        .messages-list {
+            max-height: 400px;
+            overflow-y: auto;
+        }
+        
+        .message {
+            max-width: 70%;
+            padding: 0.75rem 1rem;
+            border-radius: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+            word-wrap: break-word;
+        }
+        
+        .message-received {
+            background: rgba(99, 102, 241, 0.1);
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            align-self: flex-start;
+            border-bottom-left-radius: 0.25rem;
+        }
+        
+        .message-sent {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
             color: white;
+            align-self: flex-end;
+            margin-left: auto;
+            border-bottom-right-radius: 0.25rem;
         }
-        .action-btn {
-            transition: all 0.2s ease;
+        
+        .chat-input {
+            border: 1px solid var(--border);
+            border-radius: 1.5rem;
+            padding: 0.5rem 1rem;
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
+            color: white;
+            width: 100%;
+            margin-right: 0.5rem;
         }
-        .action-btn:hover {
+        
+        .chat-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        
+        .send-btn {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .send-btn:hover {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item {
+            position: relative;
+            overflow: hidden;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        
+        .gallery-item img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+        
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+        
+        .gallery-item .private-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .gallery-item:hover .private-overlay {
+            opacity: 1;
+        }
+        
+        .private-overlay i {
+            color: white;
+            font-size: 2rem;
+        }
+        
+        .private-overlay span {
+            color: white;
+            font-weight: 600;
+            margin-top: 0.5rem;
+        }
+        
+        .profile-header {
+            position: relative;
+            height: 200px;
+            overflow: hidden;
+            border-radius: 1rem 1rem 0 0;
+        }
+        
+        .profile-header img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        
+        .profile-avatar {
+            position: absolute;
+            bottom: -50px;
+            left: 1rem;
+            width: 100px;
+            height: 100px;
+            border-radius: 50%;
+            border: 5px solid var(--darker);
+            object-fit: cover;
+        }
+        
+        .profile-info {
+            margin-left: 120px;
+            padding: 1rem;
+        }
+        
+        .swipe-container {
+            position: relative;
+            height: 400px;
+        }
+        
+        .swipe-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 1rem;
+            overflow: hidden;
+            cursor: grab;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+        
+        .swipe-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+        
+        .swipe-btn {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 2px solid var(--border);
+        }
+        
+        .swipe-btn:hover {
             transform: scale(1.1);
         }
-        .chat-bubble {
-            background: linear-gradient(135deg, #6366F1, #8B5CF6);
-            color: white;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 12px;
-            display: inline-block;
-            margin-left: 4px;
+        
+        .swipe-btn.like {
+            color: var(--success);
+            background: rgba(16, 185, 129, 0.1);
         }
-        .status-dot {
-            width: 6px;
-            height: 6px;
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 4px;
+        
+        .swipe-btn.dislike {
+            color: var(--danger);
+            background: rgba(239, 68, 68, 0.1);
         }
-        .status-online {
-            background-color: #10B981;
+        
+        .swipe-btn.super-like {
+            color: var(--accent);
+            background: rgba(236, 72, 153, 0.1);
         }
-        .status-away {
-            background-color: #F59E0B;
+        
+        .analytics-chart {
+            height: 300px;
         }
-        .status-offline {
-            background-color: #6B7280;
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 8px;
         }
-        .search-input:focus {
-            border-color: #8B5CF6;
-            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        
+        ::-webkit-scrollbar-track {
+            background: rgba(15, 23, 42, 0.5);
+            border-radius: 10px;
         }
+        
+        ::-webkit-scrollbar-thumb {
+            background: var(--primary);
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: var(--primary-dark);
+        }
+        
         .modal {
             display: none;
             position: fixed;
@@ -119,214 +538,164 @@
             height: 100%;
             overflow: auto;
             background-color: rgba(0,0,0,0.8);
+            backdrop-filter: blur(10px);
         }
+        
         .modal-content {
-            background-color: #1e293b;
+            background-color: var(--darker);
             margin: 5% auto;
-            padding: 20px;
-            border-radius: 12px;
+            padding: 2rem;
+            border-radius: 1rem;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            border: 1px solid #334155;
+            border: 1px solid var(--border);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
         }
-        .form-group {
-            margin-bottom: 1.5rem;
+        
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
         }
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #e2e8f0;
-            font-weight: 500;
+        
+        .close:hover,
+        .close:focus {
+            color: var(--primary);
+            text-decoration: none;
         }
+        
         .form-control {
             width: 100%;
             padding: 0.75rem;
-            border: 1px solid #334155;
+            border: 1px solid var(--border);
             border-radius: 0.5rem;
-            background-color: #334155;
-            color: #e2e8f0;
+            background-color: rgba(15, 23, 42, 0.8);
+            color: var(--light);
             font-size: 0.875rem;
+            backdrop-filter: blur(10px);
         }
+        
         .form-control:focus {
             outline: none;
-            border-color: #6366F1;
+            border-color: var(--primary);
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
         }
+        
         .checkbox-group {
             display: flex;
             flex-wrap: wrap;
             gap: 0.5rem;
-            margin-top: 0.5rem;
+            margin: 0.5rem 0;
         }
+        
         .checkbox-item {
             display: flex;
             align-items: center;
         }
+        
         .checkbox-item input[type="checkbox"] {
             margin-right: 0.5rem;
         }
-        .btn-primary {
-            background: linear-gradient(135deg, #6366F1, #8B5CF6);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
+        
+        .upload-avatar {
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            border: 3px dashed var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            transition: all 0.2s;
+            margin: 0 auto 1rem auto;
+            color: var(--gray);
+            font-size: 2rem;
+            transition: all 0.3s ease;
         }
-        .btn-primary:hover {
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        
+        .upload-avatar:hover {
+            border-color: var(--primary);
+            color: var(--primary);
         }
-        .btn-secondary {
-            background-color: #334155;
-            color: #e2e8f0;
-            border: 1px solid #475569;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .btn-danger {
-            background-color: #DC2626;
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-        }
-        .tribu-badge {
-            background: linear-gradient(45deg, #8B5CF6, #EC4899);
-            color: white;
-            font-weight: 500;
-        }
-        .rol-badge {
-            background: linear-gradient(45deg, #059669, #10B981);
-            color: white;
-            font-weight: 500;
-        }
-        .preferencia-badge {
-            background: linear-gradient(45deg, #F59E0B, #D97706);
-            color: white;
-            font-weight: 500;
-        }
-        .photo-container {
-            position: relative;
-            width: 100%;
-            height: 200px;
-            margin-bottom: 1rem;
-            border-radius: 12px;
-            overflow: hidden;
-        }
-        .photo {
+        
+        .upload-avatar img {
             width: 100%;
             height: 100%;
+            border-radius: 50%;
             object-fit: cover;
         }
-        .photo-overlay {
+        
+        .premium-overlay {
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(0deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 50%);
+            background: rgba(0, 0, 0, 0.8);
             display: flex;
-            align-items: flex-end;
-            padding: 1rem;
-        }
-        .photo-count {
-            background-color: rgba(0,0,0,0.5);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-        }
-        .private-badge {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background-color: rgba(0,0,0,0.7);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 12px;
-            font-size: 0.75rem;
-            display: flex;
+            flex-direction: column;
             align-items: center;
-        }
-        .private-badge i {
-            margin-right: 0.25rem;
-        }
-        .message-input {
-            position: fixed;
-            bottom: 70px;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
-            background-color: #1e293b;
-            border: 1px solid #334155;
-            border-radius: 12px;
-            padding: 0.5rem;
-            display: none;
-            z-index: 40;
-        }
-        .message-input.active {
-            display: flex;
-        }
-        .message-input input {
-            flex: 1;
-            background-color: #334155;
-            border: none;
-            color: #e2e8f0;
-            padding: 0.5rem;
-            border-radius: 8px;
-            margin-right: 0.5rem;
-        }
-        .message-input button {
-            background: linear-gradient(135deg, #6366F1, #8B5CF6);
-            color: white;
-            border: none;
-            padding: 0.5rem 1rem;
-            border-radius: 8px;
+            justify-content: center;
+            border-radius: 0.5rem;
             cursor: pointer;
         }
-        .subscription-badge {
-            background: linear-gradient(45deg, #F59E0B, #D97706);
+        
+        .premium-overlay:hover .premium-text {
+            transform: scale(1.05);
+        }
+        
+        .premium-text {
             color: white;
-            font-weight: 500;
-            font-size: 0.65rem;
-            padding: 2px 6px;
-            border-radius: 12px;
-            margin-left: 0.5rem;
+            text-align: center;
+            transition: transform 0.2s ease;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
         }
-        .premium-feature {
-            background-color: #334155;
-            border-left: 3px solid #F59E0B;
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0 8px 8px 0;
+        
+        .premium-text i {
+            font-size: 3rem;
+            color: var(--warning);
         }
-        .premium-feature i {
-            color: #F59E0B;
-            margin-right: 0.5rem;
+        
+        .premium-text h3 {
+            font-size: 1.5rem;
+            margin: 0;
         }
+        
+        .premium-text p {
+            margin: 0.25rem 0;
+            opacity: 0.8;
+        }
+        
         .heart-level {
             position: absolute;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            font-size: 4rem;
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow: 0 0 10px rgba(0,0,0,0.5);
+            font-size: 6rem;
             opacity: 0;
-            transition: opacity 0.3s ease;
+            z-index: 50;
+            pointer-events: none;
+            animation: float 1s ease-out;
         }
-        .heart-level.show {
-            opacity: 1;
+        
+        @keyframes float {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
         }
+        
         .heart-1 { color: #EF4444; }
         .heart-2 { color: #F59E0B; }
         .heart-3 { color: #8B5CF6; }
@@ -334,794 +703,723 @@
         .heart-5 { color: #06D6A0; }
     </style>
 </head>
-<body class="bg-gray-900">
-    <div id="app">
-        <!-- Header -->
-        <header class="bg-gray-800 border-b border-gray-700 shadow-sm">
-            <div class="max-w-md mx-auto px-4 py-3">
-                <div class="flex items-center justify-between">
-                    <div class="flex items-center space-x-3">
-                        <div id="appIcon" class="app-icon">C</div>
-                        <div>
-                            <h1 class="text-lg font-semibold text-white">Conexión</h1>
-                            <p class="text-xs text-gray-400">Privada & Segura</p>
-                        </h1>
+<body class="min-h-screen">
+    <!-- Header -->
+    <header class="bg-transparent absolute top-0 left-0 right-0 z-50">
+        <div class="max-w-md mx-auto px-4 py-6">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+                        <i class="fas fa-lock text-white"></i>
                     </div>
-                    <div class="flex items-center space-x-2">
-                        <button id="notificationsBtn" class="p-2 text-gray-400 hover:text-white relative">
-                            <i class="fas fa-bell text-sm"></i>
-                            <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
-                        </button>
-                        <button id="profileBtn" class="p-2 text-gray-400 hover:text-white">
-                            <i class="fas fa-user text-sm"></i>
-                        </button>
+                    <h1 class="text-2xl font-bold text-white logo-text">Privado</h1>
+                </div>
+                <div class="flex items-center space-x-3">
+                    <button id="notificationsBtn" class="p-2 text-gray-300 hover:text-white relative">
+                        <i class="fas fa-bell text-lg"></i>
+                        <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                    </button>
+                    <button id="profileBtn" class="p-2 text-gray-300 hover:text-white">
+                        <i class="fas fa-user text-lg"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-md mx-auto pt-24 pb-20 px-4">
+        <!-- Hero Section -->
+        <section class="text-center mb-8">
+            <h2 class="text-3xl font-bold mb-4 bg-gradient-to-r from-purple-400 to-pink-400 bg-clip-text text-transparent">Conexiones Exclusivas</h2>
+            <p class="text-gray-400 mb-6">Encuentra personas compatibles con tus intereses y preferencias en un entorno seguro y privado.</p>
+            <div class="flex justify-center space-x-2 mb-6">
+                <div class="privacy-badge">
+                    <i class="fas fa-shield-alt"></i> Privacidad Garantizada
+                </div>
+                <div class="privacy-badge">
+                    <i class="fas fa-user-secret"></i> Perfiles Verificados
+                </div>
+            </div>
+        </section>
+
+        <!-- Navigation Tabs -->
+        <div class="flex bg-gray-900 rounded-xl p-1 mb-6">
+            <button id="tabDiscover" class="tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1">
+                <i class="fas fa-compass"></i>
+                <span>Descubrir</span>
+            </button>
+            <button id="tabMatches" class="tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1">
+                <i class="fas fa-heart"></i>
+                <span>Matches</span>
+            </button>
+            <button id="tabMessages" class="tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1">
+                <i class="fas fa-comments"></i>
+                <span>Mensajes</span>
+            </button>
+        </div>
+
+        <!-- Discover Tab Content -->
+        <div id="discoverContent" class="space-y-6">
+            <!-- Profile Card -->
+            <div class="card">
+                <div class="swipe-container">
+                    <div class="swipe-card">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Perfil" class="profile-img">
+                        <div class="distance-badge">
+                            <i class="fas fa-location-dot mr-1"></i> 1.2 km
+                        </div>
+                        <div class="online-dot"></div>
+                        <div class="p-4">
+                            <div class="flex items-center justify-between mb-2">
+                                <h3 class="text-xl font-bold">Alex, 28</h3>
+                                <div class="flex space-x-1">
+                                    <div class="premium-badge">
+                                        <i class="fas fa-crown"></i> Premium
+                                    </div>
+                                    <div class="verified-badge">
+                                        <i class="fas fa-check"></i>
+                                    </div>
+                                </div>
+                            </div>
+                            <p class="text-gray-400 mb-3">Ingeniero de software apasionado por el fitness y los viajes.</p>
+                            
+                            <div class="mb-3">
+                                <div class="text-sm text-gray-400 mb-1">Compatibilidad</div>
+                                <div class="match-percentage">
+                                    <div class="match-percentage-fill" style="width: 85%;"></div>
+                                </div>
+                                <div class="text-sm text-green-400">85% de compatibilidad</div>
+                            </div>
+                            
+                            <div class="flex flex-wrap mb-3">
+                                <span class="badge badge-primary">Bears</span>
+                                <span class="badge badge-success">Activo</span>
+                                <span class="badge badge-warning">Anal</span>
+                                <span class="badge badge-accent">Sadomaso</span>
+                            </div>
+                            
+                            <p class="text-sm text-gray-400">"Busco conexiones reales y momentos especiales sin compromisos."</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="swipe-controls">
+                    <button class="swipe-btn dislike">
+                        <i class="fas fa-times"></i>
+                    </button>
+                    <button class="swipe-btn super-like pulse">
+                        <i class="fas fa-star"></i>
+                    </button>
+                    <button class="swipe-btn like">
+                        <i class="fas fa-heart"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Gallery Section -->
+            <div class="card">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-4">Galería de Fotos</h3>
+                    <div class="grid grid-cols-2 gap-3">
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Foto 1">
+                            <div class="private-overlay">
+                                <div>
+                                    <i class="fas fa-lock"></i>
+                                    <span>Privado</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Foto 2">
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Foto 3">
+                            <div class="private-overlay">
+                                <div>
+                                    <i class="fas fa-lock"></i>
+                                    <span>Privado</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="gallery-item">
+                            <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Foto 4">
+                        </div>
                     </div>
                 </div>
             </div>
-        </header>
 
-        <!-- Pestañas de navegación -->
-        <div class="max-w-md mx-auto bg-gray-800 border-b border-gray-700">
-            <div class="flex">
-                <button id="tabNearby" class="tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
-                    <i class="fas fa-users text-purple-400"></i>
-                    <span>Cercanos</span>
-                </button>
-                <button id="tabMessages" class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
-                    <i class="fas fa-comments text-gray-400"></i>
-                    <span>Mensajes</span>
-                </button>
-                <button id="tabProfile" class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
-                    <i class="fas fa-user text-gray-400"></i>
-                    <span>Mi Perfil</span>
-                </button>
+            <!-- Premium Features -->
+            <div class="card">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-4">Funciones Premium</h3>
+                    
+                    <div class="premium-feature">
+                        <i class="fas fa-crown"></i> <strong>Desbloquea todas las funciones</strong>
+                    </div>
+                    
+                    <div class="space-y-3 mt-4">
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Ver quién te ha dado like</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Mensajes ilimitados</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Filtros avanzados</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Perfil destacado</span>
+                        </div>
+                        <div class="feature-item">
+                            <i class="fas fa-check-circle feature-icon"></i>
+                            <span>Análisis de compatibilidad</span>
+                        </div>
+                    </div>
+                    
+                    <button id="upgradeBtn" class="btn-primary w-full mt-4">
+                        <i class="fas fa-crown mr-2"></i> Actualizar a Premium - $9.99/mes
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- Contenido principal -->
-        <main class="max-w-md mx-auto">
-            <!-- Barra de búsqueda y filtros -->
-            <div class="p-4 bg-gray-800 border-b border-gray-700">
-                <div class="relative mb-3">
-                    <input type="text" id="searchInput" placeholder="Buscar..." class="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm search-input bg-gray-700 text-white placeholder-gray-400">
-                    <div class="absolute left-3 top-2.5 text-gray-400">
-                        <i class="fas fa-search text-sm"></i>
+        <!-- Matches Tab Content (Hidden by default) -->
+        <div id="matchesContent" class="space-y-4" style="display: none;">
+            <div class="card p-4">
+                <div class="flex items-center space-x-3 mb-4">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Match" class="w-12 h-12 rounded-full object-cover">
+                    <div>
+                        <h3 class="font-semibold">Carlos, 31</h3>
+                        <p class="text-sm text-gray-400">Hace 2 horas</p>
                     </div>
                 </div>
+                <p class="text-gray-300 mb-4">"¡Hola! Me encantaría conocerte mejor. ¿Te gustaría tomar un café?"</p>
                 <div class="flex space-x-2">
-                    <button id="filterBtn" class="flex-1 bg-gray-700 text-gray-300 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
-                        <i class="fas fa-sliders-h text-xs"></i>
-                        <span>Filtros</span>
+                    <button class="btn-primary flex-1">
+                        <i class="fas fa-comment mr-2"></i> Enviar mensaje
                     </button>
-                    <button id="sortBtn" class="flex-1 bg-purple-900 text-purple-200 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
-                        <i class="fas fa-sort text-xs"></i>
-                        <span>Distancia</span>
+                    <button class="btn-outline">
+                        <i class="fas fa-heart"></i>
                     </button>
                 </div>
             </div>
-
-            <!-- Lista de perfiles -->
-            <div id="profilesContainer" class="bg-gray-800">
-                <!-- Los perfiles se generarán dinámicamente -->
-            </div>
-
-            <!-- Footer informativo -->
-            <div class="p-4 bg-gray-800 border-t border-gray-700">
-                <div class="flex items-center justify-center text-xs text-gray-400 space-x-4">
-                    <span id="locationStatus">📍 Ubicación: Desactivada</span>
-                    <span>•</span>
-                    <span id="userCount">👥 0 usuarios cerca</span>
+            
+            <div class="card p-4">
+                <div class="flex items-center space-x-3 mb-4">
+                    <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Match" class="w-12 h-12 rounded-full object-cover">
+                    <div>
+                        <h3 class="font-semibold">Daniel, 26</h3>
+                        <p class="text-sm text-gray-400">Hace 5 horas</p>
+                    </div>
+                </div>
+                <p class="text-gray-300 mb-4">"Veo que tenemos muchos intereses en común. ¿Te gustaría vernos?"</p>
+                <div class="flex space-x-2">
+                    <button class="btn-primary flex-1">
+                        <i class="fas fa-comment mr-2"></i> Enviar mensaje
+                    </button>
+                    <button class="btn-outline">
+                        <i class="fas fa-heart"></i>
+                    </button>
                 </div>
             </div>
-        </main>
-
-        <!-- Input de mensajes -->
-        <div id="messageInput" class="message-input">
-            <input type="text" id="messageText" placeholder="Escribe un mensaje...">
-            <button id="sendButton"><i class="fas fa-paper-plane"></i></button>
         </div>
 
-        <!-- Modal de inicio de sesión/registro -->
-        <div id="loginModal" class="modal">
-            <div class="modal-content">
-                <div class="text-center mb-6">
-                    <div class="app-icon mx-auto mb-3">C</div>
-                    <h2 class="text-2xl font-bold text-white">Bienvenido</h2>
-                    <p class="text-gray-300 mt-2">Completa tu perfil para conectar con personas compatibles</p>
+        <!-- Messages Tab Content (Hidden by default) -->
+        <div id="messagesContent" class="space-y-4" style="display: none;">
+            <div class="card">
+                <div class="p-4 border-b border-gray-800">
+                    <div class="flex items-center space-x-3">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Carlos" class="w-10 h-10 rounded-full object-cover">
+                        <div>
+                            <h3 class="font-semibold">Carlos, 31</h3>
+                            <p class="text-xs text-green-400">En línea ahora</p>
+                        </div>
+                    </div>
                 </div>
-                <form id="profileForm">
-                    <div class="form-group">
-                        <label class="form-label" for="nombre">Nombre</label>
-                        <input class="form-control" id="nombre" type="text" placeholder="Tu nombre" required>
+                
+                <div class="p-4 messages-list">
+                    <div class="message message-received">
+                        ¡Hola! Me encantaría conocerte mejor. ¿Te gustaría tomar un café?
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="edad">Edad</label>
-                        <select id="edad" class="form-control" required>
-                            <option value="">Selecciona tu edad</option>
-                            <option value="18-25">18-25</option>
-                            <option value="26-35">26-35</option>
-                            <option value="36-45">36-45</option>
-                            <option value="46-55">46-55</option>
-                            <option value="56+">56+</option>
-                        </select>
+                    <div class="message message-sent">
+                        Hola Carlos, suena interesante. ¿Dónde y cuándo?
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Género</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="Hombre"> Hombre
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="Transexual"> Transexual
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="No binario"> No binario
-                            </label>
-                        </div>
+                    <div class="message message-received">
+                        Podríamos encontrarnos mañana en el café central a las 7 pm. ¿Te parece bien?
                     </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Rol</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Pasivo"> Pasivo
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Activo"> Activo
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Versátil"> Versátil
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Tribus</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Bears"> Bears
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Leather"> Leather
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Twink"> Twink
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Jock"> Jock
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Otaku"> Otaku
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Goth"> Goth
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Raver"> Raver
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Muscular"> Muscular
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Preferencias</label>
-                        <div class="checkbox-group">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Anal"> Anal
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Oral"> Oral
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Grupal"> Grupal
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Fisting"> Fisting
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Juegos de roles"> Juegos de roles
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Exhibicionismo"> Exhibicionismo
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="descripcion">Descripción (opcional)</label>
-                        <textarea id="descripcion" class="form-control" rows="3" placeholder="Cuéntanos sobre ti..."></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Fotos de perfil</label>
-                        <div class="text-sm text-gray-400 mb-2">Selecciona hasta 5 fotos</div>
-                        <div id="photoPreview" class="grid grid-cols-5 gap-2 mb-3">
-                            <div class="photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer" style="height: 80px;">
-                                <i class="fas fa-plus text-gray-400"></i>
-                                <input type="file" id="photoUpload" accept="image/*" multiple class="hidden">
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <div class="flex space-x-2 pt-2">
-                        <button type="submit" class="btn-primary flex-1">
-                            <i class="fas fa-user-plus mr-2"></i> Crear Perfil
+                </div>
+                
+                <div class="p-4 border-t border-gray-800">
+                    <div class="flex">
+                        <input type="text" placeholder="Escribe un mensaje..." class="chat-input flex-1">
+                        <button class="send-btn">
+                            <i class="fas fa-paper-plane"></i>
                         </button>
                     </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Modal de perfil -->
-        <div id="profileModal" class="modal">
-            <div class="modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Mi Perfil</h2>
-                    <button id="closeProfile" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div id="profileContent">
-                    <!-- El contenido del perfil se generará dinámicamente -->
-                </div>
-                <div class="flex space-x-2 mt-4">
-                    <button id="editProfileBtn" class="btn-secondary flex-1">
-                        <i class="fas fa-edit mr-2"></i> Editar
-                    </button>
-                    <button id="logoutBtn" class="btn-danger">
-                        <i class="fas fa-sign-out-alt mr-2"></i> Salir
-                    </button>
                 </div>
             </div>
         </div>
+    </main>
 
-        <!-- Modal de edición de perfil -->
-        <div id="editProfileModal" class="modal">
-            <div class="modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Editar Perfil</h2>
-                    <button id="closeEditProfile" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <form id="editProfileForm">
-                    <div class="form-group">
-                        <label class="form-label" for="editNombre">Nombre</label>
-                        <input class="form-control" id="editNombre" type="text" required>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="editEdad">Edad</label>
-                        <select id="editEdad" class="form-control" required>
-                            <option value="18-25">18-25</option>
-                            <option value="26-35">26-35</option>
-                            <option value="36-45">36-45</option>
-                            <option value="46-55">46-55</option>
-                            <option value="56+">56+</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Género</label>
-                        <div class="checkbox-group" id="editGenero">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="Hombre"> Hombre
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="Transexual"> Transexual
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="No binario"> No binario
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Rol</label>
-                        <div class="checkbox-group" id="editRol">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Pasivo"> Pasivo
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Activo"> Activo
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Versátil"> Versátil
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Tribus</label>
-                        <div class="checkbox-group" id="editTribu">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Bears"> Bears
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Leather"> Leather
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Twink"> Twink
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Jock"> Jock
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Otaku"> Otaku
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Goth"> Goth
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Raver"> Raver
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Muscular"> Muscular
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Preferencias</label>
-                        <div class="checkbox-group" id="editPreferencia">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Anal"> Anal
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Oral"> Oral
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Grupal"> Grupal
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Fisting"> Fisting
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Juegos de roles"> Juegos de roles
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Exhibicionismo"> Exhibicionismo
-                            </label>
-                        </div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label" for="editDescripcion">Descripción</label>
-                        <textarea id="editDescripcion" class="form-control" rows="3"></textarea>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Fotos de perfil</label>
-                        <div class="text-sm text-gray-400 mb-2">Selecciona hasta 5 fotos</div>
-                        <div id="editPhotoPreview" class="grid grid-cols-5 gap-2 mb-3">
-                            <!-- Las fotos se agregarán dinámicamente -->
-                        </div>
-                    </div>
-                    
-                    <div class="flex space-x-2 pt-2">
-                        <button type="button" id="cancelEdit" class="btn-secondary flex-1">Cancelar</button>
-                        <button type="submit" class="btn-primary flex-1">Guardar</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <!-- Modal de fotos del perfil -->
-        <div id="photoModal" class="modal">
-            <div class="modal-content" style="max-width: 800px;">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white" id="photoModalTitle">Fotos de <span id="photoUserName"></span></h2>
-                    <button id="closePhotoModal" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div id="photoGallery" class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                    <!-- Las fotos se agregarán dinámicamente -->
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de filtros -->
-        <div id="filterModal" class="modal">
-            <div class="modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Filtros</h2>
-                    <button id="closeFilter" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div class="space-y-4">
-                    <div class="form-group">
-                        <label class="form-label">Distancia máxima</label>
-                        <select id="distanceFilter" class="form-control">
-                            <option value="5">Hasta 5 km</option>
-                            <option value="10" selected>Hasta 10 km</option>
-                            <option value="25">Hasta 25 km</option>
-                            <option value="50">Hasta 50 km</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Rango de edad</label>
-                        <select id="ageFilter" class="form-control">
-                            <option value="all">Todas las edades</option>
-                            <option value="18-25">18-25 años</option>
-                            <option value="26-35" selected>26-35 años</option>
-                            <option value="36-45">36-45 años</option>
-                            <option value="46+">46+ años</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Género</label>
-                        <div class="checkbox-group" id="filterGenero">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="Hombre"> Hombre
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="Transexual"> Transexual
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="genero" value="No binario"> No binario
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Rol</label>
-                        <div class="checkbox-group" id="filterRol">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Pasivo"> Pasivo
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Activo"> Activo
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="rol" value="Versátil"> Versátil
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Tribus</label>
-                        <div class="checkbox-group" id="filterTribu">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Bears"> Bears
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Leather"> Leather
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Twink"> Twink
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Jock"> Jock
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Otaku"> Otaku
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Goth"> Goth
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Raver"> Raver
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="tribu" value="Muscular"> Muscular
-                            </label>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Preferencias</label>
-                        <div class="checkbox-group" id="filterPreferencia">
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Anal"> Anal
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Oral"> Oral
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Grupal"> Grupal
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Fisting"> Fisting
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Juegos de roles"> Juegos de roles
-                            </label>
-                            <label class="checkbox-item">
-                                <input type="checkbox" name="preferencia" value="Exhibicionismo"> Exhibicionismo
-                            </label>
-                        </div>
-                    </div>
-                    <div class="flex space-x-2 pt-2">
-                        <button id="applyFilters" class="btn-primary flex-1">Aplicar</button>
-                        <button id="resetFilters" class="btn-secondary flex-1">Restablecer</button>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <!-- Modal de notificaciones -->
-        <div id="notificationsModal" class="modal">
-            <div class="modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Notificaciones</h2>
-                    <button id="closeNotifications" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
-                </div>
-                <div id="notificationsList">
-                    <!-- Las notificaciones se generarán dinámicamente -->
-                </div>
-                <button id="markAllRead" class="w-full mt-4 text-purple-400 text-sm font-medium py-2">
-                    Marcar todo como leído
+    <!-- Bottom Navigation -->
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-40">
+        <div class="max-w-md mx-auto">
+            <div class="flex">
+                <button id="navDiscover" class="flex-1 py-4 text-center text-purple-400 flex flex-col items-center">
+                    <i class="fas fa-compass text-lg mb-1"></i>
+                    <span class="text-xs">Descubrir</span>
+                </button>
+                <button id="navMatches" class="flex-1 py-4 text-center text-gray-400 flex flex-col items-center">
+                    <i class="fas fa-heart text-lg mb-1"></i>
+                    <span class="text-xs">Matches</span>
+                </button>
+                <button id="navMessages" class="flex-1 py-4 text-center text-gray-400 flex flex-col items-center">
+                    <i class="fas fa-comments text-lg mb-1"></i>
+                    <span class="text-xs">Mensajes</span>
+                </button>
+                <button id="navProfile" class="flex-1 py-4 text-center text-gray-400 flex flex-col items-center">
+                    <i class="fas fa-user text-lg mb-1"></i>
+                    <span class="text-xs">Perfil</span>
                 </button>
             </div>
         </div>
+    </nav>
 
-        <!-- Modal de configuración -->
-        <div id="settingsModal" class="modal">
-            <div class="modal-content">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Configuración</h2>
-                    <button id="closeSettings" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
+    <!-- Login Modal -->
+    <div id="loginModal" class="modal">
+        <div class="modal-content subscription-modal">
+            <span class="close">&times;</span>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-lock text-white text-2xl"></i>
                 </div>
-                <div class="space-y-4">
-                    <div class="bg-gray-700 rounded-xl p-4">
-                        <h3 class="font-semibold text-white mb-3">Privacidad</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-300 font-medium">Modo discreto</span>
-                                    <p class="text-xs text-gray-400">Oculta tu actividad</p>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" id="modoDiscreto">
-                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-300 font-medium">Visibilidad</span>
-                                    <p class="text-xs text-gray-400">Quién puede verte</p>
-                                </div>
-                                <select id="visibilidad" class="form-control" style="width: auto; padding: 0.25rem 0.5rem;">
-                                    <option value="cercanos">Cercanos (10km)</option>
-                                    <option value="amigos">Solo amigos</option>
-                                    <option value="oculto">Oculto</option>
-                                </select>
-                            </div>
+                <h2 class="text-2xl font-bold text-white mb-2">Crea tu Perfil</h2>
+                <p class="text-gray-300">Completa tu perfil para conectar con personas compatibles</p>
+            </div>
+            
+            <form id="profileForm">
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="name">
+                        Nombre
+                    </label>
+                    <input class="form-control" id="name" type="text" placeholder="Tu nombre" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="email">
+                        Correo electrónico
+                    </label>
+                    <input class="form-control" id="email" type="email" placeholder="tu@email.com" required>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="age">
+                        Edad
+                    </label>
+                    <select id="age" class="form-control" required>
+                        <option value="">Selecciona tu edad</option>
+                        <option value="18-25">18-25</option>
+                        <option value="26-35">26-35</option>
+                        <option value="36-45">36-45</option>
+                        <option value="46-55">46-55</option>
+                        <option value="56+">56+</option>
+                    </select>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">
+                        Género
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="genero" value="Hombre"> Hombre
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="genero" value="Transexual"> Transexual
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="genero" value="No binario"> No binario
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">
+                        Rol
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="rol" value="Pasivo"> Pasivo
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="rol" value="Activo"> Activo
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="rol" value="Versátil"> Versátil
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">
+                        Tribus
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="tribu" value="Bears"> Bears
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="tribu" value="Leather"> Leather
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="tribu" value="Twink"> Twink
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="tribu" value="Jock"> Jock
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">
+                        Preferencias
+                    </label>
+                    <div class="checkbox-group">
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="preferencia" value="Anal"> Anal
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="preferencia" value="Oral"> Oral
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
+                        </label>
+                        <label class="checkbox-item">
+                            <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
+                        </label>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-gray-300 text-sm font-bold mb-2">
+                        Foto de perfil
+                    </label>
+                    <div class="upload-avatar" id="avatarUpload">
+                        <i class="fas fa-camera"></i>
+                        <input type="file" id="avatarInput" accept="image/*" class="hidden">
+                    </div>
+                </div>
+                
+                <div class="mb-6">
+                    <label class="block text-gray-300 text-sm font-bold mb-2" for="bio">
+                        Sobre mí (opcional)
+                    </label>
+                    <textarea id="bio" class="form-control" rows="3" placeholder="Cuéntanos sobre ti..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn-primary w-full">
+                    <i class="fas fa-user-plus mr-2"></i> Crear Perfil
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Profile Modal -->
+    <div id="profileModal" class="modal">
+        <div class="modal-content subscription-modal">
+            <span class="close">&times;</span>
+            <div class="text-center mb-6">
+                <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
+                    A
+                </div>
+                <h2 class="text-2xl font-bold text-white">Alex, 28</h2>
+                <p class="text-gray-300">Ingeniero de software</p>
+                <div class="flex justify-center space-x-2 mt-2">
+                    <div class="premium-badge">
+                        <i class="fas fa-crown"></i> Premium
+                    </div>
+                    <div class="verified-badge">
+                        <i class="fas fa-check"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="space-y-4">
+                <div class="bg-gray-800 rounded-xl p-4">
+                    <h3 class="font-semibold text-white mb-3">Información</h3>
+                    <div class="space-y-2 text-sm">
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Ubicación:</span>
+                            <span class="text-white">Madrid, España</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Últ. conexión:</span>
+                            <span class="text-white">Hace 10 minutos</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-400">Miembro desde:</span>
+                            <span class="text-white">Ene 2023</span>
                         </div>
                     </div>
-
-                    <div class="bg-gray-700 rounded-xl p-4">
-                        <h3 class="font-semibold text-white mb-3">Notificaciones</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-300 font-medium">Mensajes</span>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked id="notificacionesMensajes">
-                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-300 font-medium">Matchs</span>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked id="notificacionesMatchs">
-                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-300 font-medium">Sistema</span>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked id="notificacionesSistema">
-                                    <div class="w-11 h-6 bg-gray-600 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                        </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-xl p-4">
+                    <h3 class="font-semibold text-white mb-3">Intereses</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <span class="badge badge-primary">Tecnología</span>
+                        <span class="badge badge-success">Fitness</span>
+                        <span class="badge badge-warning">Viajes</span>
+                        <span class="badge badge-accent">Cine</span>
                     </div>
-
-                    <div class="bg-gray-700 rounded-xl p-4">
-                        <h3 class="font-semibold text-white mb-3">Seguridad</h3>
-                        <div class="space-y-3">
-                            <button id="cambiarLogo" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
-                                <i class="fas fa-image mr-2"></i> Cambiar logo de la app
-                            </button>
-                            <button id="centroSeguridad" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
-                                <i class="fas fa-shield-alt mr-2"></i> Centro de seguridad
-                            </button>
-                            <button id="bloquearUsuarios" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
-                                <i class="fas fa-user-slash mr-2"></i> Bloquear usuarios
-                            </button>
-                            <button id="reportarProblema" class="w-full text-left p-2 text-sm text-gray-300 hover:bg-gray-600 rounded-lg flex items-center">
-                                <i class="fas fa-exclamation-triangle mr-2"></i> Reportar problema
-                            </button>
-                        </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-xl p-4">
+                    <h3 class="font-semibold text-white mb-3">Galería</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 1" class="w-full h-20 object-cover rounded">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 2" class="w-full h-20 object-cover rounded">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 3" class="w-full h-20 object-cover rounded">
                     </div>
-
-                    <div class="bg-gray-700 rounded-xl p-4">
-                        <h3 class="font-semibold text-white mb-3">Suscripción</h3>
-                        <div class="premium-feature">
-                            <i class="fas fa-crown"></i> <strong>Conexión Premium</strong>
-                        </div>
-                        <div class="space-y-2 text-sm text-gray-300 mb-3">
-                            <div class="flex justify-between">
-                                <span>✓ Ver quién te ha dado like</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>✓ Mensajes ilimitados</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>✓ Filtros avanzados</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>✓ Perfil destacado</span>
-                            </div>
-                            <div class="flex justify-between">
-                                <span>✓ Análisis de compatibilidad</span>
-                            </div>
-                        </div>
-                        <button id="upgradePremium" class="w-full bg-gradient-to-r from-yellow-500 to-orange-500 hover:from-yellow-600 hover:to-orange-600 text-white font-bold py-2 px-4 rounded-lg">
-                            <i class="fas fa-crown mr-2"></i> Actualizar a Premium
-                        </button>
-                    </div>
-
-                    <button id="guardarConfiguracion" class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-semibold text-lg">
-                        Guardar cambios
+                </div>
+                
+                <div class="flex space-x-2">
+                    <button id="messageBtn" class="btn-primary flex-1">
+                        <i class="fas fa-comment mr-2"></i> Mensaje
+                    </button>
+                    <button id="likeBtn" class="btn-outline">
+                        <i class="fas fa-heart"></i>
                     </button>
                 </div>
             </div>
         </div>
+    </div>
 
-        <!-- Modal de selección de logo -->
-        <div id="logoModal" class="modal">
-            <div class="modal-content" style="max-width: 400px;">
-                <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-white">Seleccionar Logo</h2>
-                    <button id="closeLogoModal" class="text-gray-400 hover:text-white">
-                        <i class="fas fa-times"></i>
-                    </button>
+    <!-- Upgrade Modal -->
+    <div id="upgradeModal" class="modal">
+        <div class="modal-content subscription-modal">
+            <span class="close">&times;</span>
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 bg-gradient-to-r from-yellow-500 to-orange-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="fas fa-crown text-white text-2xl"></i>
                 </div>
-                <div class="grid grid-cols-3 gap-4">
-                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="C">
-                        <div class="w-12 h-12 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
-                            C
-                        </div>
-                        <span class="text-sm text-gray-300">Conexión</span>
+                <h2 class="text-2xl font-bold text-white mb-2">Actualiza a Premium</h2>
+                <p class="text-gray-300">Desbloquea todas las funciones exclusivas</p>
+            </div>
+            
+            <div class="space-y-4 mb-6">
+                <div class="premium-feature">
+                    <i class="fas fa-crown"></i> <strong>Beneficios Premium</strong>
+                </div>
+                
+                <div class="space-y-3">
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>Ver quién te ha dado like</span>
                     </div>
-                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="M">
-                        <div class="w-12 h-12 bg-gradient-to-r from-blue-500 to-cyan-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
-                            M
-                        </div>
-                        <span class="text-sm text-gray-300">Meet</span>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>Mensajes ilimitados</span>
                     </div>
-                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="S">
-                        <div class="w-12 h-12 bg-gradient-to-r from-green-500 to-teal-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
-                            S
-                        </div>
-                        <span class="text-sm text-gray-300">Social</span>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>Filtros avanzados</span>
                     </div>
-                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="F">
-                        <div class="w-12 h-12 bg-gradient-to-r from-red-500 to-pink-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
-                            F
-                        </div>
-                        <span class="text-sm text-gray-300">Friends</span>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>Perfil destacado</span>
                     </div>
-                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="L">
-                        <div class="w-12 h-12 bg-gradient-to-r from-purple-600 to-indigo-600 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
-                            L
-                        </div>
-                        <span class="text-sm text-gray-300">Link</span>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>Análisis de compatibilidad</span>
                     </div>
-                    <div class="logo-option p-3 bg-gray-700 rounded-lg text-center cursor-pointer hover:bg-gray-600" data-logo="V">
-                        <div class="w-12 h-12 bg-gradient-to-r from-orange-500 to-red-500 rounded-lg mx-auto mb-2 flex items-center justify-center text-white font-bold text-lg">
-                            V
-                        </div>
-                        <span class="text-sm text-gray-300">Vibe</span>
+                    <div class="feature-item">
+                        <i class="fas fa-check-circle feature-icon"></i>
+                        <span>Soporte prioritario</span>
+                    </div>
+                </div>
+                
+                <div class="bg-gray-800 rounded-xl p-4">
+                    <div class="flex justify-between items-center mb-2">
+                        <span class="text-gray-300">Plan Mensual</span>
+                        <span class="text-2xl font-bold text-white">$9.99/mes</span>
+                    </div>
+                    <p class="text-sm text-gray-400">Cancela en cualquier momento</p>
+                </div>
+            </div>
+            
+            <button id="confirmUpgrade" class="btn-primary w-full">
+                <i class="fas fa-credit-card mr-2"></i> Suscribirse por $9.99/mes
+            </button>
+            
+            <p class="text-xs text-gray-400 text-center mt-4">
+                Tu suscripción se renovará automáticamente cada mes. Puedes cancelar en cualquier momento.
+            </p>
+        </div>
+    </div>
+
+    <!-- Notifications Modal -->
+    <div id="notificationsModal" class="modal">
+        <div class="modal-content subscription-modal">
+            <span class="close">&times;</span>
+            <h2 class="text-2xl font-bold text-white mb-6">Notificaciones</h2>
+            
+            <div class="space-y-3">
+                <div class="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white"><strong>Alex</strong> te dio "Super Like"</p>
+                        <p class="text-gray-400 text-sm">Hace 2 minutos</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg">
+                    <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-comment"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white"><strong>Carlos</strong> inició una conversación</p>
+                        <p class="text-gray-400 text-sm">Hace 15 minutos</p>
+                    </div>
+                </div>
+                
+                <div class="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg">
+                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white"><strong>Daniel</strong> te ha agregado a sus favoritos</p>
+                        <p class="text-gray-400 text-sm">Hace 1 hora</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
 
+    <!-- Heart Animation -->
+    <div id="heartAnimation" class="heart-animation">
+        <i class="fas fa-heart"></i>
+    </div>
+
     <script>
-        // Datos del usuario actual
+        // Variables de estado
         let currentUser = null;
         let users = [];
         let notifications = [];
         let userLocation = null;
         let locationEnabled = false;
-        let filters = {
-            distance: 10,
-            age: '26-35',
-            genero: [],
-            rol: [],
-            tribu: [],
-            preferencia: []
-        };
         let selectedPhotos = [];
-        let messageRecipient = null;
-        let currentAppIcon = 'C';
 
         // Elementos del DOM
         const loginModal = document.getElementById('loginModal');
         const profileModal = document.getElementById('profileModal');
-        const editProfileModal = document.getElementById('editProfileModal');
-        const photoModal = document.getElementById('photoModal');
-        const filterModal = document.getElementById('filterModal');
+        const upgradeModal = document.getElementById('upgradeModal');
         const notificationsModal = document.getElementById('notificationsModal');
-        const settingsModal = document.getElementById('settingsModal');
-        const logoModal = document.getElementById('logoModal');
-        const profilesContainer = document.getElementById('profilesContainer');
-        const locationStatus = document.getElementById('locationStatus');
-        const userCount = document.getElementById('userCount');
-        const notificationCount = document.getElementById('notificationCount');
-        const searchInput = document.getElementById('searchInput');
-        const messageInput = document.getElementById('messageInput');
-        const messageText = document.getElementById('messageText');
-        const sendButton = document.getElementById('sendButton');
-        const appIcon = document.getElementById('appIcon');
+        const heartAnimation = document.getElementById('heartAnimation');
+        const avatarUpload = document.getElementById('avatarUpload');
+        const avatarInput = document.getElementById('avatarInput');
 
-        // Mostrar modal de login al cargar si no hay usuario
+        // Mostrar modal de login al cargar
         window.onload = function() {
-            const savedUser = localStorage.getItem('currentUser');
-            if (savedUser) {
-                currentUser = JSON.parse(savedUser);
-                checkLocationPermission();
-                
-                // Restaurar el icono de la app
-                if (currentUser.appIcon) {
-                    currentAppIcon = currentUser.appIcon;
-                    appIcon.textContent = currentAppIcon;
-                }
-            } else {
-                loginModal.style.display = 'block';
-            }
-            generateMockUsers();
-            renderProfiles();
-            renderNotifications();
+            loginModal.style.display = 'block';
+            
+            // Generar datos de ejemplo
+            generateMockData();
         };
+
+        // Generar datos de ejemplo
+        function generateMockData() {
+            users = [
+                {
+                    id: '1',
+                    name: 'Alex',
+                    age: 28,
+                    profession: 'Ingeniero de software',
+                    location: 'Madrid, España',
+                    bio: 'Apasionado por el fitness y los viajes. Busco conexiones reales sin compromisos.',
+                    photos: [
+                        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                        'https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+                    ],
+                    interests: ['Tecnología', 'Fitness', 'Viajes', 'Cine'],
+                    matches: 85,
+                    isPremium: true,
+                    isVerified: true,
+                    lastActive: new Date()
+                },
+                {
+                    id: '2',
+                    name: 'Carlos',
+                    age: 31,
+                    profession: 'Diseñador UX/UI',
+                    location: 'Barcelona, España',
+                    bio: 'Amante del arte y la música. Busco experiencias memorables con personas afines.',
+                    photos: [
+                        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                        'https://images.unsplash.com/photo-1507078662446-d5762f42996f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+                    ],
+                    interests: ['Diseño', 'Arte', 'Música', 'Café'],
+                    matches: 72,
+                    isPremium: false,
+                    isVerified: true,
+                    lastActive: new Date(Date.now() - 30 * 60 * 1000) // 30 minutos atrás
+                }
+            ];
+
+            notifications = [
+                {
+                    id: '1',
+                    type: 'superlike',
+                    from: 'Alex',
+                    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
+                    message: 'te dio "Super Like"',
+                    time: 'Hace 2 minutos',
+                    read: false
+                },
+                {
+                    id: '2',
+                    type: 'message',
+                    from: 'Carlos',
+                    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
+                    message: 'inició una conversación',
+                    time: 'Hace 15 minutos',
+                    read: false
+                },
+                {
+                    id: '3',
+                    type: 'match',
+                    from: 'Daniel',
+                    avatar: 'https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
+                    message: 'te ha agregado a sus favoritos',
+                    time: 'Hace 1 hora',
+                    read: false
+                }
+            ];
+        }
 
         // Formulario de perfil
         document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const nombre = document.getElementById('nombre').value;
-            const edad = document.getElementById('edad').value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const age = document.getElementById('age').value;
+            const bio = document.getElementById('bio').value;
             
-            // Obtener arrays de checkboxes
+            // Obtener intereses seleccionados
             const genero = Array.from(document.querySelectorAll('input[name="genero"]:checked')).map(cb => cb.value);
             const rol = Array.from(document.querySelectorAll('input[name="rol"]:checked')).map(cb => cb.value);
             const tribu = Array.from(document.querySelectorAll('input[name="tribu"]:checked')).map(cb => cb.value);
             const preferencia = Array.from(document.querySelectorAll('input[name="preferencia"]:checked')).map(cb => cb.value);
-            const descripcion = document.getElementById('descripcion').value;
             
             // Validaciones
             if (genero.length === 0) {
@@ -1143,1444 +1441,183 @@
 
             currentUser = {
                 id: Date.now().toString(),
-                nombre: nombre,
-                edad: edad,
+                name: name,
+                email: email,
+                age: age,
                 genero: genero,
                 rol: rol,
                 tribu: tribu,
                 preferencia: preferencia,
-                descripcion: descripcion,
-                photos: selectedPhotos,
+                bio: bio,
+                photos: selectedPhotos.length > 0 ? selectedPhotos : ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80'],
                 isPremium: false,
-                appIcon: currentAppIcon,
-                createdAt: new Date().toISOString(),
-                lastActive: new Date().toISOString()
+                isVerified: true,
+                matches: 0,
+                lastActive: new Date().toISOString(),
+                createdAt: new Date().toISOString()
             };
 
             localStorage.setItem('currentUser', JSON.stringify(currentUser));
             loginModal.style.display = 'none';
             
-            checkLocationPermission();
-            generateMockUsers();
-            renderProfiles();
+            // Actualizar interfaz
+            updateInterface();
         });
 
-        // Verificar permiso de ubicación
-        function checkLocationPermission() {
-            if (navigator.geolocation) {
-                navigator.permissions.query({name: 'geolocation'}).then(function(result) {
-                    if (result.state === 'granted') {
-                        updateUserLocation();
-                        locationEnabled = true;
-                        locationStatus.textContent = '📍 Ubicación: Activada';
-                    } else if (result.state === 'prompt') {
-                        requestLocationPermission();
-                    } else {
-                        locationStatus.textContent = '📍 Ubicación: Denegada';
-                        alert('Para una mejor experiencia, por favor activa la ubicación en tu navegador');
-                    }
-                });
-            } else {
-                locationStatus.textContent = '📍 Ubicación: No soportada';
-                alert('Tu navegador no soporta geolocalización');
-            }
+        // Actualizar interfaz según el estado del usuario
+        function updateInterface() {
+            // Aquí iría la lógica para actualizar la interfaz
+            console.log('Interfaz actualizada');
         }
 
-        // Solicitar permiso de ubicación
-        function requestLocationPermission() {
-            if (confirm('¿Permitir acceso a tu ubicación para encontrar personas cercanas?')) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        userLocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                            timestamp: new Date().toISOString()
-                        };
-                        locationEnabled = true;
-                        locationStatus.textContent = '📍 Ubicación: Activada';
-                        updateUserLocation();
-                        renderProfiles();
-                    },
-                    function(error) {
-                        console.log('Error de geolocalización:', error);
-                        locationStatus.textContent = '📍 Ubicación: Denegada';
-                        alert('No se pudo obtener tu ubicación. Por favor actívala en la configuración de tu navegador.');
-                    },
-                    {timeout: 10000, maximumAge: 60000}
-                );
-            } else {
-                locationStatus.textContent = '📍 Ubicación: Desactivada';
-            }
-        }
-
-        // Actualizar ubicación del usuario
-        function updateUserLocation() {
-            if (navigator.geolocation && locationEnabled) {
-                navigator.geolocation.getCurrentPosition(
-                    function(position) {
-                        userLocation = {
-                            lat: position.coords.latitude,
-                            lng: position.coords.longitude,
-                            timestamp: new Date().toISOString()
-                        };
-                        locationEnabled = true;
-                        locationStatus.textContent = '📍 Ubicación: Activada';
-                        renderProfiles();
-                    },
-                    function(error) {
-                        console.log('Error al actualizar ubicación:', error);
-                    },
-                    {timeout: 5000, maximumAge: 30000}
-                );
-            }
-        }
-
-        // Calcular distancia entre dos puntos (fórmula de Haversine)
-        function calculateDistance(lat1, lon1, lat2, lon2) {
-            const R = 6371; // Radio de la Tierra en km
-            const dLat = (lat2 - lat1) * Math.PI / 180;
-            const dLon = (lon2 - lon1) * Math.PI / 180;
-            const a = 
-                Math.sin(dLat/2) * Math.sin(dLat/2) +
-                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
-                Math.sin(dLon/2) * Math.sin(dLon/2);
-            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-            const distance = R * c;
-            return distance;
-        }
-
-        // Generar usuarios de prueba
-        function generateMockUsers() {
-            const nombres = ['Andrés', 'Carlos', 'Daniel', 'Eduardo', 'Felipe', 'Gabriel', 'Hugo', 'Iván', 'Javier', 'Luis', 'Miguel', 'Nicolás', 'Oscar', 'Pablo', 'Raúl', 'Sergio', 'Tomás', 'Víctor', 'Xavier', 'Yago'];
-            const ciudades = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Málaga', 'Zaragoza', 'Murcia', 'Palma', 'Alicante'];
-            const generos = ['Hombre', 'Transexual', 'No binario'];
-            const roles = ['Pasivo', 'Activo', 'Versátil'];
-            const tribus = ['Bears', 'Leather', 'Twink', 'Jock', 'Otaku', 'Goth', 'Raver', 'Muscular'];
-            const preferencias = ['Anal', 'Oral', 'Masturbación', 'Sadomaso', 'Grupal', 'Fisting', 'Juegos de roles', 'Exhibicionismo'];
+        // Navegación entre pestañas
+        document.getElementById('navDiscover').addEventListener('click', function() {
+            document.getElementById('discoverContent').style.display = 'block';
+            document.getElementById('matchesContent').style.display = 'none';
+            document.getElementById('messagesContent').style.display = 'none';
             
-            users = [];
-            
-            for (let i = 0; i < 25; i++) {
-                // Generar ubicación aleatoria cercana al usuario (si está disponible)
-                let lat, lng;
-                if (userLocation) {
-                    // Variación de ±0.1 grados (aproximadamente ±11 km)
-                    lat = userLocation.lat + (Math.random() - 0.5) * 0.2;
-                    lng = userLocation.lng + (Math.random() - 0.5) * 0.2;
-                } else {
-                    // Ubicación aleatoria en España
-                    lat = 40 + (Math.random() - 0.5) * 10;
-                    lng = -4 + (Math.random() - 0.5) * 10;
-                }
-                
-                const numGeneros = 1 + Math.floor(Math.random() * 2); // 1-2 géneros
-                const numRoles = 1 + Math.floor(Math.random() * 2); // 1-2 roles
-                const numTribus = 1 + Math.floor(Math.random() * 3); // 1-3 tribus
-                const numPreferencias = 2 + Math.floor(Math.random() * 4); // 2-5 preferencias
-                
-                const userGeneros = [];
-                const userRoles = [];
-                const userTribus = [];
-                const userPreferencias = [];
-                
-                const shuffledGeneros = [...generos].sort(() => 0.5 - Math.random());
-                const shuffledRoles = [...roles].sort(() => 0.5 - Math.random());
-                const shuffledTribus = [...tribus].sort(() => 0.5 - Math.random());
-                const shuffledPreferencias = [...preferencias].sort(() => 0.5 - Math.random());
-                
-                for (let j = 0; j < numGeneros; j++) {
-                    userGeneros.push(shuffledGeneros[j]);
-                }
-                for (let j = 0; j < numRoles; j++) {
-                    userRoles.push(shuffledRoles[j]);
-                }
-                for (let j = 0; j < numTribus; j++) {
-                    userTribus.push(shuffledTribus[j]);
-                }
-                for (let j = 0; j < numPreferencias; j++) {
-                    userPreferencias.push(shuffledPreferencias[j]);
-                }
-                
-                // Generar fotos aleatorias
-                const numPhotos = 1 + Math.floor(Math.random() * 4); // 1-4 fotos
-                const userPhotos = [];
-                for (let k = 0; k < numPhotos; k++) {
-                    const colors = ['6366F1', '8B5CF6', 'EC4899', '10B981', 'F59E0B', '059669', 'DC2626', '7C3AED'];
-                    userPhotos.push({
-                        url: `https://placehold.co/400x600/${colors[Math.floor(Math.random() * colors.length)]}/white?text=${nombres[i % nombres.length]}+${k+1}`,
-                        isPrivate: Math.random() > 0.7, // 30% de fotos privadas
-                        isVerified: Math.random() > 0.9 // 10% de fotos verificadas
-                    });
-                }
-                
-                users.push({
-                    id: `user${i}`,
-                    nombre: nombres[i % nombres.length],
-                    edad: 22 + Math.floor(Math.random() * 25),
-                    ciudad: ciudades[i % ciudades.length],
-                    genero: userGeneros,
-                    rol: userRoles,
-                    tribu: userTribus,
-                    preferencia: userPreferencias,
-                    descripcion: `Hola, soy ${nombres[i % nombres.length]} y me encanta conocer gente nueva. Busco conexiones reales y momentos especiales.`,
-                    photos: userPhotos,
-                    lat: lat,
-                    lng: lng,
-                    lastActive: new Date(Date.now() - Math.random() * 3600000).toISOString(), // Última actividad en la última hora
-                    verified: Math.random() > 0.7,
-                    isPremium: Math.random() > 0.8, // 20% de usuarios premium
-                    avatar: userPhotos[0].url
-                });
-            }
-        }
-
-        // Filtrar y ordenar perfiles
-        function getFilteredProfiles() {
-            if (!userLocation || !currentUser) return [];
-
-            let filtered = users.filter(user => {
-                const distance = calculateDistance(userLocation.lat, userLocation.lng, user.lat, user.lng);
-                const ageMatch = filters.age === 'all' || 
-                    (filters.age === '18-25' && user.edad >= 18 && user.edad <= 25) ||
-                    (filters.age === '26-35' && user.edad >= 26 && user.edad <= 35) ||
-                    (filters.age === '36-45' && user.edad >= 36 && user.edad <= 45) ||
-                    (filters.age === '46+' && user.edad >= 46);
-                
-                const distanceMatch = distance <= filters.distance;
-                
-                const generoMatch = filters.genero.length === 0 || 
-                    filters.genero.some(g => user.genero.includes(g));
-                
-                const rolMatch = filters.rol.length === 0 || 
-                    filters.rol.some(r => user.rol.includes(r));
-                
-                const tribuMatch = filters.tribu.length === 0 || 
-                    filters.tribu.some(t => user.tribu.includes(t));
-                
-                const preferenciaMatch = filters.preferencia.length === 0 || 
-                    filters.preferencia.some(p => user.preferencia.includes(p));
-                
-                // No mostrar al usuario actual
-                const notCurrentUser = user.id !== currentUser.id;
-                
-                return distanceMatch && ageMatch && generoMatch && rolMatch && tribuMatch && preferenciaMatch && notCurrentUser;
-            });
-
-            // Aplicar búsqueda
-            const searchTerm = searchInput.value.toLowerCase();
-            if (searchTerm) {
-                filtered = filtered.filter(user => 
-                    user.nombre.toLowerCase().includes(searchTerm) ||
-                    user.genero.some(g => g.toLowerCase().includes(searchTerm)) ||
-                    user.rol.some(r => r.toLowerCase().includes(searchTerm)) ||
-                    user.tribu.some(t => t.toLowerCase().includes(searchTerm)) ||
-                    user.preferencia.some(p => p.toLowerCase().includes(searchTerm))
-                );
-            }
-
-            // Ordenar por distancia
-            filtered.sort((a, b) => {
-                const distA = calculateDistance(userLocation.lat, userLocation.lng, a.lat, a.lng);
-                const distB = calculateDistance(userLocation.lat, userLocation.lng, b.lat, b.lng);
-                return distA - distB;
-            });
-
-            return filtered;
-        }
-
-        // Renderizar perfiles
-        function renderProfiles() {
-            const filteredProfiles = getFilteredProfiles();
-            userCount.textContent = `👥 ${filteredProfiles.length} usuarios cerca`;
-            
-            profilesContainer.innerHTML = '';
-            
-            if (filteredProfiles.length === 0) {
-                profilesContainer.innerHTML = `
-                    <div class="p-8 text-center">
-                        <i class="fas fa-user-friends text-4xl text-gray-500 mb-4"></i>
-                        <p class="text-gray-400">No hay usuarios cercanos con estos filtros</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            filteredProfiles.forEach(user => {
-                const distance = calculateDistance(userLocation.lat, userLocation.lng, user.lat, user.lng);
-                const lastActive = new Date(user.lastActive);
-                const now = new Date();
-                const minutesAgo = Math.floor((now - lastActive) / 60000);
-                const hoursAgo = Math.floor(minutesAgo / 60);
-                
-                let statusText, statusClass, statusDot;
-                if (minutesAgo < 5) {
-                    statusText = 'En línea ahora';
-                    statusClass = 'text-green-400';
-                    statusDot = 'status-online';
-                } else if (hoursAgo < 1) {
-                    statusText = `En línea hace ${minutesAgo} min`;
-                    statusClass = 'text-yellow-400';
-                    statusDot = 'status-away';
-                } else {
-                    statusText = `Últ. conexión: ${hoursAgo}h`;
-                    statusClass = 'text-gray-400';
-                    statusDot = 'status-offline';
-                }
-                
-                const profileHTML = `
-                    <div class="profile-card border-b border-gray-700">
-                        <div class="flex items-center p-4">
-                            <div class="relative mr-4">
-                                <img src="${user.photos[0].url}" alt="${user.nombre}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
-                                <span class="absolute -bottom-1 -right-1 status-dot ${statusDot}"></span>
-                                ${user.verified ? `<span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
-                                    <i class="fas fa-check text-xs"></i>
-                                </span>` : ''}
-                                ${user.isPremium ? `<span class="absolute -top-1 -left-1 subscription-badge">
-                                    <i class="fas fa-crown text-xs"></i>
-                                </span>` : ''}
-                            </div>
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center mb-1">
-                                    <h3 class="text-sm font-semibold text-white truncate">${user.nombre}, ${user.edad}</h3>
-                                    <span class="ml-2 distance-badge">${distance.toFixed(1)} km</span>
-                                </div>
-                                <div class="flex flex-wrap gap-1 mb-2">
-                                    ${user.genero.slice(0, 2).map(genero => `
-                                        <span class="badge interest-badge">${genero}</span>
-                                    `).join('')}
-                                    ${user.rol.slice(0, 1).map(rol => `
-                                        <span class="badge rol-badge">${rol}</span>
-                                    `).join('')}
-                                </div>
-                                <div class="flex flex-wrap gap-1 mb-2">
-                                    ${user.tribu.slice(0, 2).map(tribu => `
-                                        <span class="badge tribu-badge">${tribu}</span>
-                                    `).join('')}
-                                </div>
-                                <div class="flex items-center text-xs ${statusClass}">
-                                    <span class="status-dot ${statusDot}"></span>
-                                    <span>${statusText}</span>
-                                </div>
-                            </div>
-                            <div class="flex flex-col space-y-2 ml-2">
-                                <div class="flex space-x-1">
-                                    <button class="action-btn p-2 text-gray-400 hover:text-red-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="1">
-                                        <i class="fas fa-heart text-xs"></i>
-                                    </button>
-                                    <button class="action-btn p-2 text-gray-400 hover:text-orange-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="2">
-                                        <i class="fas fa-heart text-xs"></i>
-                                    </button>
-                                    <button class="action-btn p-2 text-gray-400 hover:text-purple-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="3">
-                                        <i class="fas fa-heart text-xs"></i>
-                                    </button>
-                                    <button class="action-btn p-2 text-gray-400 hover:text-green-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="4">
-                                        <i class="fas fa-heart text-xs"></i>
-                                    </button>
-                                    <button class="action-btn p-2 text-gray-400 hover:text-teal-500 bg-gray-700 rounded-full like-btn" data-id="${user.id}" data-level="5">
-                                        <i class="fas fa-heart text-xs"></i>
-                                    </button>
-                                </div>
-                                <button class="action-btn p-2 text-gray-400 hover:text-purple-400 bg-gray-700 rounded-full message-btn" data-id="${user.id}">
-                                    <i class="fas fa-comment text-xs"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                `;
-                
-                profilesContainer.innerHTML += profileHTML;
-            });
-            
-            // Añadir eventos a los botones
-            document.querySelectorAll('.like-btn').forEach(btn => {
-                btn.addEventListener('click', handleLike);
-            });
-            
-            document.querySelectorAll('.message-btn').forEach(btn => {
-                btn.addEventListener('click', handleMessage);
-            });
-        }
-
-        // Manejar "Me gusta" con niveles
-        function handleLike(e) {
-            e.stopPropagation();
-            const userId = e.currentTarget.getAttribute('data-id');
-            const level = parseInt(e.currentTarget.getAttribute('data-level'));
-            const user = users.find(u => u.id === userId);
-            
-            // Crear notificación
-            const notification = {
-                id: Date.now().toString(),
-                type: 'like',
-                userId: userId,
-                userName: user.nombre,
-                userAvatar: user.avatar,
-                level: level,
-                timestamp: new Date().toISOString(),
-                read: false
-            };
-            
-            notifications.unshift(notification);
-            saveNotifications();
-            renderNotifications();
-            renderProfiles();
-            
-            // Mostrar animación de corazón
-            const heartLevels = document.querySelectorAll('.heart-level');
-            heartLevels.forEach(heart => {
-                heart.className = 'heart-level';
-            });
-            
-            const heart = document.querySelector(`.heart-${level}`);
-            if (heart) {
-                heart.classList.add('show');
-                setTimeout(() => {
-                    heart.classList.remove('show');
-                }, 1000);
-            }
-            
-            // Animación del botón
-            const buttons = document.querySelectorAll(`.like-btn[data-id="${userId}"]`);
-            buttons.forEach(btn => {
-                const btnLevel = parseInt(btn.getAttribute('data-level'));
-                const icon = btn.querySelector('i');
-                if (btnLevel <= level) {
-                    icon.style.color = getHeartColor(level);
-                } else {
-                    icon.style.color = '';
-                }
-            });
-            
-            setTimeout(() => {
-                buttons.forEach(btn => {
-                    btn.querySelector('i').style.color = '';
-                });
-            }, 1000);
-        }
-
-        function getHeartColor(level) {
-            switch(level) {
-                case 1: return '#EF4444';
-                case 2: return '#F59E0B';
-                case 3: return '#8B5CF6';
-                case 4: return '#059669';
-                case 5: return '#06D6A0';
-                default: return '#6366F1';
-            }
-        }
-
-        // Manejar mensaje
-        function handleMessage(e) {
-            e.stopPropagation();
-            const userId = e.currentTarget.getAttribute('data-id');
-            const user = users.find(u => u.id === userId);
-            
-            messageRecipient = user;
-            messageInput.classList.add('active');
-            messageText.focus();
-            
-            // Crear notificación de chat
-            const notification = {
-                id: Date.now().toString(),
-                type: 'message',
-                userId: userId,
-                userName: user.nombre,
-                userAvatar: user.avatar,
-                message: '¿Te gustaría conocernos?',
-                timestamp: new Date().toISOString(),
-                read: false
-            };
-            
-            notifications.unshift(notification);
-            saveNotifications();
-            renderNotifications();
-            renderProfiles();
-        }
-
-        // Enviar mensaje
-        sendButton.addEventListener('click', function() {
-            if (messageText.value.trim() && messageRecipient) {
-                const notification = {
-                    id: Date.now().toString(),
-                    type: 'message',
-                    userId: messageRecipient.id,
-                    userName: messageRecipient.nombre,
-                    userAvatar: messageRecipient.avatar,
-                    message: messageText.value,
-                    timestamp: new Date().toISOString(),
-                    read: false
-                };
-                
-                notifications.unshift(notification);
-                saveNotifications();
-                renderNotifications();
-                renderProfiles();
-                
-                messageText.value = '';
-                messageInput.classList.remove('active');
-                messageRecipient = null;
-            }
+            // Actualizar estilos de navegación
+            document.getElementById('tabDiscover').className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMatches').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
         });
 
-        messageText.addEventListener('keypress', function(e) {
-            if (e.key === 'Enter') {
-                sendButton.click();
-            }
+        document.getElementById('navMatches').addEventListener('click', function() {
+            document.getElementById('discoverContent').style.display = 'none';
+            document.getElementById('matchesContent').style.display = 'block';
+            document.getElementById('messagesContent').style.display = 'none';
+            
+            // Actualizar estilos de navegación
+            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMatches').className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
         });
 
-        // Renderizar notificaciones
-        function renderNotifications() {
-            const unreadCount = notifications.filter(n => !n.read).length;
-            notificationCount.textContent = unreadCount > 0 ? unreadCount.toString() : '0';
+        document.getElementById('navMessages').addEventListener('click', function() {
+            document.getElementById('discoverContent').style.display = 'none';
+            document.getElementById('matchesContent').style.display = 'none';
+            document.getElementById('messagesContent').style.display = 'block';
             
-            const notificationsList = document.getElementById('notificationsList');
-            if (!notifications.length) {
-                notificationsList.innerHTML = `
-                    <div class="p-8 text-center">
-                        <i class="fas fa-bell-slash text-4xl text-gray-500 mb-4"></i>
-                        <p class="text-gray-400">No tienes notificaciones</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            notificationsList.innerHTML = notifications.map(notification => {
-                const time = new Date(notification.timestamp);
-                const now = new Date();
-                const minutesAgo = Math.floor((now - time) / 60000);
-                const hoursAgo = Math.floor(minutesAgo / 60);
-                const daysAgo = Math.floor(hoursAgo / 24);
-                
-                let timeText;
-                if (daysAgo > 0) {
-                    timeText = `${daysAgo}d`;
-                } else if (hoursAgo > 0) {
-                    timeText = `${hoursAgo}h`;
-                } else {
-                    timeText = `${minutesAgo}m`;
-                }
-                
-                let content, iconColor;
-                if (notification.type === 'like') {
-                    const heartColor = getHeartColor(notification.level);
-                    content = `
-                        <div class="w-8 h-8 rounded-full flex items-center justify-center text-white text-sm" style="background-color: ${heartColor}">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm text-white"><strong>${notification.userName}</strong> te dio <span style="color: ${heartColor}">${getLevelText(notification.level)}</span></p>
-                            <p class="text-xs text-gray-400">${timeText} atrás</p>
-                        </div>
-                    `;
-                } else if (notification.type === 'message') {
-                    content = `
-                        <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm">
-                            <i class="fas fa-comment"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm text-white"><strong>${notification.userName}</strong> inició una conversación</p>
-                            <p class="text-xs text-gray-400 truncate">${notification.message}</p>
-                            <p class="text-xs text-gray-400 mt-1">${timeText} atrás</p>
-                        </div>
-                    `;
-                }
-                
-                return `
-                    <div class="flex items-start space-x-3 p-3 ${notification.read ? 'bg-gray-700' : 'bg-gray-700'} rounded-lg mb-2 notification-item" data-id="${notification.id}">
-                        ${content}
-                    </div>
-                `;
-            }).join('');
-            
-            // Añadir eventos a las notificaciones
-            document.querySelectorAll('.notification-item').forEach(item => {
-                item.addEventListener('click', function() {
-                    const id = this.getAttribute('data-id');
-                    markNotificationAsRead(id);
-                });
-            });
-        }
-
-        function getLevelText(level) {
-            switch(level) {
-                case 1: return 'un poco de interés';
-                case 2: return 'interés moderado';
-                case 3: return 'mucho interés';
-                case 4: return 'gran interés';
-                case 5: return 'interés extremo!';
-                default: return 'interés';
-            }
-        }
-
-        // Marcar notificación como leída
-        function markNotificationAsRead(id) {
-            const notification = notifications.find(n => n.id === id);
-            if (notification && !notification.read) {
-                notification.read = true;
-                saveNotifications();
-                renderNotifications();
-                renderProfiles();
-            }
-        }
-
-        // Marcar todas como leídas
-        document.getElementById('markAllRead').addEventListener('click', function() {
-            notifications.forEach(n => n.read = true);
-            saveNotifications();
-            renderNotifications();
+            // Actualizar estilos de navegación
+            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMatches').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
         });
 
-        // Guardar notificaciones
-        function saveNotifications() {
-            // Mantener solo las últimas 50 notificaciones
-            if (notifications.length > 50) {
-                notifications = notifications.slice(0, 50);
-            }
-            localStorage.setItem('notifications', JSON.stringify(notifications));
-        }
-
-        // Mostrar perfil
+        // Botones de acción
         document.getElementById('profileBtn').addEventListener('click', function() {
             if (!currentUser) {
                 loginModal.style.display = 'block';
                 return;
             }
-            
-            showProfile();
             profileModal.style.display = 'block';
         });
 
-        function showProfile() {
-            const profileContent = document.getElementById('profileContent');
-            profileContent.innerHTML = `
-                <div class="text-center mb-6">
-                    <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
-                        ${currentUser.nombre.charAt(0)}
-                    </div>
-                    <h3 class="text-xl font-bold text-white">${currentUser.nombre}</h3>
-                    <p class="text-gray-300">${currentUser.edad}</p>
-                    ${currentUser.isPremium ? '<span class="subscription-badge"><i class="fas fa-crown"></i> Premium</span>' : ''}
-                    <p class="text-gray-400 text-sm">Miembro desde ${new Date(currentUser.createdAt).toLocaleDateString()}</p>
-                </div>
-                
-                <div class="bg-gray-700 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-white mb-3 flex items-center">
-                        <i class="fas fa-venus-mars mr-2"></i> Género
-                    </h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${currentUser.genero.map(genero => `
-                            <span class="badge interest-badge">${genero}</span>
-                        `).join('')}
-                    </div>
-                </div>
-                
-                <div class="bg-gray-700 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-white mb-3 flex items-center">
-                        <i class="fas fa-user-tag mr-2"></i> Rol
-                    </h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${currentUser.rol.map(rol => `
-                            <span class="badge rol-badge">${rol}</span>
-                        `).join('')}
-                    </div>
-                </div>
-                
-                <div class="bg-gray-700 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-white mb-3 flex items-center">
-                        <i class="fas fa-users mr-2"></i> Tribus
-                    </h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${currentUser.tribu.map(tribu => `
-                            <span class="badge tribu-badge">${tribu}</span>
-                        `).join('')}
-                    </div>
-                </div>
-                
-                <div class="bg-gray-700 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-white mb-3 flex items-center">
-                        <i class="fas fa-heart mr-2"></i> Preferencias
-                    </h4>
-                    <div class="flex flex-wrap gap-2">
-                        ${currentUser.preferencia.map(preferencia => `
-                            <span class="badge preferencia-badge">${preferencia}</span>
-                        `).join('')}
-                    </div>
-                </div>
-                
-                ${currentUser.descripcion ? `
-                <div class="bg-gray-700 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-white mb-3">Sobre mí</h4>
-                    <p class="text-gray-300">${currentUser.descripcion}</p>
-                </div>
-                ` : ''}
-                
-                ${currentUser.photos && currentUser.photos.length > 0 ? `
-                <div class="bg-gray-700 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-white mb-3 flex items-center">
-                        <i class="fas fa-images mr-2"></i> Fotos (${currentUser.photos.length})
-                    </h4>
-                    <div class="grid grid-cols-3 gap-2">
-                        ${currentUser.photos.slice(0, 6).map((photo, index) => `
-                            <div class="relative aspect-square rounded-lg overflow-hidden cursor-pointer" onclick="showPhotoGallery('${currentUser.id}')">
-                                <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover">
-                                ${photo.isPrivate ? `
-                                    <div class="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
-                                        <i class="fas fa-lock text-white text-lg"></i>
-                                    </div>
-                                ` : ''}
-                            </div>
-                        `).join('')}
-                        ${currentUser.photos.length > 6 ? `
-                            <div class="relative aspect-square rounded-lg overflow-hidden bg-gray-600 flex items-center justify-center cursor-pointer" onclick="showPhotoGallery('${currentUser.id}')">
-                                <span class="text-white text-lg font-bold">+${currentUser.photos.length - 6}</span>
-                            </div>
-                        ` : ''}
-                    </div>
-                </div>
-                ` : ''}
-                
-                <div class="bg-gray-700 rounded-xl p-4">
-                    <h4 class="font-semibold text-white mb-3">Estadísticas</h4>
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div>
-                            <div class="text-2xl font-bold text-purple-400">${notifications.filter(n => n.type === 'like').length}</div>
-                            <div class="text-xs text-gray-400">Likes</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-green-400">${notifications.filter(n => n.type === 'message').length}</div>
-                            <div class="text-xs text-gray-400">Mensajes</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-blue-400">${users.length - 1}</div>
-                            <div class="text-xs text-gray-400">Usuarios vistos</div>
-                        </div>
-                    </div>
-                </div>
-            `;
-        }
-
-        // Cerrar perfil
-        document.getElementById('closeProfile').addEventListener('click', function() {
-            profileModal.style.display = 'none';
-        });
-
-        // Editar perfil
-        document.getElementById('editProfileBtn').addEventListener('click', function() {
-            if (!currentUser) return;
-            
-            // Rellenar el formulario con los datos actuales
-            document.getElementById('editNombre').value = currentUser.nombre;
-            document.getElementById('editEdad').value = currentUser.edad;
-            
-            // Género
-            const editGenero = document.getElementById('editGenero');
-            editGenero.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = currentUser.genero.includes(cb.value);
-            });
-            
-            // Rol
-            const editRol = document.getElementById('editRol');
-            editRol.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = currentUser.rol.includes(cb.value);
-            });
-            
-            // Tribu
-            const editTribu = document.getElementById('editTribu');
-            editTribu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = currentUser.tribu.includes(cb.value);
-            });
-            
-            // Preferencia
-            const editPreferencia = document.getElementById('editPreferencia');
-            editPreferencia.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = currentUser.preferencia.includes(cb.value);
-            });
-            
-            document.getElementById('editDescripcion').value = currentUser.descripcion || '';
-            
-            // Fotos
-            const editPhotoPreview = document.getElementById('editPhotoPreview');
-            editPhotoPreview.innerHTML = '';
-            
-            if (currentUser.photos && currentUser.photos.length > 0) {
-                currentUser.photos.forEach((photo, index) => {
-                    const photoDiv = document.createElement('div');
-                    photoDiv.className = 'relative';
-                    photoDiv.style.height = '80px';
-                    photoDiv.innerHTML = `
-                        <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
-                        <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                    editPhotoPreview.appendChild(photoDiv);
-                });
-            }
-            
-            // Añadir botón de subida
-            const uploadDiv = document.createElement('div');
-            uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
-            uploadDiv.style.height = '80px';
-            uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
-            editPhotoPreview.appendChild(uploadDiv);
-            
-            // Añadir evento para subir fotos
-            const photoUpload = document.createElement('input');
-            photoUpload.type = 'file';
-            photoUpload.accept = 'image/*';
-            photoUpload.multiple = true;
-            photoUpload.className = 'hidden';
-            photoUpload.onchange = handlePhotoUpload;
-            uploadDiv.appendChild(photoUpload);
-            
-            uploadDiv.onclick = () => photoUpload.click();
-            
-            // Añadir evento para eliminar fotos
-            document.querySelectorAll('.remove-photo').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const index = parseInt(this.getAttribute('data-index'));
-                    currentUser.photos.splice(index, 1);
-                    showEditPhotoPreview();
-                });
-            });
-            
-            editProfileModal.style.display = 'block';
-            profileModal.style.display = 'none';
-        });
-
-        function showEditPhotoPreview() {
-            const editPhotoPreview = document.getElementById('editPhotoPreview');
-            editPhotoPreview.innerHTML = '';
-            
-            if (currentUser.photos && currentUser.photos.length > 0) {
-                currentUser.photos.forEach((photo, index) => {
-                    const photoDiv = document.createElement('div');
-                    photoDiv.className = 'relative';
-                    photoDiv.style.height = '80px';
-                    photoDiv.innerHTML = `
-                        <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
-                        <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
-                            <i class="fas fa-times"></i>
-                        </button>
-                    `;
-                    editPhotoPreview.appendChild(photoDiv);
-                });
-            }
-            
-            // Añadir botón de subida
-            const uploadDiv = document.createElement('div');
-            uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
-            uploadDiv.style.height = '80px';
-            uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
-            editPhotoPreview.appendChild(uploadDiv);
-            
-            // Añadir evento para subir fotos
-            const photoUpload = document.createElement('input');
-            photoUpload.type = 'file';
-            photoUpload.accept = 'image/*';
-            photoUpload.multiple = true;
-            photoUpload.className = 'hidden';
-            photoUpload.onchange = handlePhotoUpload;
-            uploadDiv.appendChild(photoUpload);
-            
-            uploadDiv.onclick = () => photoUpload.click();
-            
-            // Añadir evento para eliminar fotos
-            document.querySelectorAll('.remove-photo').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const index = parseInt(this.getAttribute('data-index'));
-                    currentUser.photos.splice(index, 1);
-                    showEditPhotoPreview();
-                });
-            });
-        }
-
-        function handlePhotoUpload(e) {
-            const files = e.target.files;
-            if (files.length + (currentUser.photos ? currentUser.photos.length : 0) > 5) {
-                alert('Solo puedes tener hasta 5 fotos en tu perfil');
-                return;
-            }
-            
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    if (!currentUser.photos) {
-                        currentUser.photos = [];
-                    }
-                    currentUser.photos.push({
-                        url: e.target.result,
-                        isPrivate: false,
-                        isVerified: false,
-                        uploaded: new Date().toISOString()
-                    });
-                    showEditPhotoPreview();
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Cerrar edición de perfil
-        document.getElementById('closeEditProfile').addEventListener('click', function() {
-            editProfileModal.style.display = 'none';
-        });
-        
-        document.getElementById('cancelEdit').addEventListener('click', function() {
-            editProfileModal.style.display = 'none';
-        });
-
-        // Guardar edición de perfil
-        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const nombre = document.getElementById('editNombre').value;
-            const edad = document.getElementById('editEdad').value;
-            
-            // Obtener arrays de checkboxes
-            const genero = Array.from(document.querySelectorAll('#editGenero input[type="checkbox"]:checked')).map(cb => cb.value);
-            const rol = Array.from(document.querySelectorAll('#editRol input[type="checkbox"]:checked')).map(cb => cb.value);
-            const tribu = Array.from(document.querySelectorAll('#editTribu input[type="checkbox"]:checked')).map(cb => cb.value);
-            const preferencia = Array.from(document.querySelectorAll('#editPreferencia input[type="checkbox"]:checked')).map(cb => cb.value);
-            const descripcion = document.getElementById('editDescripcion').value;
-            
-            // Validaciones
-            if (genero.length === 0) {
-                alert('Por favor selecciona al menos un género');
-                return;
-            }
-            if (rol.length === 0) {
-                alert('Por favor selecciona al menos un rol');
-                return;
-            }
-            if (tribu.length === 0) {
-                alert('Por favor selecciona al menos una tribu');
-                return;
-            }
-            if (preferencia.length === 0) {
-                alert('Por favor selecciona al menos una preferencia');
-                return;
-            }
-
-            currentUser.nombre = nombre;
-            currentUser.edad = edad;
-            currentUser.genero = genero;
-            currentUser.rol = rol;
-            currentUser.tribu = tribu;
-            currentUser.preferencia = preferencia;
-            currentUser.descripcion = descripcion;
-            currentUser.lastActive = new Date().toISOString();
-            
-            // Asegurarse de que hay al menos una foto
-            if (!currentUser.photos || currentUser.photos.length === 0) {
-                alert('Por favor sube al menos una foto de perfil');
-                return;
-            }
-            
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            editProfileModal.style.display = 'none';
-            showProfile();
-            profileModal.style.display = 'block';
-            renderProfiles();
-        });
-
-        // Cerrar sesión
-        document.getElementById('logoutBtn').addEventListener('click', function() {
-            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                localStorage.removeItem('currentUser');
-                localStorage.removeItem('notifications');
-                currentUser = null;
-                notifications = [];
-                location.reload();
-            }
-        });
-
-        // Filtros
-        document.getElementById('filterBtn').addEventListener('click', function() {
-            // Rellenar los checkboxes con los filtros actuales
-            const filterGenero = document.getElementById('filterGenero');
-            filterGenero.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = filters.genero.includes(cb.value);
-            });
-            
-            const filterRol = document.getElementById('filterRol');
-            filterRol.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = filters.rol.includes(cb.value);
-            });
-            
-            const filterTribu = document.getElementById('filterTribu');
-            filterTribu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = filters.tribu.includes(cb.value);
-            });
-            
-            const filterPreferencia = document.getElementById('filterPreferencia');
-            filterPreferencia.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                cb.checked = filters.preferencia.includes(cb.value);
-            });
-            
-            document.getElementById('distanceFilter').value = filters.distance;
-            document.getElementById('ageFilter').value = filters.age;
-            
-            filterModal.style.display = 'block';
-        });
-
-        document.getElementById('closeFilter').addEventListener('click', function() {
-            filterModal.style.display = 'none';
-        });
-
-        document.getElementById('applyFilters').addEventListener('click', function() {
-            filters.distance = parseInt(document.getElementById('distanceFilter').value);
-            filters.age = document.getElementById('ageFilter').value;
-            filters.genero = Array.from(document.querySelectorAll('#filterGenero input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-            filters.rol = Array.from(document.querySelectorAll('#filterRol input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-            filters.tribu = Array.from(document.querySelectorAll('#filterTribu input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-            filters.preferencia = Array.from(document.querySelectorAll('#filterPreferencia input[type="checkbox"]:checked'))
-                .map(cb => cb.value);
-            
-            filterModal.style.display = 'none';
-            renderProfiles();
-        });
-
-        document.getElementById('resetFilters').addEventListener('click', function() {
-            document.getElementById('distanceFilter').value = '10';
-            document.getElementById('ageFilter').value = '26-35';
-            document.querySelectorAll('#filterModal input[type="checkbox"]').forEach(cb => cb.checked = false);
-            filters = {
-                distance: 10,
-                age: '26-35',
-                genero: [],
-                rol: [],
-                tribu: [],
-                preferencia: []
-            };
-            renderProfiles();
-        });
-
-        // Notificaciones
         document.getElementById('notificationsBtn').addEventListener('click', function() {
             notificationsModal.style.display = 'block';
         });
 
-        document.getElementById('closeNotifications').addEventListener('click', function() {
-            notificationsModal.style.display = 'none';
+        document.getElementById('upgradeBtn').addEventListener('click', function() {
+            upgradeModal.style.display = 'block';
         });
 
-        // Configuración
-        document.getElementById('settingsBtn').addEventListener('click', function() {
-            if (!currentUser) {
-                loginModal.style.display = 'block';
-                return;
-            }
-            
-            // Rellenar configuración actual
-            document.getElementById('modoDiscreto').checked = currentUser.modoDiscreto || false;
-            document.getElementById('visibilidad').value = currentUser.visibilidad || 'cercanos';
-            document.getElementById('notificacionesMensajes').checked = currentUser.notificacionesMensajes !== false;
-            document.getElementById('notificacionesMatchs').checked = currentUser.notificacionesMatchs !== false;
-            document.getElementById('notificacionesSistema').checked = currentUser.notificacionesSistema !== false;
-            
-            settingsModal.style.display = 'block';
-        });
-
-        document.getElementById('closeSettings').addEventListener('click', function() {
-            settingsModal.style.display = 'none';
-        });
-
-        document.getElementById('cambiarLogo').addEventListener('click', function() {
-            settingsModal.style.display = 'none';
-            logoModal.style.display = 'block';
-        });
-
-        document.getElementById('closeLogoModal').addEventListener('click', function() {
-            logoModal.style.display = 'none';
-            settingsModal.style.display = 'block';
-        });
-
-        document.querySelectorAll('.logo-option').forEach(option => {
-            option.addEventListener('click', function() {
-                const newIcon = this.getAttribute('data-logo');
-                currentAppIcon = newIcon;
-                appIcon.textContent = newIcon;
-                
-                if (currentUser) {
-                    currentUser.appIcon = newIcon;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                }
-                
-                logoModal.style.display = 'none';
-                settingsModal.style.display = 'block';
+        // Cerrar modales
+        document.querySelectorAll('.close').forEach(closeBtn => {
+            closeBtn.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                modal.style.display = 'none';
             });
         });
 
-        document.getElementById('upgradePremium').addEventListener('click', function() {
-            if (confirm('¿Deseas actualizar a Conexión Premium por $9.99/mes?')) {
-                if (currentUser) {
-                    currentUser.isPremium = true;
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
-                    alert('¡Felicidades! Ahora eres un usuario Premium con acceso a todas las funciones avanzadas.');
-                    settingsModal.style.display = 'none';
-                    showProfile();
-                    profileModal.style.display = 'block';
-                }
-            }
-        });
-
-        document.getElementById('guardarConfiguracion').addEventListener('click', function() {
-            if (currentUser) {
-                currentUser.modoDiscreto = document.getElementById('modoDiscreto').checked;
-                currentUser.visibilidad = document.getElementById('visibilidad').value;
-                currentUser.notificacionesMensajes = document.getElementById('notificacionesMensajes').checked;
-                currentUser.notificacionesMatchs = document.getElementById('notificacionesMatchs').checked;
-                currentUser.notificacionesSistema = document.getElementById('notificacionesSistema').checked;
-                
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            }
-            settingsModal.style.display = 'none';
-        });
-
-        // Pestañas
-        document.getElementById('tabNearby').addEventListener('click', function() {
-            document.getElementById('tabNearby').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            // El contenido de cercanos ya está visible
-        });
-
-        document.getElementById('tabMessages').addEventListener('click', function() {
-            document.getElementById('tabNearby').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            document.getElementById('tabMessages').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            
-            profilesContainer.innerHTML = `
-                <div class="p-8 text-center">
-                    <i class="fas fa-comments text-4xl text-gray-500 mb-4"></i>
-                    <p class="text-white mb-4">Mensajes</p>
-                    <p class="text-sm text-gray-400">Aquí verás tus conversaciones</p>
-                </div>
-            `;
-        });
-
-        document.getElementById('tabProfile').addEventListener('click', function() {
-            document.getElementById('tabNearby').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            document.getElementById('tabProfile').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
-            
-            if (!currentUser) {
-                loginModal.style.display = 'block';
-                return;
-            }
-            
-            profilesContainer.innerHTML = `
-                <div class="p-8 text-center">
-                    <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
-                        ${currentUser.nombre.charAt(0)}
-                    </div>
-                    <h3 class="text-xl font-bold text-white mb-2">${currentUser.nombre}</h3>
-                    <p class="text-gray-300 mb-4">${currentUser.edad}</p>
-                    
-                    <div class="space-y-3 mb-6">
-                        <div class="bg-gray-700 rounded-xl p-3">
-                            <h4 class="font-semibold text-white text-sm mb-2">Género</h4>
-                            <div class="flex flex-wrap justify-center gap-2">
-                                ${currentUser.genero.map(genero => `
-                                    <span class="badge interest-badge text-xs">${genero}</span>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-700 rounded-xl p-3">
-                            <h4 class="font-semibold text-white text-sm mb-2">Rol</h4>
-                            <div class="flex flex-wrap justify-center gap-2">
-                                ${currentUser.rol.map(rol => `
-                                    <span class="badge rol-badge text-xs">${rol}</span>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-700 rounded-xl p-3">
-                            <h4 class="font-semibold text-white text-sm mb-2">Tribus</h4>
-                            <div class="flex flex-wrap justify-center gap-2">
-                                ${currentUser.tribu.map(tribu => `
-                                    <span class="badge tribu-badge text-xs">${tribu}</span>
-                                `).join('')}
-                            </div>
-                        </div>
-                        
-                        <div class="bg-gray-700 rounded-xl p-3">
-                            <h4 class="font-semibold text-white text-sm mb-2">Preferencias</h4>
-                            <div class="flex flex-wrap justify-center gap-2">
-                                ${currentUser.preferencia.map(preferencia => `
-                                    <span class="badge preferencia-badge text-xs">${preferencia}</span>
-                                `).join('')}
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <button id="editProfileBtnFooter" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg mr-2">
-                        <i class="fas fa-edit mr-1"></i> Editar
-                    </button>
-                    <button id="settingsBtnFooter" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg mr-2">
-                        <i class="fas fa-cog mr-1"></i> Config
-                    </button>
-                    <button id="logoutBtnFooter" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded-lg">
-                        <i class="fas fa-sign-out-alt mr-1"></i> Salir
-                    </button>
-                </div>
-            `;
-            
-            document.getElementById('editProfileBtnFooter').addEventListener('click', function() {
-                if (!currentUser) return;
-                
-                // Rellenar el formulario con los datos actuales
-                document.getElementById('editNombre').value = currentUser.nombre;
-                document.getElementById('editEdad').value = currentUser.edad;
-                
-                // Género
-                const editGenero = document.getElementById('editGenero');
-                editGenero.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    cb.checked = currentUser.genero.includes(cb.value);
-                });
-                
-                // Rol
-                const editRol = document.getElementById('editRol');
-                editRol.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    cb.checked = currentUser.rol.includes(cb.value);
-                });
-                
-                // Tribu
-                const editTribu = document.getElementById('editTribu');
-                editTribu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    cb.checked = currentUser.tribu.includes(cb.value);
-                });
-                
-                // Preferencia
-                const editPreferencia = document.getElementById('editPreferencia');
-                editPreferencia.querySelectorAll('input[type="checkbox"]').forEach(cb => {
-                    cb.checked = currentUser.preferencia.includes(cb.value);
-                });
-                
-                document.getElementById('editDescripcion').value = currentUser.descripcion || '';
-                
-                // Fotos
-                const editPhotoPreview = document.getElementById('editPhotoPreview');
-                editPhotoPreview.innerHTML = '';
-                
-                if (currentUser.photos && currentUser.photos.length > 0) {
-                    currentUser.photos.forEach((photo, index) => {
-                        const photoDiv = document.createElement('div');
-                        photoDiv.className = 'relative';
-                        photoDiv.style.height = '80px';
-                        photoDiv.innerHTML = `
-                            <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
-                            <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
-                                <i class="fas fa-times"></i>
-                            </button>
-                        `;
-                        editPhotoPreview.appendChild(photoDiv);
-                    });
-                }
-                
-                // Añadir botón de subida
-                const uploadDiv = document.createElement('div');
-                uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
-                uploadDiv.style.height = '80px';
-                uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
-                editPhotoPreview.appendChild(uploadDiv);
-                
-                // Añadir evento para subir fotos
-                const photoUpload = document.createElement('input');
-                photoUpload.type = 'file';
-                photoUpload.accept = 'image/*';
-                photoUpload.multiple = true;
-                photoUpload.className = 'hidden';
-                photoUpload.onchange = handlePhotoUpload;
-                uploadDiv.appendChild(photoUpload);
-                
-                uploadDiv.onclick = () => photoUpload.click();
-                
-                // Añadir evento para eliminar fotos
-                document.querySelectorAll('.remove-photo').forEach(btn => {
-                    btn.addEventListener('click', function(e) {
-                        e.stopPropagation();
-                        const index = parseInt(this.getAttribute('data-index'));
-                        currentUser.photos.splice(index, 1);
-                        showEditPhotoPreview();
-                    });
-                });
-                
-                editProfileModal.style.display = 'block';
-            });
-            
-            document.getElementById('settingsBtnFooter').addEventListener('click', function() {
-                if (!currentUser) return;
-                
-                // Rellenar configuración actual
-                document.getElementById('modoDiscreto').checked = currentUser.modoDiscreto || false;
-                document.getElementById('visibilidad').value = currentUser.visibilidad || 'cercanos';
-                document.getElementById('notificacionesMensajes').checked = currentUser.notificacionesMensajes !== false;
-                document.getElementById('notificacionesMatchs').checked = currentUser.notificacionesMatchs !== false;
-                document.getElementById('notificacionesSistema').checked = currentUser.notificacionesSistema !== false;
-                
-                settingsModal.style.display = 'block';
-            });
-            
-            document.getElementById('logoutBtnFooter').addEventListener('click', function() {
-                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
-                    localStorage.removeItem('currentUser');
-                    localStorage.removeItem('notifications');
-                    currentUser = null;
-                    notifications = [];
-                    location.reload();
-                }
-            });
-        });
-
-        // Búsqueda
-        searchInput.addEventListener('input', function() {
-            renderProfiles();
-        });
-
-        // Actualizar ubicación periódicamente
-        setInterval(function() {
-            if (locationEnabled && currentUser) {
-                updateUserLocation();
-            }
-        }, 30000); // Cada 30 segundos
-
-        // Cerrar modales al hacer clic fuera
+        // Cerrar modal al hacer clic fuera
         window.onclick = function(event) {
-            if (event.target === loginModal) {
-                loginModal.style.display = 'none';
-            }
-            if (event.target === profileModal) {
-                profileModal.style.display = 'none';
-            }
-            if (event.target === editProfileModal) {
-                editProfileModal.style.display = 'none';
-            }
-            if (event.target === photoModal) {
-                photoModal.style.display = 'none';
-            }
-            if (event.target === filterModal) {
-                filterModal.style.display = 'none';
-            }
-            if (event.target === notificationsModal) {
-                notificationsModal.style.display = 'none';
-            }
-            if (event.target === settingsModal) {
-                settingsModal.style.display = 'none';
-            }
-            if (event.target === logoModal) {
-                logoModal.style.display = 'none';
-                settingsModal.style.display = 'block';
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = 'none';
             }
         };
 
-        // Función para mostrar galería de fotos
-        window.showPhotoGallery = function(userId) {
-            const user = users.find(u => u.id === userId) || currentUser;
-            if (!user || !user.photos) return;
-            
-            const photoGallery = document.getElementById('photoGallery');
-            photoGallery.innerHTML = '';
-            
-            document.getElementById('photoUserName').textContent = user.nombre;
-            photoModalTitle.textContent = `Fotos de ${user.nombre}`;
-            
-            user.photos.forEach((photo, index) => {
-                const photoDiv = document.createElement('div');
-                photoDiv.className = 'relative';
-                photoDiv.innerHTML = `
-                    <div class="photo-container">
-                        <img src="${photo.url}" alt="Foto ${index + 1}" class="photo">
-                        <div class="photo-overlay">
-                            <span class="photo-count">${index + 1}/${user.photos.length}</span>
-                        </div>
-                        ${photo.isPrivate ? `
-                            <div class="private-badge">
-                                <i class="fas fa-lock"></i> Privada
-                            </div>
-                        ` : ''}
-                    </div>
-                `;
-                photoGallery.appendChild(photoDiv);
-            });
-            
-            photoModal.style.display = 'block';
-        };
+        // Subir foto de perfil
+        avatarUpload.addEventListener('click', function() {
+            avatarInput.click();
+        });
 
-        // Subir fotos en el modal de registro
-        document.getElementById('photoUpload').addEventListener('change', function(e) {
-            const files = e.target.files;
-            if (files.length + selectedPhotos.length > 5) {
-                alert('Solo puedes subir hasta 5 fotos');
-                return;
-            }
-            
-            for (let i = 0; i < files.length; i++) {
-                const file = files[i];
+        avatarInput.addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
                 const reader = new FileReader();
                 reader.onload = function(e) {
-                    selectedPhotos.push({
-                        url: e.target.result,
-                        isPrivate: false,
-                        isVerified: false,
-                        uploaded: new Date().toISOString()
-                    });
-                    showPhotoPreview();
+                    avatarUpload.innerHTML = `<img src="${e.target.result}" alt="Foto de perfil">`;
                 };
                 reader.readAsDataURL(file);
             }
         });
 
-        function showPhotoPreview() {
-            const photoPreview = document.getElementById('photoPreview');
-            photoPreview.innerHTML = '';
+        // Animación de corazón al dar like
+        document.querySelector('.swipe-btn.like').addEventListener('click', function() {
+            const heart = heartAnimation.cloneNode(true);
+            heart.querySelector('i').className = 'fas fa-heart heart-3';
+            heart.classList.add('show');
+            document.body.appendChild(heart);
             
-            selectedPhotos.forEach((photo, index) => {
-                const photoDiv = document.createElement('div');
-                photoDiv.className = 'relative';
-                photoDiv.style.height = '80px';
-                photoDiv.innerHTML = `
-                    <img src="${photo.url}" alt="Foto ${index + 1}" class="w-full h-full object-cover rounded-lg">
-                    <button class="remove-photo absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center text-xs" data-index="${index}">
-                        <i class="fas fa-times"></i>
-                    </button>
-                `;
-                photoPreview.appendChild(photoDiv);
-            });
+            setTimeout(() => {
+                document.body.removeChild(heart);
+            }, 1000);
             
-            // Añadir botón de subida si hay menos de 5 fotos
-            if (selectedPhotos.length < 5) {
-                const uploadDiv = document.createElement('div');
-                uploadDiv.className = 'photo-upload bg-gray-700 rounded-lg flex items-center justify-center cursor-pointer';
-                uploadDiv.style.height = '80px';
-                uploadDiv.innerHTML = '<i class="fas fa-plus text-gray-400"></i>';
-                photoPreview.appendChild(uploadDiv);
-            }
-            
-            // Añadir evento para eliminar fotos
-            document.querySelectorAll('.remove-photo').forEach(btn => {
-                btn.addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const index = parseInt(this.getAttribute('data-index'));
-                    selectedPhotos.splice(index, 1);
-                    showPhotoPreview();
-                });
-            });
-        }
+            // Simular match
+            setTimeout(() => {
+                alert('¡Match! Ahora puedes conversar con Alex');
+            }, 500);
+        });
 
-        // Añadir evento al botón de subida
-        document.querySelector('.photo-upload').addEventListener('click', function() {
-            document.getElementById('photoUpload').click();
+        document.querySelector('.swipe-btn.super-like').addEventListener('click', function() {
+            const heart = heartAnimation.cloneNode(true);
+            heart.querySelector('i').className = 'fas fa-star heart-5';
+            heart.classList.add('show');
+            document.body.appendChild(heart);
+            
+            setTimeout(() => {
+                document.body.removeChild(heart);
+            }, 1000);
+            
+            // Simular super like
+            setTimeout(() => {
+                alert('¡Super Like enviado! Alex será notificado');
+            }, 500);
+        });
+
+        // Enviar mensaje
+        document.getElementById('messageBtn').addEventListener('click', function() {
+            alert('Mensaje enviado. Alex será notificado.');
+            profileModal.style.display = 'none';
+        });
+
+        // Confirmar upgrade
+        document.getElementById('confirmUpgrade').addEventListener('click', function() {
+            alert('¡Felicidades! Ahora eres un usuario Premium con acceso a todas las funciones avanzadas.');
+            upgradeModal.style.display = 'none';
+            
+            // Actualizar estado del usuario
+            if (currentUser) {
+                currentUser.isPremium = true;
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            }
+        });
+
+        // Simular actividad
+        setInterval(() => {
+            // Actualizar contador de notificaciones
+            const count = Math.floor(Math.random() * 5);
+            document.getElementById('notificationCount').textContent = count > 0 ? count.toString() : '0';
+        }, 30000);
+
+        // Añadir eventos a las fotos de la galería
+        document.querySelectorAll('.gallery-item').forEach(item => {
+            item.addEventListener('click', function() {
+                if (this.querySelector('.private-overlay')) {
+                    alert('Esta foto es privada. Actualiza a Premium para ver fotos privadas.');
+                }
+            });
         });
     </script>
 </body>
 </html>
-```
