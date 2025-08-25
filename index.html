@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conexión Segura</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8f9fa;
+        }
+        .profile-card {
+            transition: all 0.2s ease;
+            border: 1px solid #f1f5f9;
+        }
+        .profile-card:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+        }
+        .online-status {
+            width: 8px;
+            height: 8px;
+            background-color: #10B981;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        .distance-badge {
+            background: linear-gradient(90deg, #6366F1, #8B5CF6);
+            color: white;
+            font-weight: 500;
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            border-radius: 20px;
+        }
+        .app-icon {
+            width: 28px;
+            height: 28px;
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .tab-active {
+            color: #6366F1;
+            font-weight: 600;
+        }
+        .tab-inactive {
+            color: #6b7280;
+        }
+        .badge {
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 12px;
+            font-weight: 500;
+        }
+        .interest-badge {
+            background-color: #f3f4f6;
+            color: #4b5563;
+        }
+        .verified-badge {
+            background: linear-gradient(90deg, #10B981, #059669);
+            color: white;
+        }
+        .action-btn {
+            transition: all 0.2s ease;
+        }
+        .action-btn:hover {
+            transform: scale(1.1);
+        }
+        .chat-bubble {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            font-size: 0.65rem;
+            padding: 2px 6px;
+            border-radius: 12px;
+            display: inline-block;
+            margin-left: 4px;
+        }
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            display: inline-block;
+            margin-right: 4px;
+        }
+        .status-online {
+            background-color: #10B981;
+        }
+        .status-away {
+            background-color: #F59E0B;
+        }
+        .status-offline {
+            background-color: #6B7280;
+        }
+        .search-input:focus {
+            border-color: #8B5CF6;
+            box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
+        }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <div id="app">
+        <!-- Header -->
+        <header class="bg-white border-b border-gray-200 shadow-sm">
+            <div class="max-w-md mx-auto px-4 py-3">
+                <div class="flex items-center justify-between">
+                    <div class="flex items-center space-x-3">
+                        <div class="app-icon">C</div>
+                        <div>
+                            <h1 class="text-lg font-semibold text-gray-800">Conexión</h1>
+                            <p class="text-xs text-gray-500">Conexiones discretas</p>
+                        </div>
+                    </div>
+                    <div class="flex items-center space-x-2">
+                        <button id="notificationsBtn" class="p-2 text-gray-600 hover:text-gray-800 relative">
+                            <i class="fas fa-bell text-sm"></i>
+                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+                        </button>
+                        <button id="settingsBtn" class="p-2 text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-cog text-sm"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Pestañas de navegación -->
+        <div class="max-w-md mx-auto bg-white border-b border-gray-200">
+            <div class="flex">
+                <button class="tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
+                    <i class="fas fa-users text-purple-600"></i>
+                    <span>Cercanos</span>
+                </button>
+                <button class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
+                    <i class="fas fa-comments text-gray-500"></i>
+                    <span>Mensajes</span>
+                </button>
+                <button class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
+                    <i class="fas fa-user text-gray-500"></i>
+                    <span>Perfil</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Contenido principal -->
+        <main class="max-w-md mx-auto">
+            <!-- Barra de búsqueda y filtros -->
+            <div class="p-4 bg-white border-b border-gray-200">
+                <div class="relative mb-3">
+                    <input type="text" placeholder="Buscar por nombre o interés..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm search-input">
+                    <div class="absolute left-3 top-2.5 text-gray-400">
+                        <i class="fas fa-search text-sm"></i>
+                    </div>
+                </div>
+                <div class="flex space-x-2">
+                    <button class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                        <i class="fas fa-sliders-h text-xs"></i>
+                        <span>Filtros</span>
+                    </button>
+                    <button class="flex-1 bg-purple-100 text-purple-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                        <i class="fas fa-sort text-xs"></i>
+                        <span>Distancia</span>
+                    </button>
+                    <button class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                        <i class="fas fa-clock text-xs"></i>
+                        <span>Reciente</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Lista de perfiles -->
+            <div class="bg-white">
+                <!-- Perfil 1 -->
+                <div class="profile-card border-b border-gray-100">
+                    <div class="flex items-center p-4">
+                        <div class="relative mr-4">
+                            <img src="https://placehold.co/80x80/6366F1/white?text=AM" alt="Andrés Martínez" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                            <span class="absolute -bottom-1 -right-1 status-dot status-online"></span>
+                            <span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-sm font-semibold text-gray-800 truncate">Andrés Martínez, 28</h3>
+                                <span class="ml-2 distance-badge">1.2 km</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2 truncate">Ingeniero de software · Madrid</p>
+                            <div class="flex flex-wrap gap-1 mb-2">
+                                <span class="badge interest-badge">Tecnología</span>
+                                <span class="badge interest-badge">Viajes</span>
+                                <span class="badge interest-badge">Fitness</span>
+                            </div>
+                            <div class="flex items-center text-xs text-green-600">
+                                <span class="status-dot status-online"></span>
+                                <span>En línea ahora</span>
+                                <span class="chat-bubble ml-2">
+                                    <i class="fas fa-comment-dots text-xs"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-2">
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-heart text-xs"></i>
+                            </button>
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-comment text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 2 -->
+                <div class="profile-card border-b border-gray-100">
+                    <div class="flex items-center p-4">
+                        <div class="relative mr-4">
+                            <img src="https://placehold.co/80x80/8B5CF6/white?text=CP" alt="Carlos Pérez" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                            <span class="absolute -bottom-1 -right-1 status-dot status-online"></span>
+                            <span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-sm font-semibold text-gray-800 truncate">Carlos Pérez, 31</h3>
+                                <span class="ml-2 distance-badge">1.8 km</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2 truncate">Diseñador UX/UI · Barcelona</p>
+                            <div class="flex flex-wrap gap-1 mb-2">
+                                <span class="badge interest-badge">Diseño</span>
+                                <span class="badge interest-badge">Cine</span>
+                                <span class="badge interest-badge">Música</span>
+                            </div>
+                            <div class="flex items-center text-xs text-green-600">
+                                <span class="status-dot status-online"></span>
+                                <span>En línea ahora</span>
+                                <span class="chat-bubble ml-2">
+                                    <i class="fas fa-comment-dots text-xs"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-2">
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-heart text-xs"></i>
+                            </button>
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-comment text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 3 -->
+                <div class="profile-card border-b border-gray-100">
+                    <div class="flex items-center p-4">
+                        <div class="relative mr-4">
+                            <img src="https://placehold.co/80x80/EC4899/white?text=DF" alt="Daniel Fernández" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                            <span class="absolute -bottom-1 -right-1 status-dot status-away"></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-sm font-semibold text-gray-800 truncate">Daniel Fernández, 26</h3>
+                                <span class="ml-2 distance-badge">2.3 km</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2 truncate">Estudiante de medicina · Valencia</p>
+                            <div class="flex flex-wrap gap-1 mb-2">
+                                <span class="badge interest-badge">Medicina</span>
+                                <span class="badge interest-badge">Lectura</span>
+                                <span class="badge interest-badge">Naturaleza</span>
+                            </div>
+                            <div class="flex items-center text-xs text-yellow-600">
+                                <span class="status-dot status-away"></span>
+                                <span>Ausente</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-2">
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-heart text-xs"></i>
+                            </button>
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-comment text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 4 -->
+                <div class="profile-card border-b border-gray-100">
+                    <div class="flex items-center p-4">
+                        <div class="relative mr-4">
+                            <img src="https://placehold.co/80x80/10B981/white?text=EM" alt="Eduardo Martínez" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                            <span class="absolute -bottom-1 -right-1 status-dot status-online"></span>
+                            <span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
+                                <i class="fas fa-check text-xs"></i>
+                            </span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-sm font-semibold text-gray-800 truncate">Eduardo Martínez, 33</h3>
+                                <span class="ml-2 distance-badge">3.1 km</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2 truncate">Arquitecto · Sevilla</p>
+                            <div class="flex flex-wrap gap-1 mb-2">
+                                <span class="badge interest-badge">Arquitectura</span>
+                                <span class="badge interest-badge">Fotografía</span>
+                                <span class="badge interest-badge">Café</span>
+                            </div>
+                            <div class="flex items-center text-xs text-green-600">
+                                <span class="status-dot status-online"></span>
+                                <span>En línea ahora</span>
+                                <span class="chat-bubble ml-2">
+                                    <i class="fas fa-comment-dots text-xs"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-2">
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-heart text-xs"></i>
+                            </button>
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-comment text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Perfil 5 -->
+                <div class="profile-card border-b border-gray-100">
+                    <div class="flex items-center p-4">
+                        <div class="relative mr-4">
+                            <img src="https://placehold.co/80x80/F59E0B/white?text=FC" alt="Felipe Castro" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                            <span class="absolute -bottom-1 -right-1 status-dot status-offline"></span>
+                        </div>
+                        <div class="flex-1 min-w-0">
+                            <div class="flex items-center mb-1">
+                                <h3 class="text-sm font-semibold text-gray-800 truncate">Felipe Castro, 29</h3>
+                                <span class="ml-2 distance-badge">3.7 km</span>
+                            </div>
+                            <p class="text-xs text-gray-600 mb-2 truncate">Chef · Bilbao</p>
+                            <div class="flex flex-wrap gap-1 mb-2">
+                                <span class="badge interest-badge">Cocina</span>
+                                <span class="badge interest-badge">Vino</span>
+                                <span class="badge interest-badge">Eventos</span>
+                            </div>
+                            <div class="flex items-center text-xs text-gray-500">
+                                <span class="status-dot status-offline"></span>
+                                <span>Últ. conexión: 2h</span>
+                            </div>
+                        </div>
+                        <div class="flex flex-col space-y-2 ml-2">
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-heart text-xs"></i>
+                            </button>
+                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
+                                <i class="fas fa-comment text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer informativo -->
+            <div class="p-4 bg-white border-t border-gray-200">
+                <div class="flex items-center justify-center text-xs text-gray-500 space-x-4">
+                    <span>📍 Ubicación activa</span>
+                    <span>•</span>
+                    <span>🔒 Conexión segura</span>
+                    <span>•</span>
+                    <span>👥 152 usuarios cerca</span>
+                </div>
+            </div>
+        </main>
+
+        <!-- Modal de configuración -->
+        <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+            <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 max-h-96 overflow-y-auto">
+                <div class="flex justify-between items-center mb-6">
+                    <h2 class="text-xl font-bold text-gray-800">Configuración</h2>
+                    <button id="closeSettings" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times text-lg"></i>
+                    </button>
+                </div>
+                <div class="space-y-6">
+                    <div class="bg-gray-50 rounded-2xl p-4">
+                        <h3 class="font-semibold text-gray-800 mb-3">Privacidad</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-700 font-medium">Modo discreto</span>
+                                    <p class="text-xs text-gray-500">Oculta tu actividad</p>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-700 font-medium">Visibilidad</span>
+                                    <p class="text-xs text-gray-500">Quién puede verte</p>
+                                </div>
+                                <select class="border border-gray-300 rounded-lg px-3 py-1 text-sm">
+                                    <option>Cercanos (10km)</option>
+                                    <option>Solo amigos</option>
+                                    <option>Oculto</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-2xl p-4">
+                        <h3 class="font-semibold text-gray-800 mb-3">Notificaciones</h3>
+                        <div class="space-y-3">
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-700 font-medium">Mensajes</span>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-700 font-medium">Matchs</span>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                            <div class="flex items-center justify-between">
+                                <div>
+                                    <span class="text-gray-700 font-medium">Sistema</span>
+                                </div>
+                                <label class="inline-flex relative items-center cursor-pointer">
+                                    <input type="checkbox" value="" class="sr-only peer" checked>
+                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="bg-gray-50 rounded-2xl p-4">
+                        <h3 class="font-semibold text-gray-800 mb-3">Seguridad</h3>
+                        <div class="space-y-3">
+                            <button class="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-shield-alt mr-2 text-purple-600"></i>
+                                Centro de seguridad
+                            </button>
+                            <button class="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-user-slash mr-2 text-purple-600"></i>
+                                Bloquear usuarios
+                            </button>
+                            <button class="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
+                                <i class="fas fa-exclamation-triangle mr-2 text-purple-600"></i>
+                                Reportar problema
+                            </button>
+                        </div>
+                    </div>
+
+                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-semibold text-lg">
+                        Guardar cambios
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de notificaciones -->
+        <div id="notificationsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
+            <div class="absolute top-20 right-4 bg-white rounded-2xl shadow-xl w-80 max-h-96 overflow-y-auto p-4">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-bold text-gray-800">Notificaciones</h2>
+                    <button id="closeNotifications" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <div class="space-y-3">
+                    <div class="flex items-start space-x-3 p-3 bg-purple-50 rounded-lg">
+                        <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800">Andrés te dio "Me gusta"</p>
+                            <p class="text-xs text-gray-500">Hace 5 minutos</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-green-50 rounded-lg">
+                        <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800">Carlos inició una conversación</p>
+                            <p class="text-xs text-gray-500">Hace 12 minutos</p>
+                        </div>
+                    </div>
+                    <div class="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
+                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800">¡Nuevo match con Daniel!</p>
+                            <p class="text-xs text-gray-500">Hace 1 hora</p>
+                        </div>
+                    </div>
+                </div>
+                <button class="w-full mt-4 text-purple-600 text-sm font-medium py-2">
+                    Marcar todo como leído
+                </button>
+            </div>
+        </div>
+
+        <script>
+            // Funcionalidad del modal de configuración
+            const settingsBtn = document.getElementById('settingsBtn');
+            const settingsModal = document.getElementById('settingsModal');
+            const closeSettings = document.getElementById('closeSettings');
+
+            settingsBtn.addEventListener('click', () => {
+                settingsModal.classList.remove('hidden');
+            });
+
+            closeSettings.addEventListener('click', () => {
+                settingsModal.classList.add('hidden');
+            });
+
+            // Cerrar modal al hacer clic fuera
+            settingsModal.addEventListener('click', (e) => {
+                if (e.target === settingsModal) {
+                    settingsModal.classList.add('hidden');
+                }
+            });
+
+            // Funcionalidad del modal de notificaciones
+            const notificationsBtn = document.getElementById('notificationsBtn');
+            const notificationsModal = document.getElementById('notificationsModal');
+            const closeNotifications = document.getElementById('closeNotifications');
+
+            notificationsBtn.addEventListener('click', () => {
+                notificationsModal.classList.remove('hidden');
+            });
+
+            closeNotifications.addEventListener('click', () => {
+                notificationsModal.classList.add('hidden');
+            });
+
+            notificationsModal.addEventListener('click', (e) => {
+                if (e.target === notificationsModal) {
+                    notificationsModal.classList.add('hidden');
+                }
+            });
+
+            // Interacción con perfiles
+            const profileCards = document.querySelectorAll('.profile-card');
+            profileCards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const name = this.querySelector('h3').textContent.split(',')[0];
+                    alert(`Has seleccionado a ${name}. Esta aplicación está diseñada para conexiones discretas y seguras.`);
+                });
+            });
+
+            // Cambiar entre pestañas
+            const tabs = document.querySelectorAll('.flex button');
+            tabs.forEach(tab => {
+                tab.addEventListener('click', function() {
+                    tabs.forEach(t => {
+                        t.classList.remove('tab-active');
+                        t.classList.add('tab-inactive');
+                    });
+                    this.classList.remove('tab-inactive');
+                    this.classList.add('tab-active');
+                });
+            });
+
+            // Acción de me gusta
+            const likeButtons = document.querySelectorAll('.fa-heart');
+            likeButtons.forEach(button => {
+                button.closest('.action-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const icon = this.querySelector('i');
+                    if (icon.classList.contains('fa-heart')) {
+                        icon.classList.remove('fa-heart');
+                        icon.classList.add('fa-heart');
+                        icon.style.color = '#6366F1';
+                        setTimeout(() => {
+                            icon.style.color = '';
+                        }, 500);
+                    }
+                });
+            });
+
+            // Acción de mensaje
+            const messageButtons = document.querySelectorAll('.fa-comment');
+            messageButtons.forEach(button => {
+                button.closest('.action-btn').addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const name = this.closest('.profile-card').querySelector('h3').textContent.split(',')[0];
+                    alert(`Iniciando conversación con ${name}...`);
+                });
+            });
+        </script>
+    </div>
+</body>
+</html>
