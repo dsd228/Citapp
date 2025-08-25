@@ -104,6 +104,26 @@
             border-color: #8B5CF6;
             box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.1);
         }
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 50;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0,0,0,0.5);
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 10% auto;
+            padding: 20px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
 <body class="bg-gray-50">
@@ -122,10 +142,10 @@
                     <div class="flex items-center space-x-2">
                         <button id="notificationsBtn" class="p-2 text-gray-600 hover:text-gray-800 relative">
                             <i class="fas fa-bell text-sm"></i>
-                            <span class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">2</span>
+                            <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
                         </button>
-                        <button id="settingsBtn" class="p-2 text-gray-600 hover:text-gray-800">
-                            <i class="fas fa-cog text-sm"></i>
+                        <button id="profileBtn" class="p-2 text-gray-600 hover:text-gray-800">
+                            <i class="fas fa-user text-sm"></i>
                         </button>
                     </div>
                 </div>
@@ -135,17 +155,17 @@
         <!-- Pestañas de navegación -->
         <div class="max-w-md mx-auto bg-white border-b border-gray-200">
             <div class="flex">
-                <button class="tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
+                <button id="tabNearby" class="tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
                     <i class="fas fa-users text-purple-600"></i>
                     <span>Cercanos</span>
                 </button>
-                <button class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
+                <button id="tabMessages" class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
                     <i class="fas fa-comments text-gray-500"></i>
                     <span>Mensajes</span>
                 </button>
-                <button class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
+                <button id="tabProfile" class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
                     <i class="fas fa-user text-gray-500"></i>
-                    <span>Perfil</span>
+                    <span>Mi Perfil</span>
                 </button>
             </div>
         </div>
@@ -155,458 +175,931 @@
             <!-- Barra de búsqueda y filtros -->
             <div class="p-4 bg-white border-b border-gray-200">
                 <div class="relative mb-3">
-                    <input type="text" placeholder="Buscar por nombre o interés..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm search-input">
+                    <input type="text" id="searchInput" placeholder="Buscar por nombre o interés..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm search-input">
                     <div class="absolute left-3 top-2.5 text-gray-400">
                         <i class="fas fa-search text-sm"></i>
                     </div>
                 </div>
                 <div class="flex space-x-2">
-                    <button class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                    <button id="filterBtn" class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
                         <i class="fas fa-sliders-h text-xs"></i>
                         <span>Filtros</span>
                     </button>
-                    <button class="flex-1 bg-purple-100 text-purple-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                    <button id="sortBtn" class="flex-1 bg-purple-100 text-purple-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
                         <i class="fas fa-sort text-xs"></i>
                         <span>Distancia</span>
-                    </button>
-                    <button class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
-                        <i class="fas fa-clock text-xs"></i>
-                        <span>Reciente</span>
                     </button>
                 </div>
             </div>
 
             <!-- Lista de perfiles -->
-            <div class="bg-white">
-                <!-- Perfil 1 -->
-                <div class="profile-card border-b border-gray-100">
-                    <div class="flex items-center p-4">
-                        <div class="relative mr-4">
-                            <img src="https://placehold.co/80x80/6366F1/white?text=AM" alt="Andrés Martínez" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
-                            <span class="absolute -bottom-1 -right-1 status-dot status-online"></span>
-                            <span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
-                                <i class="fas fa-check text-xs"></i>
-                            </span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center mb-1">
-                                <h3 class="text-sm font-semibold text-gray-800 truncate">Andrés Martínez, 28</h3>
-                                <span class="ml-2 distance-badge">1.2 km</span>
-                            </div>
-                            <p class="text-xs text-gray-600 mb-2 truncate">Ingeniero de software · Madrid</p>
-                            <div class="flex flex-wrap gap-1 mb-2">
-                                <span class="badge interest-badge">Tecnología</span>
-                                <span class="badge interest-badge">Viajes</span>
-                                <span class="badge interest-badge">Fitness</span>
-                            </div>
-                            <div class="flex items-center text-xs text-green-600">
-                                <span class="status-dot status-online"></span>
-                                <span>En línea ahora</span>
-                                <span class="chat-bubble ml-2">
-                                    <i class="fas fa-comment-dots text-xs"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 ml-2">
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-heart text-xs"></i>
-                            </button>
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-comment text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Perfil 2 -->
-                <div class="profile-card border-b border-gray-100">
-                    <div class="flex items-center p-4">
-                        <div class="relative mr-4">
-                            <img src="https://placehold.co/80x80/8B5CF6/white?text=CP" alt="Carlos Pérez" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
-                            <span class="absolute -bottom-1 -right-1 status-dot status-online"></span>
-                            <span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
-                                <i class="fas fa-check text-xs"></i>
-                            </span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center mb-1">
-                                <h3 class="text-sm font-semibold text-gray-800 truncate">Carlos Pérez, 31</h3>
-                                <span class="ml-2 distance-badge">1.8 km</span>
-                            </div>
-                            <p class="text-xs text-gray-600 mb-2 truncate">Diseñador UX/UI · Barcelona</p>
-                            <div class="flex flex-wrap gap-1 mb-2">
-                                <span class="badge interest-badge">Diseño</span>
-                                <span class="badge interest-badge">Cine</span>
-                                <span class="badge interest-badge">Música</span>
-                            </div>
-                            <div class="flex items-center text-xs text-green-600">
-                                <span class="status-dot status-online"></span>
-                                <span>En línea ahora</span>
-                                <span class="chat-bubble ml-2">
-                                    <i class="fas fa-comment-dots text-xs"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 ml-2">
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-heart text-xs"></i>
-                            </button>
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-comment text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Perfil 3 -->
-                <div class="profile-card border-b border-gray-100">
-                    <div class="flex items-center p-4">
-                        <div class="relative mr-4">
-                            <img src="https://placehold.co/80x80/EC4899/white?text=DF" alt="Daniel Fernández" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
-                            <span class="absolute -bottom-1 -right-1 status-dot status-away"></span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center mb-1">
-                                <h3 class="text-sm font-semibold text-gray-800 truncate">Daniel Fernández, 26</h3>
-                                <span class="ml-2 distance-badge">2.3 km</span>
-                            </div>
-                            <p class="text-xs text-gray-600 mb-2 truncate">Estudiante de medicina · Valencia</p>
-                            <div class="flex flex-wrap gap-1 mb-2">
-                                <span class="badge interest-badge">Medicina</span>
-                                <span class="badge interest-badge">Lectura</span>
-                                <span class="badge interest-badge">Naturaleza</span>
-                            </div>
-                            <div class="flex items-center text-xs text-yellow-600">
-                                <span class="status-dot status-away"></span>
-                                <span>Ausente</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 ml-2">
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-heart text-xs"></i>
-                            </button>
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-comment text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Perfil 4 -->
-                <div class="profile-card border-b border-gray-100">
-                    <div class="flex items-center p-4">
-                        <div class="relative mr-4">
-                            <img src="https://placehold.co/80x80/10B981/white?text=EM" alt="Eduardo Martínez" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
-                            <span class="absolute -bottom-1 -right-1 status-dot status-online"></span>
-                            <span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
-                                <i class="fas fa-check text-xs"></i>
-                            </span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center mb-1">
-                                <h3 class="text-sm font-semibold text-gray-800 truncate">Eduardo Martínez, 33</h3>
-                                <span class="ml-2 distance-badge">3.1 km</span>
-                            </div>
-                            <p class="text-xs text-gray-600 mb-2 truncate">Arquitecto · Sevilla</p>
-                            <div class="flex flex-wrap gap-1 mb-2">
-                                <span class="badge interest-badge">Arquitectura</span>
-                                <span class="badge interest-badge">Fotografía</span>
-                                <span class="badge interest-badge">Café</span>
-                            </div>
-                            <div class="flex items-center text-xs text-green-600">
-                                <span class="status-dot status-online"></span>
-                                <span>En línea ahora</span>
-                                <span class="chat-bubble ml-2">
-                                    <i class="fas fa-comment-dots text-xs"></i>
-                                </span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 ml-2">
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-heart text-xs"></i>
-                            </button>
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-comment text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Perfil 5 -->
-                <div class="profile-card border-b border-gray-100">
-                    <div class="flex items-center p-4">
-                        <div class="relative mr-4">
-                            <img src="https://placehold.co/80x80/F59E0B/white?text=FC" alt="Felipe Castro" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
-                            <span class="absolute -bottom-1 -right-1 status-dot status-offline"></span>
-                        </div>
-                        <div class="flex-1 min-w-0">
-                            <div class="flex items-center mb-1">
-                                <h3 class="text-sm font-semibold text-gray-800 truncate">Felipe Castro, 29</h3>
-                                <span class="ml-2 distance-badge">3.7 km</span>
-                            </div>
-                            <p class="text-xs text-gray-600 mb-2 truncate">Chef · Bilbao</p>
-                            <div class="flex flex-wrap gap-1 mb-2">
-                                <span class="badge interest-badge">Cocina</span>
-                                <span class="badge interest-badge">Vino</span>
-                                <span class="badge interest-badge">Eventos</span>
-                            </div>
-                            <div class="flex items-center text-xs text-gray-500">
-                                <span class="status-dot status-offline"></span>
-                                <span>Últ. conexión: 2h</span>
-                            </div>
-                        </div>
-                        <div class="flex flex-col space-y-2 ml-2">
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-heart text-xs"></i>
-                            </button>
-                            <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full">
-                                <i class="fas fa-comment text-xs"></i>
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div id="profilesContainer" class="bg-white">
+                <!-- Los perfiles se generarán dinámicamente -->
             </div>
 
             <!-- Footer informativo -->
             <div class="p-4 bg-white border-t border-gray-200">
                 <div class="flex items-center justify-center text-xs text-gray-500 space-x-4">
-                    <span>📍 Ubicación activa</span>
+                    <span id="locationStatus">📍 Ubicación: Desactivada</span>
                     <span>•</span>
-                    <span>🔒 Conexión segura</span>
-                    <span>•</span>
-                    <span>👥 152 usuarios cerca</span>
+                    <span id="userCount">👥 0 usuarios cerca</span>
                 </div>
             </div>
         </main>
 
-        <!-- Modal de configuración -->
-        <div id="settingsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-            <div class="absolute bottom-0 left-0 right-0 bg-white rounded-t-3xl p-6 max-h-96 overflow-y-auto">
-                <div class="flex justify-between items-center mb-6">
-                    <h2 class="text-xl font-bold text-gray-800">Configuración</h2>
-                    <button id="closeSettings" class="text-gray-500 hover:text-gray-700">
-                        <i class="fas fa-times text-lg"></i>
+        <!-- Modal de inicio de sesión -->
+        <div id="loginModal" class="modal">
+            <div class="modal-content">
+                <div class="text-center mb-6">
+                    <div class="app-icon mx-auto mb-3">C</div>
+                    <h2 class="text-2xl font-bold text-gray-800">Bienvenido a Conexión</h2>
+                    <p class="text-gray-600 mt-2">Crea tu perfil para conectar con personas cercanas</p>
+                </div>
+                <form id="loginForm">
+                    <div class="mb-4">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
+                            Correo electrónico
+                        </label>
+                        <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-500" id="email" type="email" placeholder="tu@email.com" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
+                            Nombre
+                        </label>
+                        <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-500" id="name" type="text" placeholder="Tu nombre" required>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2" for="age">
+                            Edad
+                        </label>
+                        <select id="age" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-500" required>
+                            <option value="">Selecciona tu edad</option>
+                            <option value="18-25">18-25</option>
+                            <option value="26-35">26-35</option>
+                            <option value="36-45">36-45</option>
+                            <option value="46-55">46-55</option>
+                            <option value="56+">56+</option>
+                        </select>
+                    </div>
+                    <div class="mb-6">
+                        <label class="block text-gray-700 text-sm font-bold mb-2">
+                            Intereses (selecciona al menos 2)
+                        </label>
+                        <div class="grid grid-cols-2 gap-2">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Tecnología">
+                                <span class="ml-2 text-sm text-gray-700">Tecnología</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Viajes">
+                                <span class="ml-2 text-sm text-gray-700">Viajes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Fitness">
+                                <span class="ml-2 text-sm text-gray-700">Fitness</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Arte">
+                                <span class="ml-2 text-sm text-gray-700">Arte</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Música">
+                                <span class="ml-2 text-sm text-gray-700">Música</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Cocina">
+                                <span class="ml-2 text-sm text-gray-700">Cocina</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Lectura">
+                                <span class="ml-2 text-sm text-gray-700">Lectura</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Naturaleza">
+                                <span class="ml-2 text-sm text-gray-700">Naturaleza</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between">
+                        <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full" type="submit">
+                            Crear Perfil
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <!-- Modal de perfil -->
+        <div id="profileModal" class="modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Mi Perfil</h2>
+                    <button id="closeProfile" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="space-y-6">
-                    <div class="bg-gray-50 rounded-2xl p-4">
-                        <h3 class="font-semibold text-gray-800 mb-3">Privacidad</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-700 font-medium">Modo discreto</span>
-                                    <p class="text-xs text-gray-500">Oculta tu actividad</p>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked>
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-700 font-medium">Visibilidad</span>
-                                    <p class="text-xs text-gray-500">Quién puede verte</p>
-                                </div>
-                                <select class="border border-gray-300 rounded-lg px-3 py-1 text-sm">
-                                    <option>Cercanos (10km)</option>
-                                    <option>Solo amigos</option>
-                                    <option>Oculto</option>
-                                </select>
-                            </div>
-                        </div>
-                    </div>
+                <div id="profileContent">
+                    <!-- El contenido del perfil se generará dinámicamente -->
+                </div>
+                <button id="logoutBtn" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
+                    Cerrar Sesión
+                </button>
+            </div>
+        </div>
 
-                    <div class="bg-gray-50 rounded-2xl p-4">
-                        <h3 class="font-semibold text-gray-800 mb-3">Notificaciones</h3>
-                        <div class="space-y-3">
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-700 font-medium">Mensajes</span>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked>
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-700 font-medium">Matchs</span>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked>
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                            <div class="flex items-center justify-between">
-                                <div>
-                                    <span class="text-gray-700 font-medium">Sistema</span>
-                                </div>
-                                <label class="inline-flex relative items-center cursor-pointer">
-                                    <input type="checkbox" value="" class="sr-only peer" checked>
-                                    <div class="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-purple-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-purple-600"></div>
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="bg-gray-50 rounded-2xl p-4">
-                        <h3 class="font-semibold text-gray-800 mb-3">Seguridad</h3>
-                        <div class="space-y-3">
-                            <button class="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
-                                <i class="fas fa-shield-alt mr-2 text-purple-600"></i>
-                                Centro de seguridad
-                            </button>
-                            <button class="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
-                                <i class="fas fa-user-slash mr-2 text-purple-600"></i>
-                                Bloquear usuarios
-                            </button>
-                            <button class="w-full text-left p-2 text-sm text-gray-700 hover:bg-gray-100 rounded-lg">
-                                <i class="fas fa-exclamation-triangle mr-2 text-purple-600"></i>
-                                Reportar problema
-                            </button>
-                        </div>
-                    </div>
-
-                    <button class="w-full bg-gradient-to-r from-purple-600 to-pink-600 text-white py-3 rounded-xl font-semibold text-lg">
-                        Guardar cambios
+        <!-- Modal de filtros -->
+        <div id="filterModal" class="modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-gray-800">Filtros</h2>
+                    <button id="closeFilter" class="text-gray-500 hover:text-gray-700">
+                        <i class="fas fa-times"></i>
                     </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Distancia máxima</label>
+                        <select id="distanceFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                            <option value="5">Hasta 5 km</option>
+                            <option value="10" selected>Hasta 10 km</option>
+                            <option value="25">Hasta 25 km</option>
+                            <option value="50">Hasta 50 km</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Rango de edad</label>
+                        <select id="ageFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                            <option value="all">Todas las edades</option>
+                            <option value="18-25">18-25 años</option>
+                            <option value="26-35" selected>26-35 años</option>
+                            <option value="36-45">36-45 años</option>
+                            <option value="46+">46+ años</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label class="block text-gray-700 text-sm font-bold mb-2">Intereses</label>
+                        <div class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Tecnología">
+                                <span class="ml-2 text-sm text-gray-700">Tecnología</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Viajes">
+                                <span class="ml-2 text-sm text-gray-700">Viajes</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Fitness">
+                                <span class="ml-2 text-sm text-gray-700">Fitness</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Arte">
+                                <span class="ml-2 text-sm text-gray-700">Arte</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Música">
+                                <span class="ml-2 text-sm text-gray-700">Música</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Cocina">
+                                <span class="ml-2 text-sm text-gray-700">Cocina</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Lectura">
+                                <span class="ml-2 text-sm text-gray-700">Lectura</span>
+                            </label>
+                            <label class="inline-flex items-center">
+                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Naturaleza">
+                                <span class="ml-2 text-sm text-gray-700">Naturaleza</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="flex space-x-2 pt-2">
+                        <button id="applyFilters" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-2 px-4 rounded-lg">
+                            Aplicar
+                        </button>
+                        <button id="resetFilters" class="flex-1 bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg">
+                            Restablecer
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- Modal de notificaciones -->
-        <div id="notificationsModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50">
-            <div class="absolute top-20 right-4 bg-white rounded-2xl shadow-xl w-80 max-h-96 overflow-y-auto p-4">
+        <div id="notificationsModal" class="modal">
+            <div class="modal-content">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-lg font-bold text-gray-800">Notificaciones</h2>
+                    <h2 class="text-xl font-bold text-gray-800">Notificaciones</h2>
                     <button id="closeNotifications" class="text-gray-500 hover:text-gray-700">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
-                <div class="space-y-3">
-                    <div class="flex items-start space-x-3 p-3 bg-purple-50 rounded-lg">
-                        <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm">
-                            <i class="fas fa-heart"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-800">Andrés te dio "Me gusta"</p>
-                            <p class="text-xs text-gray-500">Hace 5 minutos</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3 p-3 bg-green-50 rounded-lg">
-                        <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm">
-                            <i class="fas fa-comment"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-800">Carlos inició una conversación</p>
-                            <p class="text-xs text-gray-500">Hace 12 minutos</p>
-                        </div>
-                    </div>
-                    <div class="flex items-start space-x-3 p-3 bg-blue-50 rounded-lg">
-                        <div class="w-8 h-8 bg-blue-600 rounded-full flex items-center justify-center text-white text-sm">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="flex-1">
-                            <p class="text-sm text-gray-800">¡Nuevo match con Daniel!</p>
-                            <p class="text-xs text-gray-500">Hace 1 hora</p>
-                        </div>
-                    </div>
+                <div id="notificationsList">
+                    <!-- Las notificaciones se generarán dinámicamente -->
                 </div>
-                <button class="w-full mt-4 text-purple-600 text-sm font-medium py-2">
+                <button id="markAllRead" class="w-full mt-4 text-purple-600 text-sm font-medium py-2">
                     Marcar todo como leído
                 </button>
             </div>
         </div>
+    </div>
 
-        <script>
-            // Funcionalidad del modal de configuración
-            const settingsBtn = document.getElementById('settingsBtn');
-            const settingsModal = document.getElementById('settingsModal');
-            const closeSettings = document.getElementById('closeSettings');
+    <script>
+        // Datos del usuario actual
+        let currentUser = null;
+        let users = [];
+        let notifications = [];
+        let userLocation = null;
+        let locationEnabled = false;
+        let filters = {
+            distance: 10,
+            age: '26-35',
+            interests: []
+        };
 
-            settingsBtn.addEventListener('click', () => {
-                settingsModal.classList.remove('hidden');
-            });
+        // Elementos del DOM
+        const loginModal = document.getElementById('loginModal');
+        const profileModal = document.getElementById('profileModal');
+        const filterModal = document.getElementById('filterModal');
+        const notificationsModal = document.getElementById('notificationsModal');
+        const profilesContainer = document.getElementById('profilesContainer');
+        const locationStatus = document.getElementById('locationStatus');
+        const userCount = document.getElementById('userCount');
+        const notificationCount = document.getElementById('notificationCount');
+        const searchInput = document.getElementById('searchInput');
 
-            closeSettings.addEventListener('click', () => {
-                settingsModal.classList.add('hidden');
-            });
+        // Mostrar modal de login al cargar si no hay usuario
+        window.onload = function() {
+            const savedUser = localStorage.getItem('currentUser');
+            if (savedUser) {
+                currentUser = JSON.parse(savedUser);
+                checkLocationPermission();
+            } else {
+                loginModal.style.display = 'block';
+            }
+            generateMockUsers();
+            renderProfiles();
+            renderNotifications();
+        };
 
-            // Cerrar modal al hacer clic fuera
-            settingsModal.addEventListener('click', (e) => {
-                if (e.target === settingsModal) {
-                    settingsModal.classList.add('hidden');
-                }
-            });
+        // Formulario de login
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const email = document.getElementById('email').value;
+            const name = document.getElementById('name').value;
+            const age = document.getElementById('age').value;
+            const interestCheckboxes = document.querySelectorAll('input[type="checkbox"][value]:checked');
+            const interests = Array.from(interestCheckboxes).map(cb => cb.value);
+            
+            if (interests.length < 2) {
+                alert('Por favor selecciona al menos 2 intereses');
+                return;
+            }
 
-            // Funcionalidad del modal de notificaciones
-            const notificationsBtn = document.getElementById('notificationsBtn');
-            const notificationsModal = document.getElementById('notificationsModal');
-            const closeNotifications = document.getElementById('closeNotifications');
+            currentUser = {
+                id: Date.now().toString(),
+                email: email,
+                name: name,
+                age: age,
+                interests: interests,
+                createdAt: new Date().toISOString(),
+                lastActive: new Date().toISOString()
+            };
 
-            notificationsBtn.addEventListener('click', () => {
-                notificationsModal.classList.remove('hidden');
-            });
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            loginModal.style.display = 'none';
+            
+            checkLocationPermission();
+            generateMockUsers();
+            renderProfiles();
+        });
 
-            closeNotifications.addEventListener('click', () => {
-                notificationsModal.classList.add('hidden');
-            });
-
-            notificationsModal.addEventListener('click', (e) => {
-                if (e.target === notificationsModal) {
-                    notificationsModal.classList.add('hidden');
-                }
-            });
-
-            // Interacción con perfiles
-            const profileCards = document.querySelectorAll('.profile-card');
-            profileCards.forEach(card => {
-                card.addEventListener('click', function() {
-                    const name = this.querySelector('h3').textContent.split(',')[0];
-                    alert(`Has seleccionado a ${name}. Esta aplicación está diseñada para conexiones discretas y seguras.`);
-                });
-            });
-
-            // Cambiar entre pestañas
-            const tabs = document.querySelectorAll('.flex button');
-            tabs.forEach(tab => {
-                tab.addEventListener('click', function() {
-                    tabs.forEach(t => {
-                        t.classList.remove('tab-active');
-                        t.classList.add('tab-inactive');
-                    });
-                    this.classList.remove('tab-inactive');
-                    this.classList.add('tab-active');
-                });
-            });
-
-            // Acción de me gusta
-            const likeButtons = document.querySelectorAll('.fa-heart');
-            likeButtons.forEach(button => {
-                button.closest('.action-btn').addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const icon = this.querySelector('i');
-                    if (icon.classList.contains('fa-heart')) {
-                        icon.classList.remove('fa-heart');
-                        icon.classList.add('fa-heart');
-                        icon.style.color = '#6366F1';
-                        setTimeout(() => {
-                            icon.style.color = '';
-                        }, 500);
+        // Verificar permiso de ubicación
+        function checkLocationPermission() {
+            if (navigator.geolocation) {
+                navigator.permissions.query({name: 'geolocation'}).then(function(result) {
+                    if (result.state === 'granted') {
+                        updateUserLocation();
+                        locationEnabled = true;
+                        locationStatus.textContent = '📍 Ubicación: Activada';
+                    } else if (result.state === 'prompt') {
+                        requestLocationPermission();
+                    } else {
+                        locationStatus.textContent = '📍 Ubicación: Denegada';
+                        alert('Para una mejor experiencia, por favor activa la ubicación en tu navegador');
                     }
                 });
+            } else {
+                locationStatus.textContent = '📍 Ubicación: No soportada';
+                alert('Tu navegador no soporta geolocalización');
+            }
+        }
+
+        // Solicitar permiso de ubicación
+        function requestLocationPermission() {
+            if (confirm('¿Permitir acceso a tu ubicación para encontrar personas cercanas?')) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            timestamp: new Date().toISOString()
+                        };
+                        locationEnabled = true;
+                        locationStatus.textContent = '📍 Ubicación: Activada';
+                        updateUserLocation();
+                        renderProfiles();
+                    },
+                    function(error) {
+                        console.log('Error de geolocalización:', error);
+                        locationStatus.textContent = '📍 Ubicación: Denegada';
+                        alert('No se pudo obtener tu ubicación. Por favor actívala en la configuración de tu navegador.');
+                    },
+                    {timeout: 10000, maximumAge: 60000}
+                );
+            } else {
+                locationStatus.textContent = '📍 Ubicación: Desactivada';
+            }
+        }
+
+        // Actualizar ubicación del usuario
+        function updateUserLocation() {
+            if (navigator.geolocation && locationEnabled) {
+                navigator.geolocation.getCurrentPosition(
+                    function(position) {
+                        userLocation = {
+                            lat: position.coords.latitude,
+                            lng: position.coords.longitude,
+                            timestamp: new Date().toISOString()
+                        };
+                        locationEnabled = true;
+                        locationStatus.textContent = '📍 Ubicación: Activada';
+                        renderProfiles();
+                    },
+                    function(error) {
+                        console.log('Error al actualizar ubicación:', error);
+                    },
+                    {timeout: 5000, maximumAge: 30000}
+                );
+            }
+        }
+
+        // Calcular distancia entre dos puntos (fórmula de Haversine)
+        function calculateDistance(lat1, lon1, lat2, lon2) {
+            const R = 6371; // Radio de la Tierra en km
+            const dLat = (lat2 - lat1) * Math.PI / 180;
+            const dLon = (lon2 - lon1) * Math.PI / 180;
+            const a = 
+                Math.sin(dLat/2) * Math.sin(dLat/2) +
+                Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) * 
+                Math.sin(dLon/2) * Math.sin(dLon/2);
+            const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
+            const distance = R * c;
+            return distance;
+        }
+
+        // Generar usuarios de prueba
+        function generateMockUsers() {
+            const names = ['Andrés', 'Carlos', 'Daniel', 'Eduardo', 'Felipe', 'Gabriel', 'Hugo', 'Iván', 'Javier', 'Luis'];
+            const cities = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Málaga', 'Zaragoza', 'Murcia', 'Palma', 'Alicante'];
+            const interestsList = ['Tecnología', 'Viajes', 'Fitness', 'Arte', 'Música', 'Cocina', 'Lectura', 'Naturaleza'];
+            
+            users = [];
+            
+            for (let i = 0; i < 20; i++) {
+                // Generar ubicación aleatoria cercana al usuario (si está disponible)
+                let lat, lng;
+                if (userLocation) {
+                    // Variación de ±0.1 grados (aproximadamente ±11 km)
+                    lat = userLocation.lat + (Math.random() - 0.5) * 0.2;
+                    lng = userLocation.lng + (Math.random() - 0.5) * 0.2;
+                } else {
+                    // Ubicación aleatoria en España
+                    lat = 40 + (Math.random() - 0.5) * 10;
+                    lng = -4 + (Math.random() - 0.5) * 10;
+                }
+                
+                const numInterests = 2 + Math.floor(Math.random() * 3); // 2-4 intereses
+                const userInterests = [];
+                const shuffled = [...interestsList].sort(() => 0.5 - Math.random());
+                for (let j = 0; j < numInterests; j++) {
+                    userInterests.push(shuffled[j]);
+                }
+                
+                users.push({
+                    id: `user${i}`,
+                    name: names[i % names.length],
+                    age: 25 + Math.floor(Math.random() * 20),
+                    city: cities[i % cities.length],
+                    interests: userInterests,
+                    lat: lat,
+                    lng: lng,
+                    lastActive: new Date(Date.now() - Math.random() * 3600000).toISOString(), // Última actividad en la última hora
+                    verified: Math.random() > 0.7,
+                    avatar: `https://placehold.co/80x80/${['6366F1', '8B5CF6', 'EC4899', '10B981', 'F59E0B'][i % 5]}/white?text=${names[i % names.length][0]}`
+                });
+            }
+        }
+
+        // Filtrar y ordenar perfiles
+        function getFilteredProfiles() {
+            if (!userLocation) return [];
+
+            let filtered = users.filter(user => {
+                const distance = calculateDistance(userLocation.lat, userLocation.lng, user.lat, user.lng);
+                const ageMatch = filters.age === 'all' || 
+                    (filters.age === '18-25' && user.age >= 18 && user.age <= 25) ||
+                    (filters.age === '26-35' && user.age >= 26 && user.age <= 35) ||
+                    (filters.age === '36-45' && user.age >= 36 && user.age <= 45) ||
+                    (filters.age === '46+' && user.age >= 46);
+                
+                const distanceMatch = distance <= filters.distance;
+                const interestMatch = filters.interests.length === 0 || 
+                    filters.interests.some(interest => user.interests.includes(interest));
+                
+                return distanceMatch && ageMatch && interestMatch;
             });
 
-            // Acción de mensaje
-            const messageButtons = document.querySelectorAll('.fa-comment');
-            messageButtons.forEach(button => {
-                button.closest('.action-btn').addEventListener('click', function(e) {
-                    e.stopPropagation();
-                    const name = this.closest('.profile-card').querySelector('h3').textContent.split(',')[0];
-                    alert(`Iniciando conversación con ${name}...`);
+            // Aplicar búsqueda
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(user => 
+                    user.name.toLowerCase().includes(searchTerm) ||
+                    user.interests.some(interest => interest.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            // Ordenar por distancia
+            filtered.sort((a, b) => {
+                const distA = calculateDistance(userLocation.lat, userLocation.lng, a.lat, a.lng);
+                const distB = calculateDistance(userLocation.lat, userLocation.lng, b.lat, b.lng);
+                return distA - distB;
+            });
+
+            return filtered;
+        }
+
+        // Renderizar perfiles
+        function renderProfiles() {
+            const filteredProfiles = getFilteredProfiles();
+            userCount.textContent = `👥 ${filteredProfiles.length} usuarios cerca`;
+            
+            profilesContainer.innerHTML = '';
+            
+            if (filteredProfiles.length === 0) {
+                profilesContainer.innerHTML = `
+                    <div class="p-8 text-center">
+                        <i class="fas fa-user-friends text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">No hay usuarios cercanos con estos filtros</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            filteredProfiles.forEach(user => {
+                const distance = calculateDistance(userLocation.lat, userLocation.lng, user.lat, user.lng);
+                const lastActive = new Date(user.lastActive);
+                const now = new Date();
+                const minutesAgo = Math.floor((now - lastActive) / 60000);
+                const hoursAgo = Math.floor(minutesAgo / 60);
+                
+                let statusText, statusClass, statusDot;
+                if (minutesAgo < 5) {
+                    statusText = 'En línea ahora';
+                    statusClass = 'text-green-600';
+                    statusDot = 'status-online';
+                } else if (hoursAgo < 1) {
+                    statusText = `En línea hace ${minutesAgo} min`;
+                    statusClass = 'text-yellow-600';
+                    statusDot = 'status-away';
+                } else {
+                    statusText = `Últ. conexión: ${hoursAgo}h`;
+                    statusClass = 'text-gray-500';
+                    statusDot = 'status-offline';
+                }
+                
+                const profileHTML = `
+                    <div class="profile-card border-b border-gray-100">
+                        <div class="flex items-center p-4">
+                            <div class="relative mr-4">
+                                <img src="${user.avatar}" alt="${user.name}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                                <span class="absolute -bottom-1 -right-1 status-dot ${statusDot}"></span>
+                                ${user.verified ? `<span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
+                                    <i class="fas fa-check text-xs"></i>
+                                </span>` : ''}
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <div class="flex items-center mb-1">
+                                    <h3 class="text-sm font-semibold text-gray-800 truncate">${user.name}, ${user.age}</h3>
+                                    <span class="ml-2 distance-badge">${distance.toFixed(1)} km</span>
+                                </div>
+                                <p class="text-xs text-gray-600 mb-2 truncate">${user.interests.slice(0, 2).join(', ')}</p>
+                                <div class="flex flex-wrap gap-1 mb-2">
+                                    ${user.interests.slice(0, 3).map(interest => `
+                                        <span class="badge interest-badge">${interest}</span>
+                                    `).join('')}
+                                </div>
+                                <div class="flex items-center text-xs ${statusClass}">
+                                    <span class="status-dot ${statusDot}"></span>
+                                    <span>${statusText}</span>
+                                </div>
+                            </div>
+                            <div class="flex flex-col space-y-2 ml-2">
+                                <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full like-btn" data-id="${user.id}">
+                                    <i class="fas fa-heart text-xs"></i>
+                                </button>
+                                <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full message-btn" data-id="${user.id}">
+                                    <i class="fas fa-comment text-xs"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                
+                profilesContainer.innerHTML += profileHTML;
+            });
+            
+            // Añadir eventos a los botones
+            document.querySelectorAll('.like-btn').forEach(btn => {
+                btn.addEventListener('click', handleLike);
+            });
+            
+            document.querySelectorAll('.message-btn').forEach(btn => {
+                btn.addEventListener('click', handleMessage);
+            });
+        }
+
+        // Manejar "Me gusta"
+        function handleLike(e) {
+            e.stopPropagation();
+            const userId = e.currentTarget.getAttribute('data-id');
+            const user = users.find(u => u.id === userId);
+            
+            // Crear notificación
+            const notification = {
+                id: Date.now().toString(),
+                type: 'like',
+                userId: userId,
+                userName: user.name,
+                userAvatar: user.avatar,
+                timestamp: new Date().toISOString(),
+                read: false
+            };
+            
+            notifications.unshift(notification);
+            saveNotifications();
+            renderNotifications();
+            renderProfiles();
+            
+            // Animación
+            const icon = e.currentTarget.querySelector('i');
+            icon.classList.remove('fa-heart');
+            icon.classList.add('fa-heart');
+            icon.style.color = '#6366F1';
+            setTimeout(() => {
+                icon.style.color = '';
+            }, 500);
+        }
+
+        // Manejar mensaje
+        function handleMessage(e) {
+            e.stopPropagation();
+            const userId = e.currentTarget.getAttribute('data-id');
+            const user = users.find(u => u.id === userId);
+            
+            // Crear notificación de chat
+            const notification = {
+                id: Date.now().toString(),
+                type: 'message',
+                userId: userId,
+                userName: user.name,
+                userAvatar: user.avatar,
+                message: '¡Hola! Me gustaría conocerte mejor.',
+                timestamp: new Date().toISOString(),
+                read: false
+            };
+            
+            notifications.unshift(notification);
+            saveNotifications();
+            renderNotifications();
+            renderProfiles();
+            
+            alert(`Mensaje enviado a ${user.name}. Pronto podrás conversar en la pestaña de mensajes.`);
+        }
+
+        // Renderizar notificaciones
+        function renderNotifications() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            notificationCount.textContent = unreadCount > 0 ? unreadCount.toString() : '0';
+            
+            const notificationsList = document.getElementById('notificationsList');
+            if (!notifications.length) {
+                notificationsList.innerHTML = `
+                    <div class="p-8 text-center">
+                        <i class="fas fa-bell-slash text-4xl text-gray-300 mb-4"></i>
+                        <p class="text-gray-500">No tienes notificaciones</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            notificationsList.innerHTML = notifications.map(notification => {
+                const time = new Date(notification.timestamp);
+                const now = new Date();
+                const minutesAgo = Math.floor((now - time) / 60000);
+                const hoursAgo = Math.floor(minutesAgo / 60);
+                const daysAgo = Math.floor(hoursAgo / 24);
+                
+                let timeText;
+                if (daysAgo > 0) {
+                    timeText = `${daysAgo}d`;
+                } else if (hoursAgo > 0) {
+                    timeText = `${hoursAgo}h`;
+                } else {
+                    timeText = `${minutesAgo}m`;
+                }
+                
+                let content;
+                if (notification.type === 'like') {
+                    content = `
+                        <div class="w-8 h-8 bg-purple-600 rounded-full flex items-center justify-center text-white text-sm">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800"><strong>${notification.userName}</strong> te dio "Me gusta"</p>
+                            <p class="text-xs text-gray-500">${timeText} atrás</p>
+                        </div>
+                    `;
+                } else if (notification.type === 'message') {
+                    content = `
+                        <div class="w-8 h-8 bg-green-600 rounded-full flex items-center justify-center text-white text-sm">
+                            <i class="fas fa-comment"></i>
+                        </div>
+                        <div class="flex-1">
+                            <p class="text-sm text-gray-800"><strong>${notification.userName}</strong> inició una conversación</p>
+                            <p class="text-xs text-gray-500 truncate">${notification.message}</p>
+                            <p class="text-xs text-gray-500 mt-1">${timeText} atrás</p>
+                        </div>
+                    `;
+                }
+                
+                return `
+                    <div class="flex items-start space-x-3 p-3 ${notification.read ? 'bg-white' : 'bg-blue-50'} rounded-lg mb-2 notification-item" data-id="${notification.id}">
+                        ${content}
+                    </div>
+                `;
+            }).join('');
+            
+            // Añadir eventos a las notificaciones
+            document.querySelectorAll('.notification-item').forEach(item => {
+                item.addEventListener('click', function() {
+                    const id = this.getAttribute('data-id');
+                    markNotificationAsRead(id);
                 });
             });
-        </script>
-    </div>
+        }
+
+        // Marcar notificación como leída
+        function markNotificationAsRead(id) {
+            const notification = notifications.find(n => n.id === id);
+            if (notification && !notification.read) {
+                notification.read = true;
+                saveNotifications();
+                renderNotifications();
+                renderProfiles();
+            }
+        }
+
+        // Marcar todas como leídas
+        document.getElementById('markAllRead').addEventListener('click', function() {
+            notifications.forEach(n => n.read = true);
+            saveNotifications();
+            renderNotifications();
+        });
+
+        // Guardar notificaciones
+        function saveNotifications() {
+            // Mantener solo las últimas 50 notificaciones
+            if (notifications.length > 50) {
+                notifications = notifications.slice(0, 50);
+            }
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        // Eventos de modales
+        document.getElementById('profileBtn').addEventListener('click', function() {
+            if (!currentUser) {
+                loginModal.style.display = 'block';
+                return;
+            }
+            
+            const profileContent = document.getElementById('profileContent');
+            profileContent.innerHTML = `
+                <div class="text-center mb-6">
+                    <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
+                        ${currentUser.name.charAt(0)}
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800">${currentUser.name}</h3>
+                    <p class="text-gray-600">${currentUser.email}</p>
+                    <p class="text-gray-500 text-sm">Miembro desde ${new Date(currentUser.createdAt).toLocaleDateString()}</p>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-gray-800 mb-3">Información</h4>
+                    <div class="space-y-2">
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Edad:</span>
+                            <span class="font-medium">${currentUser.age}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Intereses:</span>
+                            <span class="font-medium">${currentUser.interests.join(', ')}</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-gray-600">Estado:</span>
+                            <span class="font-medium text-green-600">En línea</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 rounded-xl p-4">
+                    <h4 class="font-semibold text-gray-800 mb-3">Estadísticas</h4>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-600">${notifications.filter(n => n.type === 'like').length}</div>
+                            <div class="text-xs text-gray-600">Likes</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-600">${notifications.filter(n => n.type === 'message').length}</div>
+                            <div class="text-xs text-gray-600">Mensajes</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-600">${users.length}</div>
+                            <div class="text-xs text-gray-600">Usuarios vistos</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            profileModal.style.display = 'block';
+        });
+
+        document.getElementById('closeProfile').addEventListener('click', function() {
+            profileModal.style.display = 'none';
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', function() {
+            if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                localStorage.removeItem('currentUser');
+                localStorage.removeItem('notifications');
+                currentUser = null;
+                notifications = [];
+                location.reload();
+            }
+        });
+
+        // Filtros
+        document.getElementById('filterBtn').addEventListener('click', function() {
+            filterModal.style.display = 'block';
+        });
+
+        document.getElementById('closeFilter').addEventListener('click', function() {
+            filterModal.style.display = 'none';
+        });
+
+        document.getElementById('applyFilters').addEventListener('click', function() {
+            filters.distance = parseInt(document.getElementById('distanceFilter').value);
+            filters.age = document.getElementById('ageFilter').value;
+            filters.interests = Array.from(document.querySelectorAll('#filterModal input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            
+            filterModal.style.display = 'none';
+            renderProfiles();
+        });
+
+        document.getElementById('resetFilters').addEventListener('click', function() {
+            document.getElementById('distanceFilter').value = '10';
+            document.getElementById('ageFilter').value = '26-35';
+            document.querySelectorAll('#filterModal input[type="checkbox"]').forEach(cb => cb.checked = false);
+            filters = {
+                distance: 10,
+                age: '26-35',
+                interests: []
+            };
+            renderProfiles();
+        });
+
+        // Notificaciones
+        document.getElementById('notificationsBtn').addEventListener('click', function() {
+            notificationsModal.style.display = 'block';
+        });
+
+        document.getElementById('closeNotifications').addEventListener('click', function() {
+            notificationsModal.style.display = 'none';
+        });
+
+        // Pestañas
+        document.getElementById('tabNearby').addEventListener('click', function() {
+            document.getElementById('tabNearby').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            // El contenido de cercanos ya está visible
+        });
+
+        document.getElementById('tabMessages').addEventListener('click', function() {
+            document.getElementById('tabNearby').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            
+            profilesContainer.innerHTML = `
+                <div class="p-8 text-center">
+                    <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
+                    <p class="text-gray-500 mb-4">Mensajes</p>
+                    <p class="text-sm text-gray-400">Aquí verás tus conversaciones</p>
+                </div>
+            `;
+        });
+
+        document.getElementById('tabProfile').addEventListener('click', function() {
+            document.getElementById('tabNearby').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            document.getElementById('tabProfile').className = 'tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1';
+            
+            if (!currentUser) {
+                loginModal.style.display = 'block';
+                return;
+            }
+            
+            profilesContainer.innerHTML = `
+                <div class="p-8 text-center">
+                    <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
+                        ${currentUser.name.charAt(0)}
+                    </div>
+                    <h3 class="text-xl font-bold text-gray-800 mb-2">${currentUser.name}</h3>
+                    <p class="text-gray-600 mb-4">${currentUser.email}</p>
+                    <div class="bg-gray-50 rounded-xl p-4 mb-4">
+                        <h4 class="font-semibold text-gray-800 mb-3">Información</h4>
+                        <div class="space-y-2 text-sm">
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Edad:</span>
+                                <span class="font-medium">${currentUser.age}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Intereses:</span>
+                                <span class="font-medium">${currentUser.interests.join(', ')}</span>
+                            </div>
+                            <div class="flex justify-between">
+                                <span class="text-gray-600">Miembro desde:</span>
+                                <span class="font-medium">${new Date(currentUser.createdAt).toLocaleDateString()}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button id="editProfileBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg mr-2">
+                        Editar perfil
+                    </button>
+                    <button id="logoutBtnFooter" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg">
+                        Cerrar sesión
+                    </button>
+                </div>
+            `;
+            
+            document.getElementById('logoutBtnFooter').addEventListener('click', function() {
+                if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
+                    localStorage.removeItem('currentUser');
+                    localStorage.removeItem('notifications');
+                    currentUser = null;
+                    notifications = [];
+                    location.reload();
+                }
+            });
+        });
+
+        // Búsqueda
+        searchInput.addEventListener('input', function() {
+            renderProfiles();
+        });
+
+        // Actualizar ubicación periódicamente
+        setInterval(function() {
+            if (locationEnabled && currentUser) {
+                updateUserLocation();
+            }
+        }, 30000); // Cada 30 segundos
+
+        // Cerrar modales al hacer clic fuera
+        window.onclick = function(event) {
+            if (event.target === loginModal) {
+                loginModal.style.display = 'none';
+            }
+            if (event.target === profileModal) {
+                profileModal.style.display = 'none';
+            }
+            if (event.target === filterModal) {
+                filterModal.style.display = 'none';
+            }
+            if (event.target === notificationsModal) {
+                notificationsModal.style.display = 'none';
+            }
+        };
+    </script>
 </body>
 </html>
