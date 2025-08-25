@@ -3,22 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Conexión Segura</title>
+    <title>Conexión Privada</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f8f9fa;
+            background-color: #0f172a;
+            color: #e2e8f0;
         }
         .profile-card {
             transition: all 0.2s ease;
-            border: 1px solid #f1f5f9;
+            border: 1px solid #334155;
+            background: linear-gradient(135deg, #1e293b, #334155);
         }
         .profile-card:hover {
             transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
         }
         .online-status {
             width: 8px;
@@ -51,9 +53,10 @@
         .tab-active {
             color: #6366F1;
             font-weight: 600;
+            border-bottom-2 border-purple-600;
         }
         .tab-inactive {
-            color: #6b7280;
+            color: #94a3b8;
         }
         .badge {
             font-size: 0.65rem;
@@ -62,8 +65,9 @@
             font-weight: 500;
         }
         .interest-badge {
-            background-color: #f3f4f6;
-            color: #4b5563;
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
         }
         .verified-badge {
             background: linear-gradient(90deg, #10B981, #059669);
@@ -113,38 +117,122 @@
             width: 100%;
             height: 100%;
             overflow: auto;
-            background-color: rgba(0,0,0,0.5);
+            background-color: rgba(0,0,0,0.8);
         }
         .modal-content {
-            background-color: #fefefe;
-            margin: 10% auto;
+            background-color: #1e293b;
+            margin: 5% auto;
             padding: 20px;
             border-radius: 12px;
             width: 90%;
             max-width: 500px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            border: 1px solid #334155;
+        }
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: #e2e8f0;
+            font-weight: 500;
+        }
+        .form-control {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #334155;
+            border-radius: 0.5rem;
+            background-color: #334155;
+            color: #e2e8f0;
+            font-size: 0.875rem;
+        }
+        .form-control:focus {
+            outline: none;
+            border-color: #6366F1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
+        }
+        .checkbox-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-top: 0.5rem;
+        }
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+        }
+        .checkbox-item input[type="checkbox"] {
+            margin-right: 0.5rem;
+        }
+        .btn-primary {
+            background: linear-gradient(135deg, #6366F1, #8B5CF6);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.3);
+        }
+        .btn-secondary {
+            background-color: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .btn-danger {
+            background-color: #DC2626;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            cursor: pointer;
+        }
+        .tribu-badge {
+            background: linear-gradient(45deg, #8B5CF6, #EC4899);
+            color: white;
+            font-weight: 500;
+        }
+        .rol-badge {
+            background: linear-gradient(45deg, #059669, #10B981);
+            color: white;
+            font-weight: 500;
+        }
+        .preferencia-badge {
+            background: linear-gradient(45deg, #F59E0B, #D97706);
+            color: white;
+            font-weight: 500;
         }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-900">
     <div id="app">
         <!-- Header -->
-        <header class="bg-white border-b border-gray-200 shadow-sm">
+        <header class="bg-gray-800 border-b border-gray-700 shadow-sm">
             <div class="max-w-md mx-auto px-4 py-3">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="app-icon">C</div>
                         <div>
-                            <h1 class="text-lg font-semibold text-gray-800">Conexión</h1>
-                            <p class="text-xs text-gray-500">Conexiones discretas</p>
+                            <h1 class="text-lg font-semibold text-white">Conexión</h1>
+                            <p class="text-xs text-gray-400">Privada & Segura</p>
                         </div>
                     </div>
                     <div class="flex items-center space-x-2">
-                        <button id="notificationsBtn" class="p-2 text-gray-600 hover:text-gray-800 relative">
+                        <button id="notificationsBtn" class="p-2 text-gray-400 hover:text-white relative">
                             <i class="fas fa-bell text-sm"></i>
                             <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-4 w-4 flex items-center justify-center">0</span>
                         </button>
-                        <button id="profileBtn" class="p-2 text-gray-600 hover:text-gray-800">
+                        <button id="profileBtn" class="p-2 text-gray-400 hover:text-white">
                             <i class="fas fa-user text-sm"></i>
                         </button>
                     </div>
@@ -153,18 +241,18 @@
         </header>
 
         <!-- Pestañas de navegación -->
-        <div class="max-w-md mx-auto bg-white border-b border-gray-200">
+        <div class="max-w-md mx-auto bg-gray-800 border-b border-gray-700">
             <div class="flex">
                 <button id="tabNearby" class="tab-active flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
-                    <i class="fas fa-users text-purple-600"></i>
+                    <i class="fas fa-users text-purple-400"></i>
                     <span>Cercanos</span>
                 </button>
                 <button id="tabMessages" class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
-                    <i class="fas fa-comments text-gray-500"></i>
+                    <i class="fas fa-comments text-gray-400"></i>
                     <span>Mensajes</span>
                 </button>
                 <button id="tabProfile" class="tab-inactive flex-1 py-4 text-sm font-medium flex items-center justify-center space-x-1">
-                    <i class="fas fa-user text-gray-500"></i>
+                    <i class="fas fa-user text-gray-400"></i>
                     <span>Mi Perfil</span>
                 </button>
             </div>
@@ -173,19 +261,19 @@
         <!-- Contenido principal -->
         <main class="max-w-md mx-auto">
             <!-- Barra de búsqueda y filtros -->
-            <div class="p-4 bg-white border-b border-gray-200">
+            <div class="p-4 bg-gray-800 border-b border-gray-700">
                 <div class="relative mb-3">
-                    <input type="text" id="searchInput" placeholder="Buscar por nombre o interés..." class="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm search-input">
+                    <input type="text" id="searchInput" placeholder="Buscar..." class="w-full pl-10 pr-4 py-2 border border-gray-600 rounded-xl focus:outline-none focus:ring-2 focus:ring-purple-500 focus:border-transparent text-sm search-input bg-gray-700 text-white placeholder-gray-400">
                     <div class="absolute left-3 top-2.5 text-gray-400">
                         <i class="fas fa-search text-sm"></i>
                     </div>
                 </div>
                 <div class="flex space-x-2">
-                    <button id="filterBtn" class="flex-1 bg-gray-100 text-gray-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                    <button id="filterBtn" class="flex-1 bg-gray-700 text-gray-300 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
                         <i class="fas fa-sliders-h text-xs"></i>
                         <span>Filtros</span>
                     </button>
-                    <button id="sortBtn" class="flex-1 bg-purple-100 text-purple-700 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
+                    <button id="sortBtn" class="flex-1 bg-purple-900 text-purple-200 text-xs py-2 px-3 rounded-lg flex items-center justify-center space-x-1">
                         <i class="fas fa-sort text-xs"></i>
                         <span>Distancia</span>
                     </button>
@@ -193,13 +281,13 @@
             </div>
 
             <!-- Lista de perfiles -->
-            <div id="profilesContainer" class="bg-white">
+            <div id="profilesContainer" class="bg-gray-800">
                 <!-- Los perfiles se generarán dinámicamente -->
             </div>
 
             <!-- Footer informativo -->
-            <div class="p-4 bg-white border-t border-gray-200">
-                <div class="flex items-center justify-center text-xs text-gray-500 space-x-4">
+            <div class="p-4 bg-gray-800 border-t border-gray-700">
+                <div class="flex items-center justify-center text-xs text-gray-400 space-x-4">
                     <span id="locationStatus">📍 Ubicación: Desactivada</span>
                     <span>•</span>
                     <span id="userCount">👥 0 usuarios cerca</span>
@@ -207,32 +295,23 @@
             </div>
         </main>
 
-        <!-- Modal de inicio de sesión -->
+        <!-- Modal de inicio de sesión/registro -->
         <div id="loginModal" class="modal">
             <div class="modal-content">
                 <div class="text-center mb-6">
                     <div class="app-icon mx-auto mb-3">C</div>
-                    <h2 class="text-2xl font-bold text-gray-800">Bienvenido a Conexión</h2>
-                    <p class="text-gray-600 mt-2">Crea tu perfil para conectar con personas cercanas</p>
+                    <h2 class="text-2xl font-bold text-white">Bienvenido</h2>
+                    <p class="text-gray-300 mt-2">Completa tu perfil para conectar con personas compatibles</p>
                 </div>
-                <form id="loginForm">
-                    <div class="mb-4">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="email">
-                            Correo electrónico
-                        </label>
-                        <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-500" id="email" type="email" placeholder="tu@email.com" required>
+                <form id="profileForm">
+                    <div class="form-group">
+                        <label class="form-label" for="nombre">Nombre</label>
+                        <input class="form-control" id="nombre" type="text" placeholder="Tu nombre" required>
                     </div>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="name">
-                            Nombre
-                        </label>
-                        <input class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-500" id="name" type="text" placeholder="Tu nombre" required>
-                    </div>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2" for="age">
-                            Edad
-                        </label>
-                        <select id="age" class="shadow appearance-none border rounded-lg w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline focus:border-purple-500" required>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="edad">Edad</label>
+                        <select id="edad" class="form-control" required>
                             <option value="">Selecciona tu edad</option>
                             <option value="18-25">18-25</option>
                             <option value="26-35">26-35</option>
@@ -241,48 +320,105 @@
                             <option value="56+">56+</option>
                         </select>
                     </div>
-                    <div class="mb-6">
-                        <label class="block text-gray-700 text-sm font-bold mb-2">
-                            Intereses (selecciona al menos 2)
-                        </label>
-                        <div class="grid grid-cols-2 gap-2">
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Tecnología">
-                                <span class="ml-2 text-sm text-gray-700">Tecnología</span>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Género</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="Hombre"> Hombre
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Viajes">
-                                <span class="ml-2 text-sm text-gray-700">Viajes</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="Transexual"> Transexual
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Fitness">
-                                <span class="ml-2 text-sm text-gray-700">Fitness</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Arte">
-                                <span class="ml-2 text-sm text-gray-700">Arte</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Música">
-                                <span class="ml-2 text-sm text-gray-700">Música</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Cocina">
-                                <span class="ml-2 text-sm text-gray-700">Cocina</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Lectura">
-                                <span class="ml-2 text-sm text-gray-700">Lectura</span>
-                            </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Naturaleza">
-                                <span class="ml-2 text-sm text-gray-700">Naturaleza</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="No binario"> No binario
                             </label>
                         </div>
                     </div>
-                    <div class="flex items-center justify-between">
-                        <button class="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-bold py-2 px-4 rounded-lg focus:outline-none focus:shadow-outline w-full" type="submit">
-                            Crear Perfil
+                    
+                    <div class="form-group">
+                        <label class="form-label">Rol</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Pasivo"> Pasivo
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Activo"> Activo
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Versátil"> Versátil
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tribus</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Bears"> Bears
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Leather"> Leather
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Twink"> Twink
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Jock"> Jock
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Otaku"> Otaku
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Goth"> Goth
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Raver"> Raver
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Muscular"> Muscular
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Preferencias</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Anal"> Anal
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Oral"> Oral
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Grupal"> Grupal
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Fisting"> Fisting
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Juegos de roles"> Juegos de roles
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Exhibicionismo"> Exhibicionismo
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="descripcion">Descripción (opcional)</label>
+                        <textarea id="descripcion" class="form-control" rows="3" placeholder="Cuéntanos sobre ti..."></textarea>
+                    </div>
+                    
+                    <div class="flex space-x-2 pt-2">
+                        <button type="submit" class="btn-primary flex-1">
+                            <i class="fas fa-user-plus mr-2"></i> Crear Perfil
                         </button>
                     </div>
                 </form>
@@ -293,17 +429,151 @@
         <div id="profileModal" class="modal">
             <div class="modal-content">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Mi Perfil</h2>
-                    <button id="closeProfile" class="text-gray-500 hover:text-gray-700">
+                    <h2 class="text-xl font-bold text-white">Mi Perfil</h2>
+                    <button id="closeProfile" class="text-gray-400 hover:text-white">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div id="profileContent">
                     <!-- El contenido del perfil se generará dinámicamente -->
                 </div>
-                <button id="logoutBtn" class="w-full mt-4 bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded-lg">
-                    Cerrar Sesión
-                </button>
+                <div class="flex space-x-2 mt-4">
+                    <button id="editProfileBtn" class="btn-secondary flex-1">
+                        <i class="fas fa-edit mr-2"></i> Editar
+                    </button>
+                    <button id="logoutBtn" class="btn-danger">
+                        <i class="fas fa-sign-out-alt mr-2"></i> Salir
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Modal de edición de perfil -->
+        <div id="editProfileModal" class="modal">
+            <div class="modal-content">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-xl font-bold text-white">Editar Perfil</h2>
+                    <button id="closeEditProfile" class="text-gray-400 hover:text-white">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+                <form id="editProfileForm">
+                    <div class="form-group">
+                        <label class="form-label" for="editNombre">Nombre</label>
+                        <input class="form-control" id="editNombre" type="text" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="editEdad">Edad</label>
+                        <select id="editEdad" class="form-control" required>
+                            <option value="18-25">18-25</option>
+                            <option value="26-35">26-35</option>
+                            <option value="36-45">36-45</option>
+                            <option value="46-55">46-55</option>
+                            <option value="56+">56+</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Género</label>
+                        <div class="checkbox-group" id="editGenero">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="Hombre"> Hombre
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="Transexual"> Transexual
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="No binario"> No binario
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Rol</label>
+                        <div class="checkbox-group" id="editRol">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Pasivo"> Pasivo
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Activo"> Activo
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Versátil"> Versátil
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Tribus</label>
+                        <div class="checkbox-group" id="editTribu">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Bears"> Bears
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Leather"> Leather
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Twink"> Twink
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Jock"> Jock
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Otaku"> Otaku
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Goth"> Goth
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Raver"> Raver
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Muscular"> Muscular
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Preferencias</label>
+                        <div class="checkbox-group" id="editPreferencia">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Anal"> Anal
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Oral"> Oral
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Grupal"> Grupal
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Fisting"> Fisting
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Juegos de roles"> Juegos de roles
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Exhibicionismo"> Exhibicionismo
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label" for="editDescripcion">Descripción</label>
+                        <textarea id="editDescripcion" class="form-control" rows="3"></textarea>
+                    </div>
+                    
+                    <div class="flex space-x-2 pt-2">
+                        <button type="button" id="cancelEdit" class="btn-secondary flex-1">Cancelar</button>
+                        <button type="submit" class="btn-primary flex-1">Guardar</button>
+                    </div>
+                </form>
             </div>
         </div>
 
@@ -311,24 +581,24 @@
         <div id="filterModal" class="modal">
             <div class="modal-content">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Filtros</h2>
-                    <button id="closeFilter" class="text-gray-500 hover:text-gray-700">
+                    <h2 class="text-xl font-bold text-white">Filtros</h2>
+                    <button id="closeFilter" class="text-gray-400 hover:text-white">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div class="space-y-4">
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Distancia máxima</label>
-                        <select id="distanceFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                    <div class="form-group">
+                        <label class="form-label">Distancia máxima</label>
+                        <select id="distanceFilter" class="form-control">
                             <option value="5">Hasta 5 km</option>
                             <option value="10" selected>Hasta 10 km</option>
                             <option value="25">Hasta 25 km</option>
                             <option value="50">Hasta 50 km</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Rango de edad</label>
-                        <select id="ageFilter" class="w-full border border-gray-300 rounded-lg px-3 py-2">
+                    <div class="form-group">
+                        <label class="form-label">Rango de edad</label>
+                        <select id="ageFilter" class="form-control">
                             <option value="all">Todas las edades</option>
                             <option value="18-25">18-25 años</option>
                             <option value="26-35" selected>26-35 años</option>
@@ -336,50 +606,95 @@
                             <option value="46+">46+ años</option>
                         </select>
                     </div>
-                    <div>
-                        <label class="block text-gray-700 text-sm font-bold mb-2">Intereses</label>
-                        <div class="grid grid-cols-2 gap-2 max-h-40 overflow-y-auto">
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Tecnología">
-                                <span class="ml-2 text-sm text-gray-700">Tecnología</span>
+                    <div class="form-group">
+                        <label class="form-label">Género</label>
+                        <div class="checkbox-group" id="filterGenero">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="Hombre"> Hombre
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Viajes">
-                                <span class="ml-2 text-sm text-gray-700">Viajes</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="Transexual"> Transexual
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Fitness">
-                                <span class="ml-2 text-sm text-gray-700">Fitness</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="genero" value="No binario"> No binario
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Arte">
-                                <span class="ml-2 text-sm text-gray-700">Arte</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rol</label>
+                        <div class="checkbox-group" id="filterRol">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Pasivo"> Pasivo
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Música">
-                                <span class="ml-2 text-sm text-gray-700">Música</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Activo"> Activo
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Cocina">
-                                <span class="ml-2 text-sm text-gray-700">Cocina</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="rol" value="Versátil"> Versátil
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Lectura">
-                                <span class="ml-2 text-sm text-gray-700">Lectura</span>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Tribus</label>
+                        <div class="checkbox-group" id="filterTribu">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Bears"> Bears
                             </label>
-                            <label class="inline-flex items-center">
-                                <input type="checkbox" class="form-checkbox h-4 w-4 text-purple-600" value="Naturaleza">
-                                <span class="ml-2 text-sm text-gray-700">Naturaleza</span>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Leather"> Leather
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Twink"> Twink
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Jock"> Jock
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Otaku"> Otaku
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Goth"> Goth
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Raver"> Raver
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="tribu" value="Muscular"> Muscular
+                            </label>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Preferencias</label>
+                        <div class="checkbox-group" id="filterPreferencia">
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Anal"> Anal
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Oral"> Oral
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Masturbación"> Masturbación
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Sadomaso"> Sadomaso
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Grupal"> Grupal
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Fisting"> Fisting
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Juegos de roles"> Juegos de roles
+                            </label>
+                            <label class="checkbox-item">
+                                <input type="checkbox" name="preferencia" value="Exhibicionismo"> Exhibicionismo
                             </label>
                         </div>
                     </div>
                     <div class="flex space-x-2 pt-2">
-                        <button id="applyFilters" class="flex-1 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold py-2 px-4 rounded-lg">
-                            Aplicar
-                        </button>
-                        <button id="resetFilters" class="flex-1 bg-gray-300 text-gray-700 font-bold py-2 px-4 rounded-lg">
-                            Restablecer
-                        </button>
+                        <button id="applyFilters" class="btn-primary flex-1">Aplicar</button>
+                        <button id="resetFilters" class="btn-secondary flex-1">Restablecer</button>
                     </div>
                 </div>
             </div>
@@ -389,15 +704,15 @@
         <div id="notificationsModal" class="modal">
             <div class="modal-content">
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-bold text-gray-800">Notificaciones</h2>
-                    <button id="closeNotifications" class="text-gray-500 hover:text-gray-700">
+                    <h2 class="text-xl font-bold text-white">Notificaciones</h2>
+                    <button id="closeNotifications" class="text-gray-400 hover:text-white">
                         <i class="fas fa-times"></i>
                     </button>
                 </div>
                 <div id="notificationsList">
                     <!-- Las notificaciones se generarán dinámicamente -->
                 </div>
-                <button id="markAllRead" class="w-full mt-4 text-purple-600 text-sm font-medium py-2">
+                <button id="markAllRead" class="w-full mt-4 text-purple-400 text-sm font-medium py-2">
                     Marcar todo como leído
                 </button>
             </div>
@@ -414,12 +729,16 @@
         let filters = {
             distance: 10,
             age: '26-35',
-            interests: []
+            genero: [],
+            rol: [],
+            tribu: [],
+            preferencia: []
         };
 
         // Elementos del DOM
         const loginModal = document.getElementById('loginModal');
         const profileModal = document.getElementById('profileModal');
+        const editProfileModal = document.getElementById('editProfileModal');
         const filterModal = document.getElementById('filterModal');
         const notificationsModal = document.getElementById('notificationsModal');
         const profilesContainer = document.getElementById('profilesContainer');
@@ -442,27 +761,47 @@
             renderNotifications();
         };
 
-        // Formulario de login
-        document.getElementById('loginForm').addEventListener('submit', function(e) {
+        // Formulario de perfil
+        document.getElementById('profileForm').addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const email = document.getElementById('email').value;
-            const name = document.getElementById('name').value;
-            const age = document.getElementById('age').value;
-            const interestCheckboxes = document.querySelectorAll('input[type="checkbox"][value]:checked');
-            const interests = Array.from(interestCheckboxes).map(cb => cb.value);
+            const nombre = document.getElementById('nombre').value;
+            const edad = document.getElementById('edad').value;
             
-            if (interests.length < 2) {
-                alert('Por favor selecciona al menos 2 intereses');
+            // Obtener arrays de checkboxes
+            const genero = Array.from(document.querySelectorAll('input[name="genero"]:checked')).map(cb => cb.value);
+            const rol = Array.from(document.querySelectorAll('input[name="rol"]:checked')).map(cb => cb.value);
+            const tribu = Array.from(document.querySelectorAll('input[name="tribu"]:checked')).map(cb => cb.value);
+            const preferencia = Array.from(document.querySelectorAll('input[name="preferencia"]:checked')).map(cb => cb.value);
+            const descripcion = document.getElementById('descripcion').value;
+            
+            // Validaciones
+            if (genero.length === 0) {
+                alert('Por favor selecciona al menos un género');
+                return;
+            }
+            if (rol.length === 0) {
+                alert('Por favor selecciona al menos un rol');
+                return;
+            }
+            if (tribu.length === 0) {
+                alert('Por favor selecciona al menos una tribu');
+                return;
+            }
+            if (preferencia.length === 0) {
+                alert('Por favor selecciona al menos una preferencia');
                 return;
             }
 
             currentUser = {
                 id: Date.now().toString(),
-                email: email,
-                name: name,
-                age: age,
-                interests: interests,
+                nombre: nombre,
+                edad: edad,
+                genero: genero,
+                rol: rol,
+                tribu: tribu,
+                preferencia: preferencia,
+                descripcion: descripcion,
                 createdAt: new Date().toISOString(),
                 lastActive: new Date().toISOString()
             };
@@ -561,13 +900,16 @@
 
         // Generar usuarios de prueba
         function generateMockUsers() {
-            const names = ['Andrés', 'Carlos', 'Daniel', 'Eduardo', 'Felipe', 'Gabriel', 'Hugo', 'Iván', 'Javier', 'Luis'];
-            const cities = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Málaga', 'Zaragoza', 'Murcia', 'Palma', 'Alicante'];
-            const interestsList = ['Tecnología', 'Viajes', 'Fitness', 'Arte', 'Música', 'Cocina', 'Lectura', 'Naturaleza'];
+            const nombres = ['Andrés', 'Carlos', 'Daniel', 'Eduardo', 'Felipe', 'Gabriel', 'Hugo', 'Iván', 'Javier', 'Luis', 'Miguel', 'Nicolás', 'Oscar', 'Pablo', 'Raúl', 'Sergio', 'Tomás', 'Víctor', 'Xavier', 'Yago'];
+            const ciudades = ['Madrid', 'Barcelona', 'Valencia', 'Sevilla', 'Bilbao', 'Málaga', 'Zaragoza', 'Murcia', 'Palma', 'Alicante'];
+            const generos = ['Hombre', 'Transexual', 'No binario'];
+            const roles = ['Pasivo', 'Activo', 'Versátil'];
+            const tribus = ['Bears', 'Leather', 'Twink', 'Jock', 'Otaku', 'Goth', 'Raver', 'Muscular'];
+            const preferencias = ['Anal', 'Oral', 'Masturbación', 'Sadomaso', 'Grupal', 'Fisting', 'Juegos de roles', 'Exhibicionismo'];
             
             users = [];
             
-            for (let i = 0; i < 20; i++) {
+            for (let i = 0; i < 25; i++) {
                 // Generar ubicación aleatoria cercana al usuario (si está disponible)
                 let lat, lng;
                 if (userLocation) {
@@ -580,53 +922,94 @@
                     lng = -4 + (Math.random() - 0.5) * 10;
                 }
                 
-                const numInterests = 2 + Math.floor(Math.random() * 3); // 2-4 intereses
-                const userInterests = [];
-                const shuffled = [...interestsList].sort(() => 0.5 - Math.random());
-                for (let j = 0; j < numInterests; j++) {
-                    userInterests.push(shuffled[j]);
+                const numGeneros = 1 + Math.floor(Math.random() * 2); // 1-2 géneros
+                const numRoles = 1 + Math.floor(Math.random() * 2); // 1-2 roles
+                const numTribus = 1 + Math.floor(Math.random() * 3); // 1-3 tribus
+                const numPreferencias = 2 + Math.floor(Math.random() * 4); // 2-5 preferencias
+                
+                const userGeneros = [];
+                const userRoles = [];
+                const userTribus = [];
+                const userPreferencias = [];
+                
+                const shuffledGeneros = [...generos].sort(() => 0.5 - Math.random());
+                const shuffledRoles = [...roles].sort(() => 0.5 - Math.random());
+                const shuffledTribus = [...tribus].sort(() => 0.5 - Math.random());
+                const shuffledPreferencias = [...preferencias].sort(() => 0.5 - Math.random());
+                
+                for (let j = 0; j < numGeneros; j++) {
+                    userGeneros.push(shuffledGeneros[j]);
+                }
+                for (let j = 0; j < numRoles; j++) {
+                    userRoles.push(shuffledRoles[j]);
+                }
+                for (let j = 0; j < numTribus; j++) {
+                    userTribus.push(shuffledTribus[j]);
+                }
+                for (let j = 0; j < numPreferencias; j++) {
+                    userPreferencias.push(shuffledPreferencias[j]);
                 }
                 
                 users.push({
                     id: `user${i}`,
-                    name: names[i % names.length],
-                    age: 25 + Math.floor(Math.random() * 20),
-                    city: cities[i % cities.length],
-                    interests: userInterests,
+                    nombre: nombres[i % nombres.length],
+                    edad: 22 + Math.floor(Math.random() * 25),
+                    ciudad: ciudades[i % ciudades.length],
+                    genero: userGeneros,
+                    rol: userRoles,
+                    tribu: userTribus,
+                    preferencia: userPreferencias,
+                    descripcion: `Hola, soy ${nombres[i % nombres.length]} y me encanta conocer gente nueva. Busco conexiones reales y momentos especiales.`,
                     lat: lat,
                     lng: lng,
                     lastActive: new Date(Date.now() - Math.random() * 3600000).toISOString(), // Última actividad en la última hora
                     verified: Math.random() > 0.7,
-                    avatar: `https://placehold.co/80x80/${['6366F1', '8B5CF6', 'EC4899', '10B981', 'F59E0B'][i % 5]}/white?text=${names[i % names.length][0]}`
+                    avatar: `https://placehold.co/80x80/${['6366F1', '8B5CF6', 'EC4899', '10B981', 'F59E0B', '059669', 'DC2626', '7C3AED'][i % 8]}/white?text=${nombres[i % nombres.length][0]}`
                 });
             }
         }
 
         // Filtrar y ordenar perfiles
         function getFilteredProfiles() {
-            if (!userLocation) return [];
+            if (!userLocation || !currentUser) return [];
 
             let filtered = users.filter(user => {
                 const distance = calculateDistance(userLocation.lat, userLocation.lng, user.lat, user.lng);
                 const ageMatch = filters.age === 'all' || 
-                    (filters.age === '18-25' && user.age >= 18 && user.age <= 25) ||
-                    (filters.age === '26-35' && user.age >= 26 && user.age <= 35) ||
-                    (filters.age === '36-45' && user.age >= 36 && user.age <= 45) ||
-                    (filters.age === '46+' && user.age >= 46);
+                    (filters.age === '18-25' && user.edad >= 18 && user.edad <= 25) ||
+                    (filters.age === '26-35' && user.edad >= 26 && user.edad <= 35) ||
+                    (filters.age === '36-45' && user.edad >= 36 && user.edad <= 45) ||
+                    (filters.age === '46+' && user.edad >= 46);
                 
                 const distanceMatch = distance <= filters.distance;
-                const interestMatch = filters.interests.length === 0 || 
-                    filters.interests.some(interest => user.interests.includes(interest));
                 
-                return distanceMatch && ageMatch && interestMatch;
+                const generoMatch = filters.genero.length === 0 || 
+                    filters.genero.some(g => user.genero.includes(g));
+                
+                const rolMatch = filters.rol.length === 0 || 
+                    filters.rol.some(r => user.rol.includes(r));
+                
+                const tribuMatch = filters.tribu.length === 0 || 
+                    filters.tribu.some(t => user.tribu.includes(t));
+                
+                const preferenciaMatch = filters.preferencia.length === 0 || 
+                    filters.preferencia.some(p => user.preferencia.includes(p));
+                
+                // No mostrar al usuario actual
+                const notCurrentUser = user.id !== currentUser.id;
+                
+                return distanceMatch && ageMatch && generoMatch && rolMatch && tribuMatch && preferenciaMatch && notCurrentUser;
             });
 
             // Aplicar búsqueda
             const searchTerm = searchInput.value.toLowerCase();
             if (searchTerm) {
                 filtered = filtered.filter(user => 
-                    user.name.toLowerCase().includes(searchTerm) ||
-                    user.interests.some(interest => interest.toLowerCase().includes(searchTerm))
+                    user.nombre.toLowerCase().includes(searchTerm) ||
+                    user.genero.some(g => g.toLowerCase().includes(searchTerm)) ||
+                    user.rol.some(r => r.toLowerCase().includes(searchTerm)) ||
+                    user.tribu.some(t => t.toLowerCase().includes(searchTerm)) ||
+                    user.preferencia.some(p => p.toLowerCase().includes(searchTerm))
                 );
             }
 
@@ -650,8 +1033,8 @@
             if (filteredProfiles.length === 0) {
                 profilesContainer.innerHTML = `
                     <div class="p-8 text-center">
-                        <i class="fas fa-user-friends text-4xl text-gray-300 mb-4"></i>
-                        <p class="text-gray-500">No hay usuarios cercanos con estos filtros</p>
+                        <i class="fas fa-user-friends text-4xl text-gray-500 mb-4"></i>
+                        <p class="text-gray-400">No hay usuarios cercanos con estos filtros</p>
                     </div>
                 `;
                 return;
@@ -667,23 +1050,23 @@
                 let statusText, statusClass, statusDot;
                 if (minutesAgo < 5) {
                     statusText = 'En línea ahora';
-                    statusClass = 'text-green-600';
+                    statusClass = 'text-green-400';
                     statusDot = 'status-online';
                 } else if (hoursAgo < 1) {
                     statusText = `En línea hace ${minutesAgo} min`;
-                    statusClass = 'text-yellow-600';
+                    statusClass = 'text-yellow-400';
                     statusDot = 'status-away';
                 } else {
                     statusText = `Últ. conexión: ${hoursAgo}h`;
-                    statusClass = 'text-gray-500';
+                    statusClass = 'text-gray-400';
                     statusDot = 'status-offline';
                 }
                 
                 const profileHTML = `
-                    <div class="profile-card border-b border-gray-100">
+                    <div class="profile-card border-b border-gray-700">
                         <div class="flex items-center p-4">
                             <div class="relative mr-4">
-                                <img src="${user.avatar}" alt="${user.name}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
+                                <img src="${user.avatar}" alt="${user.nombre}" class="w-14 h-14 rounded-2xl object-cover shadow-sm">
                                 <span class="absolute -bottom-1 -right-1 status-dot ${statusDot}"></span>
                                 ${user.verified ? `<span class="absolute -top-1 -right-1 verified-badge text-xs px-1 py-0.5 rounded-full">
                                     <i class="fas fa-check text-xs"></i>
@@ -691,13 +1074,20 @@
                             </div>
                             <div class="flex-1 min-w-0">
                                 <div class="flex items-center mb-1">
-                                    <h3 class="text-sm font-semibold text-gray-800 truncate">${user.name}, ${user.age}</h3>
+                                    <h3 class="text-sm font-semibold text-white truncate">${user.nombre}, ${user.edad}</h3>
                                     <span class="ml-2 distance-badge">${distance.toFixed(1)} km</span>
                                 </div>
-                                <p class="text-xs text-gray-600 mb-2 truncate">${user.interests.slice(0, 2).join(', ')}</p>
                                 <div class="flex flex-wrap gap-1 mb-2">
-                                    ${user.interests.slice(0, 3).map(interest => `
-                                        <span class="badge interest-badge">${interest}</span>
+                                    ${user.genero.slice(0, 2).map(genero => `
+                                        <span class="badge interest-badge">${genero}</span>
+                                    `).join('')}
+                                    ${user.rol.slice(0, 1).map(rol => `
+                                        <span class="badge rol-badge">${rol}</span>
+                                    `).join('')}
+                                </div>
+                                <div class="flex flex-wrap gap-1 mb-2">
+                                    ${user.tribu.slice(0, 2).map(tribu => `
+                                        <span class="badge tribu-badge">${tribu}</span>
                                     `).join('')}
                                 </div>
                                 <div class="flex items-center text-xs ${statusClass}">
@@ -706,10 +1096,10 @@
                                 </div>
                             </div>
                             <div class="flex flex-col space-y-2 ml-2">
-                                <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full like-btn" data-id="${user.id}">
+                                <button class="action-btn p-2 text-gray-400 hover:text-purple-400 bg-gray-700 rounded-full like-btn" data-id="${user.id}">
                                     <i class="fas fa-heart text-xs"></i>
                                 </button>
-                                <button class="action-btn p-2 text-gray-400 hover:text-purple-600 bg-gray-100 rounded-full message-btn" data-id="${user.id}">
+                                <button class="action-btn p-2 text-gray-400 hover:text-purple-400 bg-gray-700 rounded-full message-btn" data-id="${user.id}">
                                     <i class="fas fa-comment text-xs"></i>
                                 </button>
                             </div>
@@ -741,7 +1131,7 @@
                 id: Date.now().toString(),
                 type: 'like',
                 userId: userId,
-                userName: user.name,
+                userName: user.nombre,
                 userAvatar: user.avatar,
                 timestamp: new Date().toISOString(),
                 read: false
@@ -773,9 +1163,9 @@
                 id: Date.now().toString(),
                 type: 'message',
                 userId: userId,
-                userName: user.name,
+                userName: user.nombre,
                 userAvatar: user.avatar,
-                message: '¡Hola! Me gustaría conocerte mejor.',
+                message: '¿Te gustaría conocernos?',
                 timestamp: new Date().toISOString(),
                 read: false
             };
@@ -785,7 +1175,7 @@
             renderNotifications();
             renderProfiles();
             
-            alert(`Mensaje enviado a ${user.name}. Pronto podrás conversar en la pestaña de mensajes.`);
+            alert(`Mensaje enviado a ${user.nombre}. Pronto podrás conversar en la pestaña de mensajes.`);
         }
 
         // Renderizar notificaciones
@@ -797,8 +1187,8 @@
             if (!notifications.length) {
                 notificationsList.innerHTML = `
                     <div class="p-8 text-center">
-                        <i class="fas fa-bell-slash text-4xl text-gray-300 mb-4"></i>
-                        <p class="text-gray-500">No tienes notificaciones</p>
+                        <i class="fas fa-bell-slash text-4xl text-gray-500 mb-4"></i>
+                        <p class="text-gray-400">No tienes notificaciones</p>
                     </div>
                 `;
                 return;
@@ -827,8 +1217,8 @@
                             <i class="fas fa-heart"></i>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm text-gray-800"><strong>${notification.userName}</strong> te dio "Me gusta"</p>
-                            <p class="text-xs text-gray-500">${timeText} atrás</p>
+                            <p class="text-sm text-white"><strong>${notification.userName}</strong> te dio "Me gusta"</p>
+                            <p class="text-xs text-gray-400">${timeText} atrás</p>
                         </div>
                     `;
                 } else if (notification.type === 'message') {
@@ -837,15 +1227,15 @@
                             <i class="fas fa-comment"></i>
                         </div>
                         <div class="flex-1">
-                            <p class="text-sm text-gray-800"><strong>${notification.userName}</strong> inició una conversación</p>
-                            <p class="text-xs text-gray-500 truncate">${notification.message}</p>
-                            <p class="text-xs text-gray-500 mt-1">${timeText} atrás</p>
+                            <p class="text-sm text-white"><strong>${notification.userName}</strong> inició una conversación</p>
+                            <p class="text-xs text-gray-400 truncate">${notification.message}</p>
+                            <p class="text-xs text-gray-400 mt-1">${timeText} atrás</p>
                         </div>
                     `;
                 }
                 
                 return `
-                    <div class="flex items-start space-x-3 p-3 ${notification.read ? 'bg-white' : 'bg-blue-50'} rounded-lg mb-2 notification-item" data-id="${notification.id}">
+                    <div class="flex items-start space-x-3 p-3 ${notification.read ? 'bg-gray-700' : 'bg-gray-700'} rounded-lg mb-2 notification-item" data-id="${notification.id}">
                         ${content}
                     </div>
                 `;
@@ -887,66 +1277,201 @@
             localStorage.setItem('notifications', JSON.stringify(notifications));
         }
 
-        // Eventos de modales
+        // Mostrar perfil
         document.getElementById('profileBtn').addEventListener('click', function() {
             if (!currentUser) {
                 loginModal.style.display = 'block';
                 return;
             }
             
+            showProfile();
+            profileModal.style.display = 'block';
+        });
+
+        function showProfile() {
             const profileContent = document.getElementById('profileContent');
             profileContent.innerHTML = `
                 <div class="text-center mb-6">
                     <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-2xl font-bold">
-                        ${currentUser.name.charAt(0)}
+                        ${currentUser.nombre.charAt(0)}
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800">${currentUser.name}</h3>
-                    <p class="text-gray-600">${currentUser.email}</p>
-                    <p class="text-gray-500 text-sm">Miembro desde ${new Date(currentUser.createdAt).toLocaleDateString()}</p>
+                    <h3 class="text-xl font-bold text-white">${currentUser.nombre}</h3>
+                    <p class="text-gray-300">${currentUser.edad}</p>
+                    <p class="text-gray-400 text-sm">Miembro desde ${new Date(currentUser.createdAt).toLocaleDateString()}</p>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-4 mb-4">
-                    <h4 class="font-semibold text-gray-800 mb-3">Información</h4>
-                    <div class="space-y-2">
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Edad:</span>
-                            <span class="font-medium">${currentUser.age}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Intereses:</span>
-                            <span class="font-medium">${currentUser.interests.join(', ')}</span>
-                        </div>
-                        <div class="flex justify-between">
-                            <span class="text-gray-600">Estado:</span>
-                            <span class="font-medium text-green-600">En línea</span>
-                        </div>
+                
+                <div class="bg-gray-700 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-white mb-3 flex items-center">
+                        <i class="fas fa-venus-mars mr-2"></i> Género
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${currentUser.genero.map(genero => `
+                            <span class="badge interest-badge">${genero}</span>
+                        `).join('')}
                     </div>
                 </div>
-                <div class="bg-gray-50 rounded-xl p-4">
-                    <h4 class="font-semibold text-gray-800 mb-3">Estadísticas</h4>
+                
+                <div class="bg-gray-700 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-white mb-3 flex items-center">
+                        <i class="fas fa-user-tag mr-2"></i> Rol
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${currentUser.rol.map(rol => `
+                            <span class="badge rol-badge">${rol}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-white mb-3 flex items-center">
+                        <i class="fas fa-users mr-2"></i> Tribus
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${currentUser.tribu.map(tribu => `
+                            <span class="badge tribu-badge">${tribu}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                <div class="bg-gray-700 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-white mb-3 flex items-center">
+                        <i class="fas fa-heart mr-2"></i> Preferencias
+                    </h4>
+                    <div class="flex flex-wrap gap-2">
+                        ${currentUser.preferencia.map(preferencia => `
+                            <span class="badge preferencia-badge">${preferencia}</span>
+                        `).join('')}
+                    </div>
+                </div>
+                
+                ${currentUser.descripcion ? `
+                <div class="bg-gray-700 rounded-xl p-4 mb-4">
+                    <h4 class="font-semibold text-white mb-3">Sobre mí</h4>
+                    <p class="text-gray-300">${currentUser.descripcion}</p>
+                </div>
+                ` : ''}
+                
+                <div class="bg-gray-700 rounded-xl p-4">
+                    <h4 class="font-semibold text-white mb-3">Estadísticas</h4>
                     <div class="grid grid-cols-3 gap-4 text-center">
                         <div>
-                            <div class="text-2xl font-bold text-purple-600">${notifications.filter(n => n.type === 'like').length}</div>
-                            <div class="text-xs text-gray-600">Likes</div>
+                            <div class="text-2xl font-bold text-purple-400">${notifications.filter(n => n.type === 'like').length}</div>
+                            <div class="text-xs text-gray-400">Likes</div>
                         </div>
                         <div>
-                            <div class="text-2xl font-bold text-green-600">${notifications.filter(n => n.type === 'message').length}</div>
-                            <div class="text-xs text-gray-600">Mensajes</div>
+                            <div class="text-2xl font-bold text-green-400">${notifications.filter(n => n.type === 'message').length}</div>
+                            <div class="text-xs text-gray-400">Mensajes</div>
                         </div>
                         <div>
-                            <div class="text-2xl font-bold text-blue-600">${users.length}</div>
-                            <div class="text-xs text-gray-600">Usuarios vistos</div>
+                            <div class="text-2xl font-bold text-blue-400">${users.length - 1}</div>
+                            <div class="text-xs text-gray-400">Usuarios vistos</div>
                         </div>
                     </div>
                 </div>
             `;
-            
-            profileModal.style.display = 'block';
-        });
+        }
 
+        // Cerrar perfil
         document.getElementById('closeProfile').addEventListener('click', function() {
             profileModal.style.display = 'none';
         });
 
+        // Editar perfil
+        document.getElementById('editProfileBtn').addEventListener('click', function() {
+            if (!currentUser) return;
+            
+            // Rellenar el formulario con los datos actuales
+            document.getElementById('editNombre').value = currentUser.nombre;
+            document.getElementById('editEdad').value = currentUser.edad;
+            
+            // Género
+            const editGenero = document.getElementById('editGenero');
+            editGenero.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = currentUser.genero.includes(cb.value);
+            });
+            
+            // Rol
+            const editRol = document.getElementById('editRol');
+            editRol.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = currentUser.rol.includes(cb.value);
+            });
+            
+            // Tribu
+            const editTribu = document.getElementById('editTribu');
+            editTribu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = currentUser.tribu.includes(cb.value);
+            });
+            
+            // Preferencia
+            const editPreferencia = document.getElementById('editPreferencia');
+            editPreferencia.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = currentUser.preferencia.includes(cb.value);
+            });
+            
+            document.getElementById('editDescripcion').value = currentUser.descripcion || '';
+            
+            editProfileModal.style.display = 'block';
+            profileModal.style.display = 'none';
+        });
+
+        // Cerrar edición de perfil
+        document.getElementById('closeEditProfile').addEventListener('click', function() {
+            editProfileModal.style.display = 'none';
+        });
+        
+        document.getElementById('cancelEdit').addEventListener('click', function() {
+            editProfileModal.style.display = 'none';
+        });
+
+        // Guardar edición de perfil
+        document.getElementById('editProfileForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const nombre = document.getElementById('editNombre').value;
+            const edad = document.getElementById('editEdad').value;
+            
+            // Obtener arrays de checkboxes
+            const genero = Array.from(document.querySelectorAll('#editGenero input[type="checkbox"]:checked')).map(cb => cb.value);
+            const rol = Array.from(document.querySelectorAll('#editRol input[type="checkbox"]:checked')).map(cb => cb.value);
+            const tribu = Array.from(document.querySelectorAll('#editTribu input[type="checkbox"]:checked')).map(cb => cb.value);
+            const preferencia = Array.from(document.querySelectorAll('#editPreferencia input[type="checkbox"]:checked')).map(cb => cb.value);
+            const descripcion = document.getElementById('editDescripcion').value;
+            
+            // Validaciones
+            if (genero.length === 0) {
+                alert('Por favor selecciona al menos un género');
+                return;
+            }
+            if (rol.length === 0) {
+                alert('Por favor selecciona al menos un rol');
+                return;
+            }
+            if (tribu.length === 0) {
+                alert('Por favor selecciona al menos una tribu');
+                return;
+            }
+            if (preferencia.length === 0) {
+                alert('Por favor selecciona al menos una preferencia');
+                return;
+            }
+
+            currentUser.nombre = nombre;
+            currentUser.edad = edad;
+            currentUser.genero = genero;
+            currentUser.rol = rol;
+            currentUser.tribu = tribu;
+            currentUser.preferencia = preferencia;
+            currentUser.descripcion = descripcion;
+            currentUser.lastActive = new Date().toISOString();
+            
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            editProfileModal.style.display = 'none';
+            showProfile();
+            profileModal.style.display = 'block';
+            renderProfiles();
+        });
+
+        // Cerrar sesión
         document.getElementById('logoutBtn').addEventListener('click', function() {
             if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
                 localStorage.removeItem('currentUser');
@@ -959,6 +1484,30 @@
 
         // Filtros
         document.getElementById('filterBtn').addEventListener('click', function() {
+            // Rellenar los checkboxes con los filtros actuales
+            const filterGenero = document.getElementById('filterGenero');
+            filterGenero.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = filters.genero.includes(cb.value);
+            });
+            
+            const filterRol = document.getElementById('filterRol');
+            filterRol.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = filters.rol.includes(cb.value);
+            });
+            
+            const filterTribu = document.getElementById('filterTribu');
+            filterTribu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = filters.tribu.includes(cb.value);
+            });
+            
+            const filterPreferencia = document.getElementById('filterPreferencia');
+            filterPreferencia.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                cb.checked = filters.preferencia.includes(cb.value);
+            });
+            
+            document.getElementById('distanceFilter').value = filters.distance;
+            document.getElementById('ageFilter').value = filters.age;
+            
             filterModal.style.display = 'block';
         });
 
@@ -969,7 +1518,13 @@
         document.getElementById('applyFilters').addEventListener('click', function() {
             filters.distance = parseInt(document.getElementById('distanceFilter').value);
             filters.age = document.getElementById('ageFilter').value;
-            filters.interests = Array.from(document.querySelectorAll('#filterModal input[type="checkbox"]:checked'))
+            filters.genero = Array.from(document.querySelectorAll('#filterGenero input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            filters.rol = Array.from(document.querySelectorAll('#filterRol input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            filters.tribu = Array.from(document.querySelectorAll('#filterTribu input[type="checkbox"]:checked'))
+                .map(cb => cb.value);
+            filters.preferencia = Array.from(document.querySelectorAll('#filterPreferencia input[type="checkbox"]:checked'))
                 .map(cb => cb.value);
             
             filterModal.style.display = 'none';
@@ -983,7 +1538,10 @@
             filters = {
                 distance: 10,
                 age: '26-35',
-                interests: []
+                genero: [],
+                rol: [],
+                tribu: [],
+                preferencia: []
             };
             renderProfiles();
         });
@@ -1012,8 +1570,8 @@
             
             profilesContainer.innerHTML = `
                 <div class="p-8 text-center">
-                    <i class="fas fa-comments text-4xl text-gray-300 mb-4"></i>
-                    <p class="text-gray-500 mb-4">Mensajes</p>
+                    <i class="fas fa-comments text-4xl text-gray-500 mb-4"></i>
+                    <p class="text-white mb-4">Mensajes</p>
                     <p class="text-sm text-gray-400">Aquí verás tus conversaciones</p>
                 </div>
             `;
@@ -1032,35 +1590,93 @@
             profilesContainer.innerHTML = `
                 <div class="p-8 text-center">
                     <div class="w-24 h-24 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
-                        ${currentUser.name.charAt(0)}
+                        ${currentUser.nombre.charAt(0)}
                     </div>
-                    <h3 class="text-xl font-bold text-gray-800 mb-2">${currentUser.name}</h3>
-                    <p class="text-gray-600 mb-4">${currentUser.email}</p>
-                    <div class="bg-gray-50 rounded-xl p-4 mb-4">
-                        <h4 class="font-semibold text-gray-800 mb-3">Información</h4>
-                        <div class="space-y-2 text-sm">
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Edad:</span>
-                                <span class="font-medium">${currentUser.age}</span>
+                    <h3 class="text-xl font-bold text-white mb-2">${currentUser.nombre}</h3>
+                    <p class="text-gray-300 mb-4">${currentUser.edad}</p>
+                    
+                    <div class="space-y-3 mb-6">
+                        <div class="bg-gray-700 rounded-xl p-3">
+                            <h4 class="font-semibold text-white text-sm mb-2">Género</h4>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                ${currentUser.genero.map(genero => `
+                                    <span class="badge interest-badge text-xs">${genero}</span>
+                                `).join('')}
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Intereses:</span>
-                                <span class="font-medium">${currentUser.interests.join(', ')}</span>
+                        </div>
+                        
+                        <div class="bg-gray-700 rounded-xl p-3">
+                            <h4 class="font-semibold text-white text-sm mb-2">Rol</h4>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                ${currentUser.rol.map(rol => `
+                                    <span class="badge rol-badge text-xs">${rol}</span>
+                                `).join('')}
                             </div>
-                            <div class="flex justify-between">
-                                <span class="text-gray-600">Miembro desde:</span>
-                                <span class="font-medium">${new Date(currentUser.createdAt).toLocaleDateString()}</span>
+                        </div>
+                        
+                        <div class="bg-gray-700 rounded-xl p-3">
+                            <h4 class="font-semibold text-white text-sm mb-2">Tribus</h4>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                ${currentUser.tribu.map(tribu => `
+                                    <span class="badge tribu-badge text-xs">${tribu}</span>
+                                `).join('')}
+                            </div>
+                        </div>
+                        
+                        <div class="bg-gray-700 rounded-xl p-3">
+                            <h4 class="font-semibold text-white text-sm mb-2">Preferencias</h4>
+                            <div class="flex flex-wrap justify-center gap-2">
+                                ${currentUser.preferencia.map(preferencia => `
+                                    <span class="badge preferencia-badge text-xs">${preferencia}</span>
+                                `).join('')}
                             </div>
                         </div>
                     </div>
-                    <button id="editProfileBtn" class="bg-gray-200 hover:bg-gray-300 text-gray-800 font-bold py-2 px-6 rounded-lg mr-2">
-                        Editar perfil
+                    
+                    <button id="editProfileBtnFooter" class="bg-gray-600 hover:bg-gray-500 text-white font-bold py-2 px-6 rounded-lg mr-2">
+                        <i class="fas fa-edit mr-1"></i> Editar
                     </button>
-                    <button id="logoutBtnFooter" class="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-6 rounded-lg">
-                        Cerrar sesión
+                    <button id="logoutBtnFooter" class="bg-red-600 hover:bg-red-500 text-white font-bold py-2 px-6 rounded-lg">
+                        <i class="fas fa-sign-out-alt mr-1"></i> Salir
                     </button>
                 </div>
             `;
+            
+            document.getElementById('editProfileBtnFooter').addEventListener('click', function() {
+                if (!currentUser) return;
+                
+                // Rellenar el formulario con los datos actuales
+                document.getElementById('editNombre').value = currentUser.nombre;
+                document.getElementById('editEdad').value = currentUser.edad;
+                
+                // Género
+                const editGenero = document.getElementById('editGenero');
+                editGenero.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = currentUser.genero.includes(cb.value);
+                });
+                
+                // Rol
+                const editRol = document.getElementById('editRol');
+                editRol.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = currentUser.rol.includes(cb.value);
+                });
+                
+                // Tribu
+                const editTribu = document.getElementById('editTribu');
+                editTribu.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = currentUser.tribu.includes(cb.value);
+                });
+                
+                // Preferencia
+                const editPreferencia = document.getElementById('editPreferencia');
+                editPreferencia.querySelectorAll('input[type="checkbox"]').forEach(cb => {
+                    cb.checked = currentUser.preferencia.includes(cb.value);
+                });
+                
+                document.getElementById('editDescripcion').value = currentUser.descripcion || '';
+                
+                editProfileModal.style.display = 'block';
+            });
             
             document.getElementById('logoutBtnFooter').addEventListener('click', function() {
                 if (confirm('¿Estás seguro de que quieres cerrar sesión?')) {
@@ -1092,6 +1708,9 @@
             }
             if (event.target === profileModal) {
                 profileModal.style.display = 'none';
+            }
+            if (event.target === editProfileModal) {
+                editProfileModal.style.display = 'none';
             }
             if (event.target === filterModal) {
                 filterModal.style.display = 'none';
