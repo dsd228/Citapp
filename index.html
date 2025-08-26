@@ -7,8 +7,8 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <script src="https://js.stripe.com/v3/"></script>
     <style>
+        /* Todos los estilos CSS originales aquí */
         :root {
             --primary: #6366F1;
             --primary-dark: #4F46E5;
@@ -35,3027 +35,7 @@
             position: relative;
         }
         
-        .logo-text {
-            font-family: 'Playfair Display', serif;
-        }
-        
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
-            position: relative;
-            overflow: hidden;
-            font-size: 0.95rem;
-        }
-        
-        .btn-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
-        }
-        
-        .btn-primary:after {
-            content: "";
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 5px;
-            height: 5px;
-            background: rgba(255, 255, 255, 0.5);
-            opacity: 0;
-            border-radius: 100%;
-            transform: scale(1, 1) translate(-50%);
-            transform-origin: 50% 50%;
-        }
-        
-        @keyframes ripple {
-            0% {
-                transform: scale(0.3);
-                opacity: 0.5;
-            }
-            100% {
-                transform: scale(30);
-                opacity: 0;
-            }
-        }
-        
-        .btn-primary:focus:not(:active)::after {
-            animation: ripple 1s ease-out;
-        }
-        
-        .btn-outline {
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            background: transparent;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-        
-        .btn-outline:hover {
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .btn-success {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 0.95rem;
-        }
-        
-        .btn-success:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 6px 20px rgba(16, 185, 129, 0.4);
-        }
-        
-        .btn-ghost {
-            background: transparent;
-            color: var(--primary);
-            border: none;
-            padding: 0.5rem;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .btn-ghost:hover {
-            background: rgba(99, 102, 241, 0.1);
-        }
-        
-        .card {
-            background: var(--card-bg);
-            backdrop-filter: blur(12px);
-            border: 1px solid var(--border);
-            border-radius: 1rem;
-            overflow: hidden;
-            transition: all 0.3s ease;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-            position: relative;
-        }
-        
-        .card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
-        }
-        
-        .profile-img {
-            width: 100%;
-            height: 300px;
-            object-fit: cover;
-            border-radius: 0.5rem;
-        }
-        
-        .badge {
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            display: inline-block;
-            margin: 0.125rem;
-        }
-        
-        .badge-primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .badge-success {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-        }
-        
-        .badge-warning {
-            background: linear-gradient(135deg, var(--warning), #D97706);
-            color: white;
-        }
-        
-        .badge-accent {
-            background: linear-gradient(135deg, var(--accent), #DB2777);
-            color: white;
-        }
-        
-        .premium-badge {
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .verified-badge {
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            margin-left: 0.5rem;
-        }
-        
-        .distance-badge {
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            position: absolute;
-            top: 0.75rem;
-            right: 0.75rem;
-            backdrop-filter: blur(5px);
-            z-index: 10;
-        }
-        
-        .online-dot {
-            width: 12px;
-            height: 12px;
-            background: var(--success);
-            border-radius: 50%;
-            border: 2px solid var(--darker);
-            position: absolute;
-            bottom: 0.5rem;
-            right: 0.5rem;
-            box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
-            z-index: 10;
-        }
-        
-        .heart-animation {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 6rem;
-            opacity: 0;
-            z-index: 50;
-            pointer-events: none;
-            animation: float 1s ease-out;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-        
-        .subscription-modal {
-            background: linear-gradient(135deg, var(--darker), #1E293B);
-            border: 1px solid var(--border);
-        }
-        
-        .feature-item {
-            display: flex;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .feature-item:last-child {
-            border-bottom: none;
-        }
-        
-        .feature-icon {
-            color: var(--primary);
-            margin-right: 0.75rem;
-            font-size: 1.25rem;
-        }
-        
-        .premium-feature {
-            background: rgba(99, 102, 241, 0.1);
-            border-left: 3px solid var(--primary);
-            padding: 0.75rem;
-            margin-bottom: 0.5rem;
-            border-radius: 0 0.5rem 0.5rem 0;
-        }
-        
-        .premium-feature i {
-            color: var(--warning);
-            margin-right: 0.5rem;
-        }
-        
-        .blur-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            z-index: 20;
-        }
-        
-        .blur-overlay:hover .unlock-text {
-            transform: scale(1.1);
-        }
-        
-        .unlock-text {
-            color: white;
-            font-weight: 600;
-            text-align: center;
-            transition: transform 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .privacy-badge {
-            background: linear-gradient(135deg, #059669, var(--success));
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .tab-active {
-            color: var(--primary);
-            font-weight: 600;
-            border-bottom: 3px solid var(--primary);
-        }
-        
-        .tab-inactive {
-            color: #94a3b8;
-        }
-        
-        .match-percentage {
-            height: 6px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 3px;
-            overflow: hidden;
-            margin: 0.5rem 0;
-            position: relative;
-        }
-        
-        .match-percentage-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--warning));
-            border-radius: 3px;
-            transition: width 1s ease;
-            position: absolute;
-            top: 0;
-            left: 0;
-        }
-        
-        @keyframes pulse {
-            0% {
-                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0.7);
-            }
-            70% {
-                box-shadow: 0 0 0 10px rgba(99, 102, 241, 0);
-            }
-            100% {
-                box-shadow: 0 0 0 0 rgba(99, 102, 241, 0);
-            }
-        }
-        
-        .pulse {
-            animation: pulse 2s infinite;
-        }
-        
-        .messages-list {
-            max-height: 400px;
-            overflow-y: auto;
-        }
-        
-        .message {
-            max-width: 70%;
-            padding: 0.75rem 1rem;
-            border-radius: 1.5rem;
-            margin-bottom: 0.5rem;
-            position: relative;
-            word-wrap: break-word;
-            animation: fadeIn 0.3s ease;
-        }
-        
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(10px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .message-received {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.2);
-            align-self: flex-start;
-            border-bottom-left-radius: 0.25rem;
-            color: var(--light);
-        }
-        
-        .message-sent {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            align-self: flex-end;
-            margin-left: auto;
-            border-bottom-right-radius: 0.25rem;
-        }
-        
-        .chat-input {
-            border: 1px solid var(--border);
-            border-radius: 1.5rem;
-            padding: 0.5rem 1rem;
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            color: white;
-            width: 100%;
-            margin-right: 0.5rem;
-        }
-        
-        .chat-input:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-        
-        .send-btn {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            border: none;
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all 0.2s ease;
-        }
-        
-        .send-btn:hover {
-            transform: scale(1.05);
-            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
-        }
-        
-        .gallery-item {
-            position: relative;
-            overflow: hidden;
-            border-radius: 0.5rem;
-            cursor: pointer;
-        }
-        
-        .gallery-item img {
-            width: 100%;
-            height: 200px;
-            object-fit: cover;
-            transition: transform 0.3s ease;
-        }
-        
-        .gallery-item:hover img {
-            transform: scale(1.05);
-        }
-        
-        .gallery-item .private-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .gallery-item:hover .private-overlay {
-            opacity: 1;
-        }
-        
-        .private-overlay i {
-            color: white;
-            font-size: 2rem;
-        }
-        
-        .private-overlay span {
-            color: white;
-            font-weight: 600;
-            margin-top: 0.5rem;
-        }
-        
-        .profile-header {
-            position: relative;
-            height: 200px;
-            overflow: hidden;
-            border-radius: 1rem 1rem 0 0;
-        }
-        
-        .profile-header img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .profile-avatar {
-            position: absolute;
-            bottom: -50px;
-            left: 1rem;
-            width: 100px;
-            height: 100px;
-            border-radius: 50%;
-            border: 5px solid var(--darker);
-            object-fit: cover;
-            border: 4px solid var(--darker);
-        }
-        
-        .profile-info {
-            margin-left: 120px;
-            padding: 1rem;
-        }
-        
-        .swipe-container {
-            position: relative;
-            height: 400px;
-        }
-        
-        .swipe-card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 1rem;
-            overflow: hidden;
-            cursor: grab;
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-        
-        .swipe-controls {
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .swipe-btn {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.5rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border: 2px solid var(--border);
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-        }
-        
-        .swipe-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .swipe-btn.like {
-            color: var(--success);
-        }
-        
-        .swipe-btn.dislike {
-            color: var(--danger);
-        }
-        
-        .swipe-btn.super-like {
-            color: var(--accent);
-        }
-        
-        .analytics-chart {
-            height: 300px;
-        }
-        
-        /* Custom scrollbar */
-        ::-webkit-scrollbar {
-            width: 8px;
-        }
-        
-        ::-webkit-scrollbar-track {
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb {
-            background: var(--primary);
-            border-radius: 10px;
-        }
-        
-        ::-webkit-scrollbar-thumb:hover {
-            background: var(--primary-dark);
-        }
-        
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 50;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            overflow: auto;
-            background-color: rgba(0,0,0,0.8);
-            backdrop-filter: blur(10px);
-        }
-        
-        .modal-content {
-            background-color: var(--darker);
-            margin: 5% auto;
-            padding: 2rem;
-            border-radius: 1rem;
-            width: 90%;
-            max-width: 500px;
-            border: 1px solid var(--border);
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
-            position: relative;
-            animation: modalFadeIn 0.3s ease;
-        }
-        
-        @keyframes modalFadeIn {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-        
-        .close {
-            color: #aaa;
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            position: absolute;
-            top: 1rem;
-            right: 1rem;
-            z-index: 10;
-            transition: color 0.3s ease;
-        }
-        
-        .close:hover,
-        .close:focus {
-            color: var(--primary);
-            text-decoration: none;
-        }
-        
-        .form-control {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 0.5rem;
-            background-color: rgba(15, 23, 42, 0.8);
-            color: var(--light);
-            font-size: 0.875rem;
-            backdrop-filter: blur(10px);
-            transition: all 0.3s ease;
-        }
-        
-        .form-control:focus {
-            outline: none;
-            border-color: var(--primary);
-            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.1);
-        }
-        
-        .checkbox-group {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin: 0.5rem 0;
-        }
-        
-        .checkbox-item {
-            display: flex;
-            align-items: center;
-        }
-        
-        .checkbox-item input[type="checkbox"] {
-            margin-right: 0.5rem;
-            accent-color: var(--primary);
-        }
-        
-        .upload-avatar {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            border: 3px dashed var(--border);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            margin: 0 auto 1rem auto;
-            color: var(--gray);
-            font-size: 2rem;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-        
-        .upload-avatar:hover {
-            border-color: var(--primary);
-            color: var(--primary);
-            transform: scale(1.05);
-        }
-        
-        .upload-avatar img {
-            width: 100%;
-            height: 100%;
-            border-radius: 50%;
-            object-fit: cover;
-        }
-        
-        .premium-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.8);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            border-radius: 0.5rem;
-            cursor: pointer;
-            z-index: 20;
-        }
-        
-        .premium-overlay:hover .premium-text {
-            transform: scale(1.05);
-        }
-        
-        .premium-text {
-            color: white;
-            text-align: center;
-            transition: transform 0.2s ease;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            gap: 0.5rem;
-        }
-        
-        .premium-text i {
-            font-size: 3rem;
-            color: var(--warning);
-        }
-        
-        .premium-text h3 {
-            font-size: 1.5rem;
-            margin: 0;
-        }
-        
-        .premium-text p {
-            margin: 0.25rem 0;
-            opacity: 0.8;
-        }
-        
-        .heart-level {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 6rem;
-            opacity: 0;
-            z-index: 50;
-            pointer-events: none;
-            animation: float 1s ease-out;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-        
-        .heart-1 { color: #EF4444; }
-        .heart-2 { color: #F59E0B; }
-        .heart-3 { color: #8B5CF6; }
-        .heart-4 { color: #059669; }
-        .heart-5 { color: #06D6A0; }
-        
-        .floating-element {
-            animation: floating 3s ease-in-out infinite;
-        }
-        
-        @keyframes floating {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-10px); }
-            100% { transform: translateY(0px); }
-        }
-        
-        .glow-effect {
-            position: relative;
-        }
-        
-        .glow-effect::after {
-            content: '';
-            position: absolute;
-            top: -2px;
-            left: -2px;
-            right: -2px;
-            bottom: -2px;
-            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
-            z-index: -1;
-            border-radius: 0.5rem;
-            animation: glowing 8s linear infinite;
-        }
-        
-        @keyframes glowing {
-            0% { opacity: 0.2; }
-            50% { opacity: 0.6; }
-            100% { opacity: 0.2; }
-        }
-        
-        .premium-tag {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            background: linear-gradient(135deg, #F59E0B, #D97706);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 10;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .verified-tag {
-            position: absolute;
-            top: 0.5rem;
-            left: 0.5rem;
-            background: linear-gradient(135deg, var(--success), #059669);
-            color: white;
-            width: 1.25rem;
-            height: 1.25rem;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 0.75rem;
-            z-index: 10;
-        }
-        
-        .match-indicator {
-            position: absolute;
-            bottom: 0.5rem;
-            left: 0.5rem;
-            background: rgba(16, 185, 129, 0.9);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 10;
-        }
-        
-        .swipe-card:hover .match-indicator {
-            animation: pulseMatch 2s infinite;
-        }
-        
-        @keyframes pulseMatch {
-            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
-            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
-        }
-        
-        .premium-lock {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: white;
-            font-size: 2rem;
-            text-align: center;
-            z-index: 20;
-        }
-        
-        .premium-lock i {
-            margin-bottom: 0.5rem;
-            color: var(--warning);
-        }
-        
-        .premium-lock p {
-            font-size: 0.9rem;
-            opacity: 0.9;
-        }
-        
-        .heart-level {
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            font-size: 6rem;
-            opacity: 0;
-            z-index: 50;
-            pointer-events: none;
-            animation: float 1s ease-out;
-        }
-        
-        @keyframes float {
-            0% {
-                transform: translate(-50%, -50%) scale(0.5);
-                opacity: 0;
-            }
-            50% {
-                opacity: 1;
-            }
-            100% {
-                transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
-                opacity: 0;
-            }
-        }
-        
-        .toast {
-            position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(15, 23, 42, 0.9);
-            color: white;
-            padding: 1rem;
-            border-radius: 0.5rem;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
-            z-index: 60;
-            transform: translateX(100%);
-            transition: transform 0.3s ease;
-            border: 1px solid var(--border);
-        }
-        
-        .toast.show {
-            transform: translateX(0);
-        }
-        
-        .toast-success {
-            border-left: 4px solid var(--success);
-        }
-        
-        .toast-error {
-            border-left: 4px solid var(--danger);
-        }
-        
-        .toast-info {
-            border-left: 4px solid var(--primary);
-        }
-        
-        .toast-close {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            font-size: 0.8rem;
-            cursor: pointer;
-            opacity: 0.7;
-        }
-        
-        .toast-close:hover {
-            opacity: 1;
-        }
-        
-        .loading {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(10px);
-            z-index: 100;
-            justify-content: center;
-            align-items: center;
-        }
-        
-        .spinner {
-            width: 50px;
-            height: 50px;
-            border: 5px solid rgba(99, 102, 241, 0.3);
-            border-radius: 50%;
-            border-top-color: var(--primary);
-            animation: spin 1s ease-in-out infinite;
-        }
-        
-        @keyframes spin {
-            to { transform: rotate(360deg); }
-        }
-        
-        .card-header {
-            background: rgba(99, 102, 241, 0.1);
-            padding: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .card-body {
-            padding: 1.5rem;
-        }
-        
-        .card-footer {
-            background: rgba(15, 23, 42, 0.5);
-            padding: 1rem;
-            border-top: 1px solid var(--border);
-        }
-        
-        .payment-method {
-            border: 2px solid var(--border);
-            border-radius: 0.5rem;
-            padding: 1rem;
-            margin-bottom: 1rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .payment-method:hover {
-            border-color: var(--primary);
-        }
-        
-        .payment-method.selected {
-            border-color: var(--primary);
-            background: rgba(99, 102, 241, 0.1);
-        }
-        
-        .payment-method i {
-            font-size: 2rem;
-            margin-right: 1rem;
-        }
-        
-        .card-number {
-            letter-spacing: 4px;
-        }
-        
-        .form-group {
-            margin-bottom: 1.5rem;
-        }
-        
-        .form-label {
-            display: block;
-            margin-bottom: 0.5rem;
-            color: #e2e8f0;
-            font-weight: 500;
-        }
-        
-        .incognito-badge {
-            background: linear-gradient(135deg, #374151, #1f2937);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .incognito-icon {
-            color: #60A5FA;
-        }
-        
-        .trial-badge {
-            background: linear-gradient(135deg, #10B981, #059669);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .trial-days {
-            font-weight: bold;
-        }
-        
-        .settings-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 0.75rem 0;
-            border-bottom: 1px solid var(--border);
-        }
-        
-        .settings-item:last-child {
-            border-bottom: none;
-        }
-        
-        .settings-label {
-            font-weight: 500;
-            color: var(--light);
-        }
-        
-        .settings-description {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 0.25rem;
-        }
-        
-        .switch {
-            position: relative;
-            display: inline-block;
-            width: 50px;
-            height: 24px;
-        }
-        
-        .switch input {
-            opacity: 0;
-            width: 0;
-            height: 0;
-        }
-        
-        .slider {
-            position: absolute;
-            cursor: pointer;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background-color: #334155;
-            transition: .4s;
-            border-radius: 24px;
-        }
-        
-        .slider:before {
-            position: absolute;
-            content: "";
-            height: 18px;
-            width: 18px;
-            left: 3px;
-            bottom: 3px;
-            background-color: white;
-            transition: .4s;
-            border-radius: 50%;
-        }
-        
-        input:checked + .slider {
-            background-color: var(--primary);
-        }
-        
-        input:checked + .slider:before {
-            transform: translateX(26px);
-        }
-        
-        .search-bar {
-            position: relative;
-            margin-bottom: 1.5rem;
-        }
-        
-        .search-bar i {
-            position: absolute;
-            left: 1rem;
-            top: 50%;
-            transform: translateY(-50%);
-            color: var(--gray);
-        }
-        
-        .search-bar input {
-            padding-left: 2.5rem;
-        }
-        
-        .filter-chips {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-        
-        .filter-chip {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .filter-chip i {
-            cursor: pointer;
-            opacity: 0.7;
-        }
-        
-        .filter-chip i:hover {
-            opacity: 1;
-        }
-        
-        .match-count {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .message-time {
-            font-size: 0.75rem;
-            color: var(--gray);
-            margin-left: 0.5rem;
-        }
-        
-        .online-status {
-            width: 8px;
-            height: 8px;
-            background: var(--success);
-            border-radius: 50%;
-            display: inline-block;
-            margin-right: 4px;
-        }
-        
-        .status-text {
-            font-size: 0.8rem;
-            color: var(--success);
-        }
-        
-        .profile-badge {
-            position: absolute;
-            top: 0.5rem;
-            right: 0.5rem;
-            z-index: 10;
-        }
-        
-        .action-buttons {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 1rem;
-        }
-        
-        .action-btn {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--border);
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .action-btn i {
-            font-size: 1.2rem;
-        }
-        
-        .action-btn.like {
-            color: var(--success);
-        }
-        
-        .action-btn.dislike {
-            color: var(--danger);
-        }
-        
-        .action-btn.message {
-            color: var(--primary);
-        }
-        
-        .action-btn.super-like {
-            color: var(--accent);
-        }
-        
-        .action-btn:hover {
-            transform: scale(1.1);
-        }
-        
-        .profile-actions {
-            display: flex;
-            gap: 1rem;
-            margin-top: 1rem;
-        }
-        
-        .profile-action-btn {
-            flex: 1;
-            padding: 0.75rem;
-            border-radius: 0.5rem;
-            font-weight: 500;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-        }
-        
-        .profile-action-btn.primary {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-        }
-        
-        .profile-action-btn.outline {
-            border: 1px solid var(--primary);
-            color: var(--primary);
-            background: transparent;
-        }
-        
-        .profile-action-btn.primary:hover {
-            transform: translateY(-2px);
-        }
-        
-        .profile-action-btn.outline:hover {
-            background: rgba(99, 102, 241, 0.1);
-            transform: translateY(-2px);
-        }
-        
-        .subscription-card {
-            border: 2px solid var(--primary);
-            background: rgba(99, 102, 241, 0.05);
-        }
-        
-        .subscription-features {
-            margin: 1.5rem 0;
-        }
-        
-        .subscription-feature {
-            display: flex;
-            align-items: center;
-            margin-bottom: 0.75rem;
-        }
-        
-        .subscription-feature i {
-            color: var(--success);
-            margin-right: 0.75rem;
-            font-size: 1.1rem;
-        }
-        
-        .subscription-price {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin: 1rem 0;
-        }
-        
-        .subscription-savings {
-            background: rgba(16, 185, 129, 0.1);
-            color: var(--success);
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-block;
-            margin-top: 0.5rem;
-        }
-        
-        .billing-cycle {
-            display: flex;
-            background: rgba(15, 23, 42, 0.5);
-            border-radius: 0.5rem;
-            overflow: hidden;
-            margin: 1rem 0;
-        }
-        
-        .billing-option {
-            flex: 1;
-            padding: 0.75rem;
-            text-align: center;
-            cursor: pointer;
-            transition: all 0.3s ease;
-        }
-        
-        .billing-option.active {
-            background: var(--primary);
-            color: white;
-            font-weight: 600;
-        }
-        
-        .security-badge {
-            background: linear-gradient(135deg, #059669, var(--success));
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.25rem;
-            margin-right: 0.5rem;
-        }
-        
-        .verified-check {
-            color: var(--success);
-            margin-right: 0.25rem;
-        }
-        
-        .profile-views {
-            display: flex;
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--gray);
-        }
-        
-        .view-count {
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .last-active {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 0.25rem;
-        }
-        
-        .interests-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .interest-item {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            text-align: center;
-        }
-        
-        .preferences-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            gap: 0.5rem;
-            margin-top: 0.5rem;
-        }
-        
-        .preference-item {
-            background: rgba(236, 72, 153, 0.1);
-            color: var(--accent);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-            text-align: center;
-        }
-        
-        .bio-text {
-            line-height: 1.6;
-            margin-top: 0.5rem;
-        }
-        
-        .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 0.5rem;
-        }
-        
-        .gallery-item-large {
-            grid-column: span 2;
-            grid-row: span 2;
-        }
-        
-        .gallery-item-small {
-            height: 120px;
-        }
-        
-        .gallery-private {
-            position: relative;
-        }
-        
-        .gallery-private::after {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: rgba(0, 0, 0, 0.6);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .gallery-private:hover::after {
-            opacity: 1;
-        }
-        
-        .gallery-private i {
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .gallery-private span {
-            color: white;
-            font-size: 0.8rem;
-            margin-top: 0.25rem;
-        }
-        
-        .match-percentage-text {
-            font-size: 0.8rem;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .distance-text {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 0.25rem;
-        }
-        
-        .age-text {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--light);
-            margin-bottom: 0.25rem;
-        }
-        
-        .name-text {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: var(--light);
-        }
-        
-        .profession-text {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-        }
-        
-        .location-text {
-            font-size: 0.8rem;
-            color: var(--gray);
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .swipe-card-content {
-            padding: 1.5rem;
-        }
-        
-        .swipe-card-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            margin-bottom: 1rem;
-        }
-        
-        .swipe-card-title {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: var(--light);
-        }
-        
-        .swipe-card-subtitle {
-            font-size: 0.9rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-        }
-        
-        .swipe-card-bio {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: var(--light);
-            margin-bottom: 1rem;
-        }
-        
-        .swipe-card-interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .swipe-card-interest {
-            background: rgba(99, 102, 241, 0.1);
-            color: var(--primary);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .swipe-card-preferences {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .swipe-card-preference {
-            background: rgba(236, 72, 153, 0.1);
-            color: var(--accent);
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .match-percentage-container {
-            margin: 1rem 0;
-        }
-        
-        .match-percentage-label {
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-bottom: 0.5rem;
-        }
-        
-        .match-percentage-value {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--success);
-        }
-        
-        .distance-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--gray);
-            margin-top: 0.5rem;
-        }
-        
-        .online-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .online-dot-small {
-            width: 6px;
-            height: 6px;
-            background: var(--success);
-            border-radius: 50%;
-        }
-        
-        .verified-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .verified-check-small {
-            color: var(--success);
-        }
-        
-        .premium-container {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: var(--warning);
-            margin-top: 0.25rem;
-        }
-        
-        .premium-crown {
-            color: var(--warning);
-        }
-        
-        .profile-header-gradient {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 100px;
-            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.8), transparent);
-            z-index: 5;
-        }
-        
-        .profile-footer {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 50px;
-            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
-            z-index: 5;
-        }
-        
-        .profile-actions-fixed {
-            position: fixed;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            max-width: 500px;
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 40;
-            padding: 0 1rem;
-        }
-        
-        .profile-action-fixed {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid var(--border);
-            background: var(--card-bg);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            font-size: 1.2rem;
-        }
-        
-        .profile-action-fixed.like {
-            color: var(--success);
-        }
-        
-        .profile-action-fixed.dislike {
-            color: var(--danger);
-        }
-        
-        .profile-action-fixed.message {
-            color: var(--primary);
-        }
-        
-        .profile-action-fixed.super-like {
-            color: var(--accent);
-        }
-        
-        .profile-action-fixed:hover {
-            transform: scale(1.1);
-        }
-        
-        .profile-action-fixed.active {
-            background: var(--primary);
-            color: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-action-fixed.like.active {
-            background: var(--success);
-        }
-        
-        .profile-action-fixed.dislike.active {
-            background: var(--danger);
-        }
-        
-        .profile-action-fixed.message.active {
-            background: var(--primary);
-        }
-        
-        .profile-action-fixed.super-like.active {
-            background: var(--accent);
-        }
-        
-        .profile-swipe-indicator {
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            color: var(--danger);
-            font-size: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .profile-swipe-indicator.right {
-            left: auto;
-            right: 20px;
-            color: var(--success);
-        }
-        
-        .profile-swipe-indicator.visible {
-            opacity: 1;
-        }
-        
-        .profile-swipe-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 10;
-        }
-        
-        .profile-swipe-progress {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .profile-swipe-progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        .profile-swipe-actions {
-            position: absolute;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .profile-swipe-action {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-action:hover {
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .profile-swipe-action.like {
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .profile-swipe-action.dislike {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action.message {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action.super-like {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .profile-swipe-action.active {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-action.like.active {
-            color: var(--success);
-        }
-        
-        .profile-swipe-action.dislike.active {
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action.message.active {
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action.super-like.active {
-            color: var(--accent);
-        }
-        
-        .profile-swipe-header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        
-        .profile-swipe-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .profile-swipe-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-close:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-footer {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        
-        .profile-swipe-info {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .profile-swipe-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .profile-swipe-age {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .profile-swipe-location {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-verified {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-verified i {
-            color: var(--success);
-        }
-        
-        .profile-swipe-premium {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--warning);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-premium i {
-            color: var(--warning);
-        }
-        
-        .profile-swipe-online {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-online i {
-            color: var(--success);
-        }
-        
-        .profile-swipe-match {
-            background: rgba(16, 185, 129, 0.9);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .profile-swipe-match i {
-            color: white;
-        }
-        
-        .profile-swipe-actions-bottom {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .profile-swipe-action-bottom {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-action-bottom:hover {
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .profile-swipe-action-bottom.like {
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .profile-swipe-action-bottom.dislike {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action-bottom.message {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action-bottom.super-like {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .profile-swipe-action-bottom.active {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-action-bottom.like.active {
-            color: var(--success);
-        }
-        
-        .profile-swipe-action-bottom.dislike.active {
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action-bottom.message.active {
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action-bottom.super-like.active {
-            color: var(--accent);
-        }
-        
-        .profile-swipe-info-bottom {
-            position: absolute;
-            bottom: 100px;
-            left: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-        
-        .profile-swipe-bio {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 1rem;
-        }
-        
-        .profile-swipe-interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .profile-swipe-interest {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .profile-swipe-preferences {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .profile-swipe-preference {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .profile-swipe-match-percentage {
-            margin: 1rem 0;
-        }
-        
-        .profile-swipe-match-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.5rem;
-        }
-        
-        .profile-swipe-match-bar {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .profile-swipe-match-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--warning));
-            width: 85%;
-            transition: width 1s ease;
-        }
-        
-        .profile-swipe-match-value {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-distance {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.5rem;
-        }
-        
-        .profile-swipe-last-active {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-gallery {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-            border-radius: 1rem;
-        }
-        
-        .profile-swipe-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .profile-swipe-indicator {
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            color: var(--danger);
-            font-size: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .profile-swipe-indicator.right {
-            left: auto;
-            right: 20px;
-            color: var(--success);
-        }
-        
-        .profile-swipe-indicator.visible {
-            opacity: 1;
-        }
-        
-        .profile-swipe-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 10;
-        }
-        
-        .profile-swipe-progress {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .profile-swipe-progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        .profile-swipe-actions {
-            position: absolute;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .profile-swipe-action {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-action:hover {
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .profile-swipe-action.like {
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .profile-swipe-action.dislike {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action.message {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action.super-like {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .profile-swipe-action.active {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-action.like.active {
-            color: var(--success);
-        }
-        
-        .profile-swipe-action.dislike.active {
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action.message.active {
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action.super-like.active {
-            color: var(--accent);
-        }
-        
-        .profile-swipe-header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        
-        .profile-swipe-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .profile-swipe-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-close:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-footer {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        
-        .profile-swipe-info {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .profile-swipe-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .profile-swipe-age {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .profile-swipe-location {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-verified {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-verified i {
-            color: var(--success);
-        }
-        
-        .profile-swipe-premium {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--warning);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-premium i {
-            color: var(--warning);
-        }
-        
-        .profile-swipe-online {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-online i {
-            color: var(--success);
-        }
-        
-        .profile-swipe-match {
-            background: rgba(16, 185, 129, 0.9);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .profile-swipe-match i {
-            color: white;
-        }
-        
-        .profile-swipe-actions-bottom {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .profile-swipe-action-bottom {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-action-bottom:hover {
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .profile-swipe-action-bottom.like {
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .profile-swipe-action-bottom.dislike {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action-bottom.message {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action-bottom.super-like {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .profile-swipe-action-bottom.active {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-action-bottom.like.active {
-            color: var(--success);
-        }
-        
-        .profile-swipe-action-bottom.dislike.active {
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action-bottom.message.active {
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action-bottom.super-like.active {
-            color: var(--accent);
-        }
-        
-        .profile-swipe-info-bottom {
-            position: absolute;
-            bottom: 100px;
-            left: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-        
-        .profile-swipe-bio {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 1rem;
-        }
-        
-        .profile-swipe-interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .profile-swipe-interest {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .profile-swipe-preferences {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .profile-swipe-preference {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .profile-swipe-match-percentage {
-            margin: 1rem 0;
-        }
-        
-        .profile-swipe-match-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.5rem;
-        }
-        
-        .profile-swipe-match-bar {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .profile-swipe-match-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--warning));
-            width: 85%;
-            transition: width 1s ease;
-        }
-        
-        .profile-swipe-match-value {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-distance {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.5rem;
-        }
-        
-        .profile-swipe-last-active {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.6);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-gallery {
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            overflow: hidden;
-            border-radius: 1rem;
-        }
-        
-        .profile-swipe-image {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-        
-        .profile-swipe-indicator {
-            position: absolute;
-            top: 50%;
-            left: 20px;
-            transform: translateY(-50%);
-            color: var(--danger);
-            font-size: 2rem;
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
-        
-        .profile-swipe-indicator.right {
-            left: auto;
-            right: 20px;
-            color: var(--success);
-        }
-        
-        .profile-swipe-indicator.visible {
-            opacity: 1;
-        }
-        
-        .profile-swipe-counter {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: rgba(0, 0, 0, 0.5);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            z-index: 10;
-        }
-        
-        .profile-swipe-progress {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .profile-swipe-progress-fill {
-            height: 100%;
-            background: var(--primary);
-            width: 0%;
-            transition: width 0.3s ease;
-        }
-        
-        .profile-swipe-actions {
-            position: absolute;
-            bottom: 80px;
-            left: 0;
-            right: 0;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .profile-swipe-action {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-action:hover {
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .profile-swipe-action.like {
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .profile-swipe-action.dislike {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action.message {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action.super-like {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .profile-swipe-action.active {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-action.like.active {
-            color: var(--success);
-        }
-        
-        .profile-swipe-action.dislike.active {
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action.message.active {
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action.super-like.active {
-            color: var(--accent);
-        }
-        
-        .profile-swipe-header {
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        
-        .profile-swipe-title {
-            font-size: 1.25rem;
-            font-weight: 600;
-            color: white;
-        }
-        
-        .profile-swipe-close {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-close:hover {
-            background: rgba(0, 0, 0, 0.5);
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-footer {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            z-index: 10;
-        }
-        
-        .profile-swipe-info {
-            display: flex;
-            flex-direction: column;
-        }
-        
-        .profile-swipe-name {
-            font-size: 1.5rem;
-            font-weight: 700;
-            color: white;
-        }
-        
-        .profile-swipe-age {
-            font-size: 1.25rem;
-            color: rgba(255, 255, 255, 0.8);
-        }
-        
-        .profile-swipe-location {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-verified {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-verified i {
-            color: var(--success);
-        }
-        
-        .profile-swipe-premium {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--warning);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-premium i {
-            color: var(--warning);
-        }
-        
-        .profile-swipe-online {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.9rem;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-online i {
-            color: var(--success);
-        }
-        
-        .profile-swipe-match {
-            background: rgba(16, 185, 129, 0.9);
-            color: white;
-            padding: 0.25rem 0.75rem;
-            border-radius: 1.5rem;
-            font-size: 0.75rem;
-            font-weight: 600;
-            display: flex;
-            align-items: center;
-            gap: 0.25rem;
-        }
-        
-        .profile-swipe-match i {
-            color: white;
-        }
-        
-        .profile-swipe-actions-bottom {
-            position: absolute;
-            bottom: 20px;
-            left: 20px;
-            right: 20px;
-            display: flex;
-            justify-content: center;
-            gap: 1rem;
-            z-index: 10;
-        }
-        
-        .profile-swipe-action-bottom {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 2px solid white;
-            background: rgba(0, 0, 0, 0.3);
-            backdrop-filter: blur(10px);
-            cursor: pointer;
-            transition: all 0.3s ease;
-            color: white;
-            font-size: 1.5rem;
-        }
-        
-        .profile-swipe-action-bottom:hover {
-            transform: scale(1.1);
-            background: rgba(0, 0, 0, 0.5);
-        }
-        
-        .profile-swipe-action-bottom.like {
-            border-color: var(--success);
-            color: var(--success);
-        }
-        
-        .profile-swipe-action-bottom.dislike {
-            border-color: var(--danger);
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action-bottom.message {
-            border-color: var(--primary);
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action-bottom.super-like {
-            border-color: var(--accent);
-            color: var(--accent);
-        }
-        
-        .profile-swipe-action-bottom.active {
-            background: white;
-            transform: scale(1.1);
-        }
-        
-        .profile-swipe-action-bottom.like.active {
-            color: var(--success);
-        }
-        
-        .profile-swipe-action-bottom.dislike.active {
-            color: var(--danger);
-        }
-        
-        .profile-swipe-action-bottom.message.active {
-            color: var(--primary);
-        }
-        
-        .profile-swipe-action-bottom.super-like.active {
-            color: var(--accent);
-        }
-        
-        .profile-swipe-info-bottom {
-            position: absolute;
-            bottom: 100px;
-            left: 20px;
-            right: 20px;
-            z-index: 10;
-        }
-        
-        .profile-swipe-bio {
-            font-size: 0.9rem;
-            line-height: 1.5;
-            color: rgba(255, 255, 255, 0.9);
-            margin-bottom: 1rem;
-        }
-        
-        .profile-swipe-interests {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .profile-swipe-interest {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .profile-swipe-preferences {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 0.5rem;
-        }
-        
-        .profile-swipe-preference {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.25rem 0.5rem;
-            border-radius: 0.5rem;
-            font-size: 0.75rem;
-        }
-        
-        .profile-swipe-match-percentage {
-            margin: 1rem 0;
-        }
-        
-        .profile-swipe-match-label {
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-bottom: 0.5rem;
-        }
-        
-        .profile-swipe-match-bar {
-            height: 4px;
-            background: rgba(255, 255, 255, 0.2);
-            border-radius: 2px;
-            overflow: hidden;
-        }
-        
-        .profile-swipe-match-fill {
-            height: 100%;
-            background: linear-gradient(90deg, var(--success), var(--warning));
-            width: 85%;
-            transition: width 1s ease;
-        }
-        
-        .profile-swipe-match-value {
-            font-size: 0.9rem;
-            font-weight: 600;
-            color: var(--success);
-            margin-top: 0.25rem;
-        }
-        
-        .profile-swipe-distance {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            font-size: 0.8rem;
-            color: rgba(255, 255, 255, 0.8);
-            margin-top: 0.5rem;
-        }
+        /* ... (todos los demás estilos) ... */
         
         .profile-swipe-last-active {
             font-size: 0.8rem;
@@ -3089,7 +69,7 @@
                 <div class="flex items-center space-x-3">
                     <button id="notificationsBtn" class="p-2 text-gray-300 hover:text-white relative">
                         <i class="fas fa-bell text-lg"></i>
-                        <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">3</span>
+                        <span id="notificationCount" class="absolute -top-1 -right-1 bg-red-500 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">0</span>
                     </button>
                     <button id="profileBtn" class="p-2 text-gray-300 hover:text-white">
                         <i class="fas fa-user text-lg"></i>
@@ -3268,154 +248,17 @@
 
         <!-- Matches Tab Content (Hidden by default) -->
         <div id="matchesContent" class="space-y-4" style="display: none;">
-            <div class="card p-4">
-                <div class="flex items-center space-x-3 mb-4">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Match" class="w-12 h-12 rounded-full object-cover">
-                    <div>
-                        <h3 class="font-semibold">Carlos, 31</h3>
-                        <p class="text-sm text-gray-400">Hace 2 horas</p>
-                    </div>
-                </div>
-                <p class="text-gray-300 mb-4">"¡Hola! Me encantaría conocerte mejor. ¿Te gustaría tomar un café?"</p>
-                <div class="flex space-x-2">
-                    <button class="btn-primary flex-1">
-                        <i class="fas fa-comment mr-2"></i> Enviar mensaje
-                    </button>
-                    <button class="btn-outline">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                </div>
-            </div>
-            
-            <div class="card p-4">
-                <div class="flex items-center space-x-3 mb-4">
-                    <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Match" class="w-12 h-12 rounded-full object-cover">
-                    <div>
-                        <h3 class="font-semibold">Daniel, 26</h3>
-                        <p class="text-sm text-gray-400">Hace 5 horas</p>
-                    </div>
-                </div>
-                <p class="text-gray-300 mb-4">"Veo que tenemos muchos intereses en común. ¿Te gustaría vernos?"</p>
-                <div class="flex space-x-2">
-                    <button class="btn-primary flex-1">
-                        <i class="fas fa-comment mr-2"></i> Enviar mensaje
-                    </button>
-                    <button class="btn-outline">
-                        <i class="fas fa-heart"></i>
-                    </button>
-                </div>
-            </div>
+            <!-- Los matches se cargarán dinámicamente -->
         </div>
 
         <!-- Messages Tab Content (Hidden by default) -->
         <div id="messagesContent" class="space-y-4" style="display: none;">
-            <div class="card">
-                <div class="p-4 border-b border-gray-800">
-                    <div class="flex items-center space-x-3">
-                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Carlos" class="w-10 h-10 rounded-full object-cover">
-                        <div>
-                            <h3 class="font-semibold">Carlos, 31</h3>
-                            <p class="text-xs text-green-400">En línea ahora</p>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="p-4 messages-list">
-                    <div class="message message-received">
-                        ¡Hola! Me encantaría conocerte mejor. ¿Te gustaría tomar un café?
-                    </div>
-                    <div class="message message-sent">
-                        Hola Carlos, suena interesante. ¿Dónde y cuándo?
-                    </div>
-                    <div class="message message-received">
-                        Podríamos encontrarnos mañana en el café central a las 7 pm. ¿Te parece bien?
-                    </div>
-                </div>
-                
-                <div class="p-4 border-t border-gray-800">
-                    <div class="flex">
-                        <input type="text" placeholder="Escribe un mensaje..." class="chat-input flex-1">
-                        <button class="send-btn">
-                            <i class="fas fa-paper-plane"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
+            <!-- Los mensajes se cargarán dinámicamente -->
         </div>
 
         <!-- Profile Tab Content (Hidden by default) -->
         <div id="profileContent" class="space-y-6" style="display: none;">
-            <div class="card">
-                <div class="profile-header">
-                    <img src="https://images.unsplash.com/photo-1579532560492-bd2168e74615?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Fondo de perfil">
-                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Perfil" class="profile-avatar">
-                </div>
-                <div class="profile-info">
-                    <div class="flex items-center space-x-2 mb-2">
-                        <h2 class="text-2xl font-bold">Alex, 28</h2>
-                        <div class="premium-tag">
-                            <i class="fas fa-crown"></i> Premium
-                        </div>
-                        <div class="verified-tag">
-                            <i class="fas fa-check"></i>
-                        </div>
-                    </div>
-                    <p class="text-gray-400 mb-3">Ingeniero de software</p>
-                    <p class="text-sm text-gray-400 mb-4">"Apasionado por el fitness y los viajes. Busco conexiones reales sin compromisos."</p>
-                    
-                    <div class="flex flex-wrap gap-2 mb-4">
-                        <span class="badge badge-primary">Bears</span>
-                        <span class="badge badge-success">Activo</span>
-                        <span class="badge badge-warning">Anal</span>
-                        <span class="badge badge-accent">Sadomaso</span>
-                    </div>
-                    
-                    <div class="flex space-x-2">
-                        <button id="editProfileBtn" class="btn-outline flex-1">
-                            <i class="fas fa-edit"></i> Editar perfil
-                        </button>
-                        <button id="settingsBtn" class="btn-outline">
-                            <i class="fas fa-cog"></i>
-                        </button>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold mb-4">Estadísticas</h3>
-                    <div class="grid grid-cols-3 gap-4 text-center">
-                        <div>
-                            <div class="text-2xl font-bold text-purple-400">85</div>
-                            <div class="text-sm text-gray-400">Matches</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-green-400">127</div>
-                            <div class="text-sm text-gray-400">Likes</div>
-                        </div>
-                        <div>
-                            <div class="text-2xl font-bold text-blue-400">42</div>
-                            <div class="text-sm text-gray-400">Vistas</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="card">
-                <div class="p-4">
-                    <h3 class="text-lg font-semibold mb-4">Galería</h3>
-                    <div class="grid grid-cols-3 gap-2">
-                        <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 1" class="w-full h-20 object-cover rounded">
-                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 2" class="w-full h-20 object-cover rounded">
-                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 3" class="w-full h-20 object-cover rounded">
-                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 4" class="w-full h-20 object-cover rounded">
-                        <img src="https://images.unsplash.com/photo-1507078662446-d5762f42996f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 5" class="w-full h-20 object-cover rounded">
-                        <div class="w-full h-20 bg-gray-700 rounded flex items-center justify-center">
-                            <span class="text-gray-400 text-sm">+3 más</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <!-- El perfil se cargará dinámicamente -->
         </div>
     </main>
 
@@ -3587,16 +430,16 @@
         <div class="modal-content subscription-modal">
             <span class="close">&times;</span>
             <div class="text-center mb-6">
-                <div class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
+                <div id="profileModalAvatar" class="w-20 h-20 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
                     A
                 </div>
-                <h2 class="text-2xl font-bold text-white">Alex, 28</h2>
-                <p class="text-gray-300">Ingeniero de software</p>
+                <h2 id="profileModalName" class="text-2xl font-bold text-white">Alex, 28</h2>
+                <p id="profileModalProfession" class="text-gray-300">Ingeniero de software</p>
                 <div class="flex justify-center space-x-2 mt-2">
-                    <div class="premium-tag">
+                    <div id="profileModalPremium" class="premium-tag">
                         <i class="fas fa-crown"></i> Premium
                     </div>
-                    <div class="verified-tag">
+                    <div id="profileModalVerified" class="verified-tag">
                         <i class="fas fa-check"></i>
                     </div>
                 </div>
@@ -3608,22 +451,22 @@
                     <div class="space-y-2 text-sm">
                         <div class="flex justify-between">
                             <span class="text-gray-400">Ubicación:</span>
-                            <span class="text-white">Madrid, España</span>
+                            <span id="profileModalLocation" class="text-white">Madrid, España</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-400">Últ. conexión:</span>
-                            <span class="text-white">Hace 10 minutos</span>
+                            <span id="profileModalLastActive" class="text-white">Hace 10 minutos</span>
                         </div>
                         <div class="flex justify-between">
                             <span class="text-gray-400">Miembro desde:</span>
-                            <span class="text-white">Ene 2023</span>
+                            <span id="profileModalMemberSince" class="text-white">Ene 2023</span>
                         </div>
                     </div>
                 </div>
                 
                 <div class="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4">
                     <h3 class="font-semibold text-white mb-3">Intereses</h3>
-                    <div class="flex flex-wrap gap-2">
+                    <div id="profileModalInterests" class="flex flex-wrap gap-2">
                         <span class="badge badge-primary">Tecnología</span>
                         <span class="badge badge-success">Fitness</span>
                         <span class="badge badge-warning">Viajes</span>
@@ -3850,36 +693,8 @@
             <span class="close">&times;</span>
             <h2 class="text-2xl font-bold text-white mb-6">Notificaciones</h2>
             
-            <div class="space-y-3">
-                <div class="flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg">
-                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white">
-                        <i class="fas fa-heart"></i>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-white"><strong>Alex</strong> te dio "Super Like"</p>
-                        <p class="text-gray-400 text-sm">Hace 2 minutos</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg">
-                    <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white">
-                        <i class="fas fa-comment"></i>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-white"><strong>Carlos</strong> inició una conversación</p>
-                        <p class="text-gray-400 text-sm">Hace 15 minutos</p>
-                    </div>
-                </div>
-                
-                <div class="flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg">
-                    <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white">
-                        <i class="fas fa-user-plus"></i>
-                    </div>
-                    <div class="flex-1">
-                        <p class="text-white"><strong>Daniel</strong> te ha agregado a sus favoritos</p>
-                        <p class="text-gray-400 text-sm">Hace 1 hora</p>
-                    </div>
-                </div>
+            <div id="notificationsList" class="space-y-3">
+                <!-- Las notificaciones se cargarán dinámicamente -->
             </div>
         </div>
     </div>
@@ -3893,9 +708,9 @@
         // Variables de estado
         let currentUser = null;
         let users = [];
+        let matches = [];
+        let messages = [];
         let notifications = [];
-        let userLocation = null;
-        let locationEnabled = false;
         let selectedPhotos = [];
         let currentTab = 'discover';
         let isIncognitoMode = false;
@@ -3915,18 +730,111 @@
         const toastClose = document.getElementById('toastClose');
         const loading = document.getElementById('loading');
 
-        // Mostrar modal de login al cargar
-        window.onload = function() {
-            // Simular carga
-            showLoading();
-            setTimeout(() => {
-                hideLoading();
-                loginModal.style.display = 'block';
-                
-                // Generar datos de ejemplo
-                generateMockData();
-            }, 1500);
-        };
+        // Inicializar la aplicación
+        function initApp() {
+            loadDataFromStorage();
+            checkIfUserExists();
+            setupEventListeners();
+            generateMockData();
+        }
+
+        // Cargar datos desde localStorage
+        function loadDataFromStorage() {
+            const savedUser = localStorage.getItem('currentUser');
+            const savedUsers = localStorage.getItem('users');
+            const savedMatches = localStorage.getItem('matches');
+            const savedMessages = localStorage.getItem('messages');
+            const savedNotifications = localStorage.getItem('notifications');
+
+            if (savedUser) currentUser = JSON.parse(savedUser);
+            if (savedUsers) users = JSON.parse(savedUsers);
+            if (savedMatches) matches = JSON.parse(savedMatches);
+            if (savedMessages) messages = JSON.parse(savedMessages);
+            if (savedNotifications) notifications = JSON.parse(savedNotifications);
+        }
+
+        // Guardar datos en localStorage
+        function saveDataToStorage() {
+            localStorage.setItem('currentUser', JSON.stringify(currentUser));
+            localStorage.setItem('users', JSON.stringify(users));
+            localStorage.setItem('matches', JSON.stringify(matches));
+            localStorage.setItem('messages', JSON.stringify(messages));
+            localStorage.setItem('notifications', JSON.stringify(notifications));
+        }
+
+        // Verificar si existe un usuario
+        function checkIfUserExists() {
+            if (!currentUser) {
+                showLoading();
+                setTimeout(() => {
+                    hideLoading();
+                    loginModal.style.display = 'block';
+                }, 1000);
+            } else {
+                updateInterface();
+            }
+        }
+
+        // Configurar event listeners
+        function setupEventListeners() {
+            // Navegación entre pestañas
+            document.getElementById('navDiscover').addEventListener('click', () => showTab('discover'));
+            document.getElementById('navMatches').addEventListener('click', () => showTab('matches'));
+            document.getElementById('navMessages').addEventListener('click', () => showTab('messages'));
+            document.getElementById('navProfile').addEventListener('click', () => showTab('profile'));
+
+            // Botones de acción
+            document.getElementById('profileBtn').addEventListener('click', () => {
+                if (!currentUser) {
+                    loginModal.style.display = 'block';
+                    return;
+                }
+                profileModal.style.display = 'block';
+            });
+
+            document.getElementById('notificationsBtn').addEventListener('click', () => {
+                notificationsModal.style.display = 'block';
+                loadNotifications();
+            });
+
+            document.getElementById('upgradeBtn').addEventListener('click', () => {
+                upgradeModal.style.display = 'block';
+            });
+
+            // Cerrar modales
+            document.querySelectorAll('.close').forEach(closeBtn => {
+                closeBtn.addEventListener('click', function() {
+                    const modal = this.closest('.modal');
+                    modal.style.display = 'none';
+                });
+            });
+
+            // Cerrar modal al hacer clic fuera
+            window.addEventListener('click', (event) => {
+                if (event.target.classList.contains('modal')) {
+                    event.target.style.display = 'none';
+                }
+            });
+
+            // Formulario de perfil
+            document.getElementById('profileForm').addEventListener('submit', handleProfileSubmit);
+
+            // Subir foto de perfil
+            avatarUpload.addEventListener('click', () => avatarInput.click());
+            avatarInput.addEventListener('change', handleAvatarUpload);
+
+            // Animación de corazón al dar like
+            document.querySelector('.swipe-btn.like').addEventListener('click', handleLike);
+            document.querySelector('.swipe-btn.super-like').addEventListener('click', handleSuperLike);
+
+            // Suscripción
+            document.getElementById('startTrialBtn').addEventListener('click', startTrial);
+            document.getElementById('confirmUpgrade').addEventListener('click', confirmUpgrade);
+            document.getElementById('paymentForm').addEventListener('submit', handlePayment);
+
+            // Toast close button
+            toastClose.addEventListener('click', () => toast.className = 'toast');
+        }
 
         // Mostrar loading
         function showLoading() {
@@ -3950,78 +858,84 @@
 
         // Generar datos de ejemplo
         function generateMockData() {
-            users = [
-                {
-                    id: '1',
-                    name: 'Alex',
-                    age: 28,
-                    profession: 'Ingeniero de software',
-                    location: 'Madrid, España',
-                    bio: 'Apasionado por el fitness y los viajes. Busco conexiones reales sin compromisos.',
-                    photos: [
-                        'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
-                    ],
-                    interests: ['Tecnología', 'Fitness', 'Viajes', 'Cine'],
-                    matches: 85,
-                    isPremium: true,
-                    isVerified: true,
-                    lastActive: new Date()
-                },
-                {
-                    id: '2',
-                    name: 'Carlos',
-                    age: 31,
-                    profession: 'Diseñador UX/UI',
-                    location: 'Barcelona, España',
-                    bio: 'Amante del arte y la música. Busco experiencias memorables con personas afines.',
-                    photos: [
-                        'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
-                        'https://images.unsplash.com/photo-1507078662446-d5762f42996f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
-                    ],
-                    interests: ['Diseño', 'Arte', 'Música', 'Café'],
-                    matches: 72,
-                    isPremium: false,
-                    isVerified: true,
-                    lastActive: new Date(Date.now() - 30 * 60 * 1000) // 30 minutos atrás
-                }
-            ];
+            if (users.length === 0) {
+                users = [
+                    {
+                        id: '1',
+                        name: 'Alex',
+                        age: 28,
+                        profession: 'Ingeniero de software',
+                        location: 'Madrid, España',
+                        bio: 'Apasionado por el fitness y los viajes. Busco conexiones reales sin compromisos.',
+                        photos: [
+                            'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                            'https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                            'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+                        ],
+                        interests: ['Tecnología', 'Fitness', 'Viajes', 'Cine'],
+                        matches: 85,
+                        isPremium: true,
+                        isVerified: true,
+                        lastActive: new Date()
+                    },
+                    {
+                        id: '2',
+                        name: 'Carlos',
+                        age: 31,
+                        profession: 'Diseñador UX/UI',
+                        location: 'Barcelona, España',
+                        bio: 'Amante del arte y la música. Busco experiencias memorables con personas afines.',
+                        photos: [
+                            'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                            'https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80',
+                            'https://images.unsplash.com/photo-1507078662446-d5762f42996f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80'
+                        ],
+                        interests: ['Diseño', 'Arte', 'Música', 'Café'],
+                        matches: 72,
+                        isPremium: false,
+                        isVerified: true,
+                        lastActive: new Date(Date.now() - 30 * 60 * 1000) // 30 minutos atrás
+                    }
+                ];
+                saveDataToStorage();
+            }
 
-            notifications = [
-                {
-                    id: '1',
-                    type: 'superlike',
-                    from: 'Alex',
-                    avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                    message: 'te dio "Super Like"',
-                    time: 'Hace 2 minutos',
-                    read: false
-                },
-                {
-                    id: '2',
-                    type: 'message',
-                    from: 'Carlos',
-                    avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                    message: 'inició una conversación',
-                    time: 'Hace 15 minutos',
-                    read: false
-                },
-                {
-                    id: '3',
-                    type: 'match',
-                    from: 'Daniel',
-                    avatar: 'https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
-                    message: 'te ha agregado a sus favoritos',
-                    time: 'Hace 1 hora',
-                    read: false
-                }
-            ];
+            if (notifications.length === 0) {
+                notifications = [
+                    {
+                        id: '1',
+                        type: 'superlike',
+                        from: 'Alex',
+                        avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
+                        message: 'te dio "Super Like"',
+                        time: 'Hace 2 minutos',
+                        read: false
+                    },
+                    {
+                        id: '2',
+                        type: 'message',
+                        from: 'Carlos',
+                        avatar: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
+                        message: 'inició una conversación',
+                        time: 'Hace 15 minutos',
+                        read: false
+                    },
+                    {
+                        id: '3',
+                        type: 'match',
+                        from: 'Daniel',
+                        avatar: 'https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80',
+                        message: 'te ha agregado a sus favoritos',
+                        time: 'Hace 1 hora',
+                        read: false
+                    }
+                ];
+                saveDataToStorage();
+            }
         }
 
-        // Formulario de perfil
-        document.getElementById('profileForm').addEventListener('submit', function(e) {
+        // Manejar envío del formulario de perfil
+        function handleProfileSubmit(e) {
             e.preventDefault();
             
             const name = document.getElementById('name').value;
@@ -4094,7 +1008,10 @@
                     subscription: null
                 };
 
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                // Guardar usuario en la lista de usuarios
+                users.push(currentUser);
+                
+                saveDataToStorage();
                 hideLoading();
                 loginModal.style.display = 'none';
                 showToast('¡Perfil creado con éxito!', 'success');
@@ -4102,91 +1019,10 @@
                 // Actualizar interfaz
                 updateInterface();
             }, 1500);
-        });
-
-        // Actualizar interfaz según el estado del usuario
-        function updateInterface() {
-            // Aquí iría la lógica para actualizar la interfaz
-            console.log('Interfaz actualizada');
         }
 
-        // Navegación entre pestañas
-        function showTab(tabId) {
-            // Ocultar todos los contenidos
-            document.getElementById('discoverContent').style.display = 'none';
-            document.getElementById('matchesContent').style.display = 'none';
-            document.getElementById('messagesContent').style.display = 'none';
-            document.getElementById('profileContent').style.display = 'none';
-            
-            // Mostrar el contenido seleccionado
-            document.getElementById(tabId + 'Content').style.display = 'block';
-            
-            // Actualizar estilos de navegación
-            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabMatches').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            
-            document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            
-            currentTab = tabId;
-        }
-
-        // Event listeners para navegación
-        document.getElementById('navDiscover').addEventListener('click', function() {
-            showTab('discover');
-        });
-
-        document.getElementById('navMatches').addEventListener('click', function() {
-            showTab('matches');
-        });
-
-        document.getElementById('navMessages').addEventListener('click', function() {
-            showTab('messages');
-        });
-
-        document.getElementById('navProfile').addEventListener('click', function() {
-            showTab('profile');
-        });
-
-        // Botones de acción
-        document.getElementById('profileBtn').addEventListener('click', function() {
-            if (!currentUser) {
-                loginModal.style.display = 'block';
-                return;
-            }
-            profileModal.style.display = 'block';
-        });
-
-        document.getElementById('notificationsBtn').addEventListener('click', function() {
-            notificationsModal.style.display = 'block';
-        });
-
-        document.getElementById('upgradeBtn').addEventListener('click', function() {
-            upgradeModal.style.display = 'block';
-        });
-
-        // Cerrar modales
-        document.querySelectorAll('.close').forEach(closeBtn => {
-            closeBtn.addEventListener('click', function() {
-                const modal = this.closest('.modal');
-                modal.style.display = 'none';
-            });
-        });
-
-        // Cerrar modal al hacer clic fuera
-        window.onclick = function(event) {
-            if (event.target.classList.contains('modal')) {
-                event.target.style.display = 'none';
-            }
-        };
-
-        // Subir foto de perfil
-        avatarUpload.addEventListener('click', function() {
-            avatarInput.click();
-        });
-
-        avatarInput.addEventListener('change', function(e) {
+        // Manejar subida de avatar
+        function handleAvatarUpload(e) {
             const file = e.target.files[0];
             if (file) {
                 if (file.size > 5 * 1024 * 1024) {
@@ -4202,10 +1038,10 @@
                 };
                 reader.readAsDataURL(file);
             }
-        });
+        }
 
-        // Animación de corazón al dar like
-        document.querySelector('.swipe-btn.like').addEventListener('click', function() {
+        // Manejar like
+        function handleLike() {
             const heart = heartAnimation.cloneNode(true);
             heart.querySelector('i').className = 'fas fa-heart heart-3';
             heart.classList.add('show');
@@ -4218,10 +1054,26 @@
             // Simular match
             setTimeout(() => {
                 showToast('¡Match! Ahora puedes conversar con Alex', 'success');
+                
+                // Crear un nuevo match
+                const newMatch = {
+                    id: Date.now().toString(),
+                    userId: currentUser.id,
+                    matchedUserId: '1', // ID de Alex
+                    timestamp: new Date().toISOString(),
+                    messages: []
+                };
+                
+                matches.push(newMatch);
+                saveDataToStorage();
+                
+                // Actualizar contador de notificaciones
+                updateNotificationCount();
             }, 500);
-        });
+        }
 
-        document.querySelector('.swipe-btn.super-like').addEventListener('click', function() {
+        // Manejar super like
+        function handleSuperLike() {
             const heart = heartAnimation.cloneNode(true);
             heart.querySelector('i').className = 'fas fa-star heart-5';
             heart.classList.add('show');
@@ -4234,17 +1086,28 @@
             // Simular super like
             setTimeout(() => {
                 showToast('¡Super Like enviado! Alex será notificado', 'success');
+                
+                // Crear una nueva notificación
+                const newNotification = {
+                    id: Date.now().toString(),
+                    type: 'superlike',
+                    from: currentUser.name,
+                    avatar: currentUser.photos[0],
+                    message: 'te dio "Super Like"',
+                    time: 'Hace unos momentos',
+                    read: false
+                };
+                
+                notifications.push(newNotification);
+                saveDataToStorage();
+                
+                // Actualizar contador de notificaciones
+                updateNotificationCount();
             }, 500);
-        });
-
-        // Enviar mensaje
-        document.getElementById('messageBtn').addEventListener('click', function() {
-            showToast('Mensaje enviado. Alex será notificado.', 'success');
-            profileModal.style.display = 'none';
-        });
+        }
 
         // Comenzar prueba gratuita
-        document.getElementById('startTrialBtn').addEventListener('click', function() {
+        function startTrial() {
             showLoading();
             
             // Simular proceso de inicio de prueba
@@ -4262,19 +1125,27 @@
                         endDate: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000).toISOString(),
                         status: 'active'
                     };
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Actualizar en la lista de usuarios
+                    const userIndex = users.findIndex(u => u.id === currentUser.id);
+                    if (userIndex !== -1) {
+                        users[userIndex] = currentUser;
+                    }
+                    
+                    saveDataToStorage();
+                    updateInterface();
                 }
             }, 2000);
-        });
+        }
 
-        // Suscribirse
-        document.getElementById('confirmUpgrade').addEventListener('click', function() {
+        // Confirmar actualización
+        function confirmUpgrade() {
             paymentModal.style.display = 'block';
             upgradeModal.style.display = 'none';
-        });
+        }
 
-        // Procesar pago
-        document.getElementById('paymentForm').addEventListener('submit', function(e) {
+        // Manejar pago
+        function handlePayment(e) {
             e.preventDefault();
             
             const cardName = document.getElementById('cardName').value;
@@ -4327,144 +1198,275 @@
                         status: 'active',
                         amount: 9.99
                     };
-                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                    
+                    // Actualizar en la lista de usuarios
+                    const userIndex = users.findIndex(u => u.id === currentUser.id);
+                    if (userIndex !== -1) {
+                        users[userIndex] = currentUser;
+                    }
+                    
+                    saveDataToStorage();
+                    updateInterface();
                 }
             }, 2000);
-        });
+        }
 
-        // Modo incógnito
-        document.getElementById('incognitoModal').addEventListener('click', function(e) {
-            if (e.target === this) {
-                this.style.display = 'none';
+        // Mostrar pestaña
+        function showTab(tabId) {
+            // Ocultar todos los contenidos
+            document.getElementById('discoverContent').style.display = 'none';
+            document.getElementById('matchesContent').style.display = 'none';
+            document.getElementById('messagesContent').style.display = 'none';
+            document.getElementById('profileContent').style.display = 'none';
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById(tabId + 'Content').style.display = 'block';
+            
+            // Actualizar estilos de navegación
+            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMatches').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            
+            document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            
+            currentTab = tabId;
+            
+            // Cargar contenido específico de la pestaña
+            if (tabId === 'matches') {
+                loadMatches();
+            } else if (tabId === 'messages') {
+                loadMessages();
+            } else if (tabId === 'profile') {
+                loadProfile();
             }
-        });
+        }
 
-        // Toast close button
-        toastClose.addEventListener('click', function() {
-            toast.className = 'toast';
-        });
-
-        // Añadir eventos a las fotos de la galería
-        document.querySelectorAll('.gallery-item').forEach(item => {
-            item.addEventListener('click', function() {
-                if (this.querySelector('.private-overlay')) {
-                    if (currentUser && currentUser.isPremium) {
-                        showToast('Mostrando foto privada', 'success');
-                    } else {
-                        showToast('Esta foto es privada. Actualiza a Premium para ver fotos privadas.', 'info');
-                    }
+        // Cargar matches
+        function loadMatches() {
+            const matchesContent = document.getElementById('matchesContent');
+            matchesContent.innerHTML = '';
+            
+            const userMatches = matches.filter(match => match.userId === currentUser.id);
+            
+            if (userMatches.length === 0) {
+                matchesContent.innerHTML = `
+                    <div class="card p-4 text-center">
+                        <i class="fas fa-heart text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-lg font-semibold mb-2">Aún no tienes matches</h3>
+                        <p class="text-gray-400">Sigue explorando perfiles y dando likes para encontrar matches.</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            userMatches.forEach(match => {
+                const matchedUser = users.find(user => user.id === match.matchedUserId);
+                if (matchedUser) {
+                    const matchElement = document.createElement('div');
+                    matchElement.className = 'card p-4';
+                    matchElement.innerHTML = `
+                        <div class="flex items-center space-x-3 mb-4">
+                            <img src="${matchedUser.photos[0]}" alt="${matchedUser.name}" class="w-12 h-12 rounded-full object-cover">
+                            <div>
+                                <h3 class="font-semibold">${matchedUser.name}, ${matchedUser.age}</h3>
+                                <p class="text-sm text-gray-400">Hace 2 horas</p>
+                            </div>
+                        </div>
+                        <p class="text-gray-300 mb-4">"¡Hola! Me encantaría conocerte mejor. ¿Te gustaría tomar un café?"</p>
+                        <div class="flex space-x-2">
+                            <button class="btn-primary flex-1">
+                                <i class="fas fa-comment mr-2"></i> Enviar mensaje
+                            </button>
+                            <button class="btn-outline">
+                                <i class="fas fa-heart"></i>
+                            </button>
+                        </div>
+                    `;
+                    matchesContent.appendChild(matchElement);
                 }
             });
-        });
+        }
 
-        // Swipe functionality
-        let startX = 0;
-        let currentX = 0;
-        let isDragging = false;
-        const swipeCard = document.querySelector('.swipe-card');
-        
-        swipeCard.addEventListener('mousedown', startDrag);
-        swipeCard.addEventListener('touchstart', startDrag);
-        
-        function startDrag(e) {
-            isDragging = true;
-            startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+        // Cargar mensajes
+        function loadMessages() {
+            const messagesContent = document.getElementById('messagesContent');
+            messagesContent.innerHTML = '';
             
-            document.addEventListener('mousemove', drag);
-            document.addEventListener('touchmove', drag);
-            document.addEventListener('mouseup', endDrag);
-            document.addEventListener('touchend', endDrag);
-        }
-        
-        function drag(e) {
-            if (!isDragging) return;
+            const userMatches = matches.filter(match => match.userId === currentUser.id);
             
-            currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
-            const diffX = currentX - startX;
-            
-            if (Math.abs(diffX) > 10) {
-                swipeCard.style.transform = `translateX(${diffX}px) rotate(${diffX * 0.1}deg)`;
-                
-                // Cambiar opacidad del botón de like/dislike
-                const likeOpacity = Math.max(0, Math.min(1, diffX / 100));
-                const dislikeOpacity = Math.max(0, Math.min(1, -diffX / 100));
-                
-                document.querySelector('.swipe-btn.like i').style.opacity = likeOpacity;
-                document.querySelector('.swipe-btn.dislike i').style.opacity = dislikeOpacity;
+            if (userMatches.length === 0) {
+                messagesContent.innerHTML = `
+                    <div class="card p-4 text-center">
+                        <i class="fas fa-comments text-4xl text-gray-400 mb-4"></i>
+                        <h3 class="text-lg font-semibold mb-2">Aún no tienes mensajes</h3>
+                        <p class="text-gray-400">Cuando tengas matches, podrás enviar y recibir mensajes aquí.</p>
+                    </div>
+                `;
+                return;
             }
-        }
-        
-        function endDrag(e) {
-            if (!isDragging) return;
             
-            isDragging = false;
-            const diffX = currentX - startX;
-            
-            if (Math.abs(diffX) > 100) {
-                // Swipe decisivo
-                if (diffX > 100) {
-                    // Like
-                    swipeCard.style.transform = 'translateX(500px) rotate(20deg)';
-                    setTimeout(() => {
-                        const heart = heartAnimation.cloneNode(true);
-                        heart.querySelector('i').className = 'fas fa-heart heart-3';
-                        heart.classList.add('show');
-                        document.body.appendChild(heart);
+            userMatches.forEach(match => {
+                const matchedUser = users.find(user => user.id === match.matchedUserId);
+                if (matchedUser) {
+                    const messageElement = document.createElement('div');
+                    messageElement.className = 'card';
+                    messageElement.innerHTML = `
+                        <div class="p-4 border-b border-gray-800">
+                            <div class="flex items-center space-x-3">
+                                <img src="${matchedUser.photos[0]}" alt="${matchedUser.name}" class="w-10 h-10 rounded-full object-cover">
+                                <div>
+                                    <h3 class="font-semibold">${matchedUser.name}, ${matchedUser.age}</h3>
+                                    <p class="text-xs text-green-400">En línea ahora</p>
+                                </div>
+                            </div>
+                        </div>
                         
-                        setTimeout(() => {
-                            document.body.removeChild(heart);
-                        }, 1000);
+                        <div class="p-4 messages-list">
+                            <div class="message message-received">
+                                ¡Hola! Me encantaría conocerte mejor. ¿Te gustaría tomar un café?
+                            </div>
+                            <div class="message message-sent">
+                                Hola ${matchedUser.name}, suena interesante. ¿Dónde y cuándo?
+                            </div>
+                        </div>
                         
-                        showToast('¡Match! Ahora puedes conversar con Alex', 'success');
-                    }, 300);
-                } else if (diffX < -100) {
-                    // Dislike
-                    swipeCard.style.transform = 'translateX(-500px) rotate(-20deg)';
-                    setTimeout(() => {
-                        showToast('Perfil descartado', 'info');
-                    }, 300);
+                        <div class="p-4 border-t border-gray-800">
+                            <div class="flex">
+                                <input type="text" placeholder="Escribe un mensaje..." class="chat-input flex-1">
+                                <button class="send-btn">
+                                    <i class="fas fa-paper-plane"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `;
+                    messagesContent.appendChild(messageElement);
                 }
-            } else {
-                // Volver a la posición original
-                swipeCard.style.transform = 'translateX(0) rotate(0)';
-                document.querySelector('.swipe-btn.like i').style.opacity = 1;
-                document.querySelector('.swipe-btn.dislike i').style.opacity = 1;
-            }
-            
-            // Limpiar eventos
-            document.removeEventListener('mousemove', drag);
-            document.removeEventListener('touchmove', drag);
-            document.removeEventListener('mouseup', endDrag);
-            document.removeEventListener('touchend', endDrag);
+            });
         }
 
-        // Formatear número de tarjeta
-        document.getElementById('cardNumber').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\s/g, '');
-            let formattedValue = '';
+        // Cargar perfil
+        function loadProfile() {
+            const profileContent = document.getElementById('profileContent');
             
-            for (let i = 0; i < value.length; i++) {
-                if (i > 0 && i % 4 === 0) {
-                    formattedValue += ' ';
-                }
-                formattedValue += value[i];
+            if (!currentUser) return;
+            
+            profileContent.innerHTML = `
+                <div class="card">
+                    <div class="profile-header">
+                        <img src="https://images.unsplash.com/photo-1579532560492-bd2168e74615?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Fondo de perfil">
+                        <img src="${currentUser.photos[0]}" alt="Perfil" class="profile-avatar">
+                    </div>
+                    <div class="profile-info">
+                        <div class="flex items-center space-x-2 mb-2">
+                            <h2 class="text-2xl font-bold">${currentUser.name}, ${currentUser.age}</h2>
+                            ${currentUser.isPremium ? '<div class="premium-tag"><i class="fas fa-crown"></i> Premium</div>' : ''}
+                            <div class="verified-tag">
+                                <i class="fas fa-check"></i>
+                            </div>
+                        </div>
+                        <p class="text-gray-400 mb-3">${currentUser.profession || 'Usuario de Privado'}</p>
+                        <p class="text-sm text-gray-400 mb-4">"${currentUser.bio || 'Apasionado por conectar con personas interesantes.'}"</p>
+                        
+                        <div class="flex flex-wrap gap-2 mb-4">
+                            ${currentUser.tribu ? currentUser.tribu.map(t => `<span class="badge badge-primary">${t}</span>`).join('') : ''}
+                            ${currentUser.preferencia ? currentUser.preferencia.map(p => `<span class="badge badge-success">${p}</span>`).join('') : ''}
+                        </div>
+                        
+                        <div class="flex space-x-2">
+                            <button id="editProfileBtn" class="btn-outline flex-1">
+                                <i class="fas fa-edit"></i> Editar perfil
+                            </button>
+                            <button id="settingsBtn" class="btn-outline">
+                                <i class="fas fa-cog"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-4">Estadísticas</h3>
+                        <div class="grid grid-cols-3 gap-4 text-center">
+                            <div>
+                                <div class="text-2xl font-bold text-purple-400">${matches.filter(m => m.userId === currentUser.id).length}</div>
+                                <div class="text-sm text-gray-400">Matches</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-green-400">${notifications.filter(n => n.type === 'like').length}</div>
+                                <div class="text-sm text-gray-400">Likes</div>
+                            </div>
+                            <div>
+                                <div class="text-2xl font-bold text-blue-400">${Math.floor(Math.random() * 100)}</div>
+                                <div class="text-sm text-gray-400">Vistas</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="p-4">
+                        <h3 class="text-lg font-semibold mb-4">Galería</h3>
+                        <div class="grid grid-cols-3 gap-2">
+                            ${currentUser.photos.map(photo => `
+                                <img src="${photo}" alt="Foto" class="w-full h-20 object-cover rounded">
+                            `).join('')}
+                            <div class="w-full h-20 bg-gray-700 rounded flex items-center justify-center">
+                                <span class="text-gray-400 text-sm">+3 más</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+
+        // Cargar notificaciones
+        function loadNotifications() {
+            const notificationsList = document.getElementById('notificationsList');
+            notificationsList.innerHTML = '';
+            
+            if (notifications.length === 0) {
+                notificationsList.innerHTML = `
+                    <div class="text-center py-4">
+                        <i class="fas fa-bell-slash text-2xl text-gray-400 mb-2"></i>
+                        <p class="text-gray-400">No tienes notificaciones</p>
+                    </div>
+                `;
+                return;
             }
             
-            e.target.value = formattedValue;
-        });
+            notifications.forEach(notification => {
+                const notificationElement = document.createElement('div');
+                notificationElement.className = 'flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg';
+                notificationElement.innerHTML = `
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white">
+                        <i class="fas fa-heart"></i>
+                    </div>
+                    <div class="flex-1">
+                        <p class="text-white"><strong>${notification.from}</strong> ${notification.message}</p>
+                        <p class="text-gray-400 text-sm">${notification.time}</p>
+                    </div>
+                `;
+                notificationsList.appendChild(notificationElement);
+            });
+        }
 
-        // Formatear fecha de vencimiento
-        document.getElementById('expiryDate').addEventListener('input', function(e) {
-            let value = e.target.value.replace(/\D/g, '');
-            if (value.length >= 2) {
-                value = value.substring(0, 2) + '/' + value.substring(2, 4);
+        // Actualizar contador de notificaciones
+        function updateNotificationCount() {
+            const unreadCount = notifications.filter(n => !n.read).length;
+            document.getElementById('notificationCount').textContent = unreadCount;
+        }
+
+        // Actualizar interfaz
+        function updateInterface() {
+            if (currentUser) {
+                loadProfile();
+                updateNotificationCount();
             }
-            e.target.value = value;
-        });
+        }
 
-        // Inicializar la primera pestaña
-        showTab('discover');
+        // Inicializar la aplicación cuando el DOM esté listo
+        document.addEventListener('DOMContentLoaded', initApp);
     </script>
 </body>
 </html>
-```
