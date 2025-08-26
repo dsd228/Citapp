@@ -22,13 +22,15 @@
             --gray: #64748B;
             --light: #F8FAFC;
             --border: #334155;
+            --card-bg: rgba(15, 23, 42, 0.85);
         }
         
         body {
             font-family: 'Inter', sans-serif;
-            background-color: var(--darker);
+            background: linear-gradient(135deg, #0f172a, #1e293b);
             color: var(--light);
             overflow-x: hidden;
+            min-height: 100vh;
         }
         
         .logo-text {
@@ -45,11 +47,42 @@
             cursor: pointer;
             transition: all 0.3s ease;
             box-shadow: 0 4px 15px rgba(99, 102, 241, 0.3);
+            position: relative;
+            overflow: hidden;
         }
         
         .btn-primary:hover {
             transform: translateY(-2px);
             box-shadow: 0 6px 20px rgba(99, 102, 241, 0.4);
+        }
+        
+        .btn-primary:after {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 5px;
+            height: 5px;
+            background: rgba(255, 255, 255, 0.5);
+            opacity: 0;
+            border-radius: 100%;
+            transform: scale(1, 1) translate(-50%);
+            transform-origin: 50% 50%;
+        }
+        
+        @keyframes ripple {
+            0% {
+                transform: scale(0.3);
+                opacity: 0.5;
+            }
+            100% {
+                transform: scale(30);
+                opacity: 0;
+            }
+        }
+        
+        .btn-primary:focus:not(:active)::after {
+            animation: ripple 1s ease-out;
         }
         
         .btn-outline {
@@ -69,13 +102,14 @@
         }
         
         .card {
-            background: rgba(15, 23, 42, 0.8);
-            backdrop-filter: blur(10px);
+            background: var(--card-bg);
+            backdrop-filter: blur(12px);
             border: 1px solid var(--border);
             border-radius: 1rem;
             overflow: hidden;
             transition: all 0.3s ease;
             box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+            position: relative;
         }
         
         .card:hover {
@@ -155,6 +189,7 @@
             top: 0.75rem;
             right: 0.75rem;
             backdrop-filter: blur(5px);
+            z-index: 10;
         }
         
         .online-dot {
@@ -167,6 +202,7 @@
             bottom: 0.5rem;
             right: 0.5rem;
             box-shadow: 0 0 10px rgba(16, 185, 129, 0.5);
+            z-index: 10;
         }
         
         .heart-animation {
@@ -242,6 +278,7 @@
             justify-content: center;
             border-radius: 0.5rem;
             cursor: pointer;
+            z-index: 20;
         }
         
         .blur-overlay:hover .unlock-text {
@@ -274,7 +311,7 @@
         .tab-active {
             color: var(--primary);
             font-weight: 600;
-            border-bottom-2 border-purple-600;
+            border-bottom: 3px solid var(--primary);
         }
         
         .tab-inactive {
@@ -287,6 +324,7 @@
             border-radius: 3px;
             overflow: hidden;
             margin: 0.5rem 0;
+            position: relative;
         }
         
         .match-percentage-fill {
@@ -294,6 +332,9 @@
             background: linear-gradient(90deg, var(--success), var(--warning));
             border-radius: 3px;
             transition: width 1s ease;
+            position: absolute;
+            top: 0;
+            left: 0;
         }
         
         @keyframes pulse {
@@ -324,6 +365,18 @@
             margin-bottom: 0.5rem;
             position: relative;
             word-wrap: break-word;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .message-received {
@@ -331,6 +384,7 @@
             border: 1px solid rgba(99, 102, 241, 0.2);
             align-self: flex-start;
             border-bottom-left-radius: 0.25rem;
+            color: var(--light);
         }
         
         .message-sent {
@@ -369,10 +423,12 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            transition: all 0.2s ease;
         }
         
         .send-btn:hover {
             transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(99, 102, 241, 0.3);
         }
         
         .gallery-item {
@@ -444,6 +500,7 @@
             border-radius: 50%;
             border: 5px solid var(--darker);
             object-fit: cover;
+            border: 4px solid var(--darker);
         }
         
         .profile-info {
@@ -464,6 +521,7 @@
             overflow: hidden;
             cursor: grab;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
         }
         
         .swipe-controls {
@@ -484,6 +542,8 @@
             cursor: pointer;
             transition: all 0.3s ease;
             border: 2px solid var(--border);
+            background: rgba(15, 23, 42, 0.8);
+            backdrop-filter: blur(10px);
         }
         
         .swipe-btn:hover {
@@ -492,17 +552,14 @@
         
         .swipe-btn.like {
             color: var(--success);
-            background: rgba(16, 185, 129, 0.1);
         }
         
         .swipe-btn.dislike {
             color: var(--danger);
-            background: rgba(239, 68, 68, 0.1);
         }
         
         .swipe-btn.super-like {
             color: var(--accent);
-            background: rgba(236, 72, 153, 0.1);
         }
         
         .analytics-chart {
@@ -550,6 +607,19 @@
             max-width: 500px;
             border: 1px solid var(--border);
             box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            position: relative;
+            animation: modalFadeIn 0.3s ease;
+        }
+        
+        @keyframes modalFadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
         
         .close {
@@ -558,6 +628,11 @@
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            z-index: 10;
+            transition: color 0.3s ease;
         }
         
         .close:hover,
@@ -575,6 +650,7 @@
             color: var(--light);
             font-size: 0.875rem;
             backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
         }
         
         .form-control:focus {
@@ -597,6 +673,7 @@
         
         .checkbox-item input[type="checkbox"] {
             margin-right: 0.5rem;
+            accent-color: var(--primary);
         }
         
         .upload-avatar {
@@ -612,11 +689,14 @@
             color: var(--gray);
             font-size: 2rem;
             transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
         }
         
         .upload-avatar:hover {
             border-color: var(--primary);
             color: var(--primary);
+            transform: scale(1.05);
         }
         
         .upload-avatar img {
@@ -639,6 +719,7 @@
             justify-content: center;
             border-radius: 0.5rem;
             cursor: pointer;
+            z-index: 20;
         }
         
         .premium-overlay:hover .premium-text {
@@ -701,15 +782,232 @@
         .heart-3 { color: #8B5CF6; }
         .heart-4 { color: #059669; }
         .heart-5 { color: #06D6A0; }
+        
+        .floating-element {
+            animation: floating 3s ease-in-out infinite;
+        }
+        
+        @keyframes floating {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+            100% { transform: translateY(0px); }
+        }
+        
+        .glow-effect {
+            position: relative;
+        }
+        
+        .glow-effect::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary), var(--accent), var(--primary));
+            z-index: -1;
+            border-radius: 0.5rem;
+            animation: glowing 8s linear infinite;
+        }
+        
+        @keyframes glowing {
+            0% { opacity: 0.2; }
+            50% { opacity: 0.6; }
+            100% { opacity: 0.2; }
+        }
+        
+        .premium-tag {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            background: linear-gradient(135deg, #F59E0B, #D97706);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 0.25rem;
+        }
+        
+        .verified-tag {
+            position: absolute;
+            top: 0.5rem;
+            left: 0.5rem;
+            background: linear-gradient(135deg, var(--success), #059669);
+            color: white;
+            width: 1.25rem;
+            height: 1.25rem;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 0.75rem;
+            z-index: 10;
+        }
+        
+        .match-indicator {
+            position: absolute;
+            bottom: 0.5rem;
+            left: 0.5rem;
+            background: rgba(16, 185, 129, 0.9);
+            color: white;
+            padding: 0.25rem 0.75rem;
+            border-radius: 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            z-index: 10;
+        }
+        
+        .swipe-card:hover .match-indicator {
+            animation: pulseMatch 2s infinite;
+        }
+        
+        @keyframes pulseMatch {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.7); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        
+        .premium-lock {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: white;
+            font-size: 2rem;
+            text-align: center;
+            z-index: 20;
+        }
+        
+        .premium-lock i {
+            margin-bottom: 0.5rem;
+            color: var(--warning);
+        }
+        
+        .premium-lock p {
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+        
+        .heart-level {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 6rem;
+            opacity: 0;
+            z-index: 50;
+            pointer-events: none;
+            animation: float 1s ease-out;
+        }
+        
+        @keyframes float {
+            0% {
+                transform: translate(-50%, -50%) scale(0.5);
+                opacity: 0;
+            }
+            50% {
+                opacity: 1;
+            }
+            100% {
+                transform: translate(-50%, -50%) translateY(-100px) scale(1.5);
+                opacity: 0;
+            }
+        }
+        
+        .toast {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(15, 23, 42, 0.9);
+            color: white;
+            padding: 1rem;
+            border-radius: 0.5rem;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            z-index: 60;
+            transform: translateX(100%);
+            transition: transform 0.3s ease;
+            border: 1px solid var(--border);
+        }
+        
+        .toast.show {
+            transform: translateX(0);
+        }
+        
+        .toast-success {
+            border-left: 4px solid var(--success);
+        }
+        
+        .toast-error {
+            border-left: 4px solid var(--danger);
+        }
+        
+        .toast-info {
+            border-left: 4px solid var(--primary);
+        }
+        
+        .toast-close {
+            position: absolute;
+            top: 0.5rem;
+            right: 0.5rem;
+            font-size: 0.8rem;
+            cursor: pointer;
+            opacity: 0.7;
+        }
+        
+        .toast-close:hover {
+            opacity: 1;
+        }
+        
+        .loading {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            z-index: 100;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid rgba(99, 102, 241, 0.3);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s ease-in-out infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body class="min-h-screen">
+    <!-- Loading Spinner -->
+    <div id="loading" class="loading">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div id="toast" class="toast">
+        <span id="toastMessage">Mensaje de ejemplo</span>
+        <div id="toastClose" class="toast-close">&times;</div>
+    </div>
+
     <!-- Header -->
     <header class="bg-transparent absolute top-0 left-0 right-0 z-50">
         <div class="max-w-md mx-auto px-4 py-6">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center">
+                    <div class="w-10 h-10 bg-gradient-to-r from-purple-600 to-pink-600 rounded-full flex items-center justify-center glow-effect">
                         <i class="fas fa-lock text-white"></i>
                     </div>
                     <h1 class="text-2xl font-bold text-white logo-text">Privado</h1>
@@ -744,7 +1042,7 @@
         </section>
 
         <!-- Navigation Tabs -->
-        <div class="flex bg-gray-900 rounded-xl p-1 mb-6">
+        <div class="flex bg-gray-900/50 backdrop-blur-sm rounded-xl p-1 mb-6">
             <button id="tabDiscover" class="tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1">
                 <i class="fas fa-compass"></i>
                 <span>Descubrir</span>
@@ -757,12 +1055,16 @@
                 <i class="fas fa-comments"></i>
                 <span>Mensajes</span>
             </button>
+            <button id="tabProfile" class="tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1">
+                <i class="fas fa-user"></i>
+                <span>Perfil</span>
+            </button>
         </div>
 
         <!-- Discover Tab Content -->
         <div id="discoverContent" class="space-y-6">
             <!-- Profile Card -->
-            <div class="card">
+            <div class="card glow-effect">
                 <div class="swipe-container">
                     <div class="swipe-card">
                         <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Perfil" class="profile-img">
@@ -770,17 +1072,18 @@
                             <i class="fas fa-location-dot mr-1"></i> 1.2 km
                         </div>
                         <div class="online-dot"></div>
+                        <div class="premium-tag">
+                            <i class="fas fa-crown"></i> Premium
+                        </div>
+                        <div class="verified-tag">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <div class="match-indicator">
+                            <i class="fas fa-heart"></i> Match
+                        </div>
                         <div class="p-4">
                             <div class="flex items-center justify-between mb-2">
                                 <h3 class="text-xl font-bold">Alex, 28</h3>
-                                <div class="flex space-x-1">
-                                    <div class="premium-badge">
-                                        <i class="fas fa-crown"></i> Premium
-                                    </div>
-                                    <div class="verified-badge">
-                                        <i class="fas fa-check"></i>
-                                    </div>
-                                </div>
                             </div>
                             <p class="text-gray-400 mb-3">Ingeniero de software apasionado por el fitness y los viajes.</p>
                             
@@ -965,10 +1268,85 @@
                 </div>
             </div>
         </div>
+
+        <!-- Profile Tab Content (Hidden by default) -->
+        <div id="profileContent" class="space-y-6" style="display: none;">
+            <div class="card">
+                <div class="profile-header">
+                    <img src="https://images.unsplash.com/photo-1579532560492-bd2168e74615?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=600&q=80" alt="Fondo de perfil">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80" alt="Perfil" class="profile-avatar">
+                </div>
+                <div class="profile-info">
+                    <div class="flex items-center space-x-2 mb-2">
+                        <h2 class="text-2xl font-bold">Alex, 28</h2>
+                        <div class="premium-tag">
+                            <i class="fas fa-crown"></i> Premium
+                        </div>
+                        <div class="verified-tag">
+                            <i class="fas fa-check"></i>
+                        </div>
+                    </div>
+                    <p class="text-gray-400 mb-3">Ingeniero de software</p>
+                    <p class="text-sm text-gray-400 mb-4">"Apasionado por el fitness y los viajes. Busco conexiones reales sin compromisos."</p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-4">
+                        <span class="badge badge-primary">Bears</span>
+                        <span class="badge badge-success">Activo</span>
+                        <span class="badge badge-warning">Anal</span>
+                        <span class="badge badge-accent">Sadomaso</span>
+                    </div>
+                    
+                    <div class="flex space-x-2">
+                        <button id="editProfileBtn" class="btn-outline flex-1">
+                            <i class="fas fa-edit"></i> Editar perfil
+                        </button>
+                        <button id="settingsBtn" class="btn-outline">
+                            <i class="fas fa-cog"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-4">Estadísticas</h3>
+                    <div class="grid grid-cols-3 gap-4 text-center">
+                        <div>
+                            <div class="text-2xl font-bold text-purple-400">85</div>
+                            <div class="text-sm text-gray-400">Matches</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-green-400">127</div>
+                            <div class="text-sm text-gray-400">Likes</div>
+                        </div>
+                        <div>
+                            <div class="text-2xl font-bold text-blue-400">42</div>
+                            <div class="text-sm text-gray-400">Vistas</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="card">
+                <div class="p-4">
+                    <h3 class="text-lg font-semibold mb-4">Galería</h3>
+                    <div class="grid grid-cols-3 gap-2">
+                        <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 1" class="w-full h-20 object-cover rounded">
+                        <img src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 2" class="w-full h-20 object-cover rounded">
+                        <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 3" class="w-full h-20 object-cover rounded">
+                        <img src="https://images.unsplash.com/photo-1517841905240-472988babdf9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 4" class="w-full h-20 object-cover rounded">
+                        <img src="https://images.unsplash.com/photo-1507078662446-d5762f42996f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 5" class="w-full h-20 object-cover rounded">
+                        <div class="w-full h-20 bg-gray-700 rounded flex items-center justify-center">
+                            <span class="text-gray-400 text-sm">+3 más</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </main>
 
     <!-- Bottom Navigation -->
-    <nav class="fixed bottom-0 left-0 right-0 bg-gray-900 border-t border-gray-800 z-40">
+    <nav class="fixed bottom-0 left-0 right-0 bg-gray-900/80 backdrop-blur-sm border-t border-gray-800 z-40">
         <div class="max-w-md mx-auto">
             <div class="flex">
                 <button id="navDiscover" class="flex-1 py-4 text-center text-purple-400 flex flex-col items-center">
@@ -1141,17 +1519,17 @@
                 <h2 class="text-2xl font-bold text-white">Alex, 28</h2>
                 <p class="text-gray-300">Ingeniero de software</p>
                 <div class="flex justify-center space-x-2 mt-2">
-                    <div class="premium-badge">
+                    <div class="premium-tag">
                         <i class="fas fa-crown"></i> Premium
                     </div>
-                    <div class="verified-badge">
+                    <div class="verified-tag">
                         <i class="fas fa-check"></i>
                     </div>
                 </div>
             </div>
             
             <div class="space-y-4">
-                <div class="bg-gray-800 rounded-xl p-4">
+                <div class="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4">
                     <h3 class="font-semibold text-white mb-3">Información</h3>
                     <div class="space-y-2 text-sm">
                         <div class="flex justify-between">
@@ -1169,7 +1547,7 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-800 rounded-xl p-4">
+                <div class="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4">
                     <h3 class="font-semibold text-white mb-3">Intereses</h3>
                     <div class="flex flex-wrap gap-2">
                         <span class="badge badge-primary">Tecnología</span>
@@ -1179,7 +1557,7 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-800 rounded-xl p-4">
+                <div class="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4">
                     <h3 class="font-semibold text-white mb-3">Galería</h3>
                     <div class="grid grid-cols-3 gap-2">
                         <img src="https://images.unsplash.com/photo-1519750783826-e2420f4d687f?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=100&q=80" alt="Foto 1" class="w-full h-20 object-cover rounded">
@@ -1244,7 +1622,7 @@
                     </div>
                 </div>
                 
-                <div class="bg-gray-800 rounded-xl p-4">
+                <div class="bg-gray-800/70 backdrop-blur-sm rounded-xl p-4">
                     <div class="flex justify-between items-center mb-2">
                         <span class="text-gray-300">Plan Mensual</span>
                         <span class="text-2xl font-bold text-white">$9.99/mes</span>
@@ -1270,7 +1648,7 @@
             <h2 class="text-2xl font-bold text-white mb-6">Notificaciones</h2>
             
             <div class="space-y-3">
-                <div class="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg">
+                <div class="flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg">
                     <div class="w-10 h-10 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center text-white">
                         <i class="fas fa-heart"></i>
                     </div>
@@ -1280,7 +1658,7 @@
                     </div>
                 </div>
                 
-                <div class="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg">
+                <div class="flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg">
                     <div class="w-10 h-10 bg-gradient-to-r from-green-500 to-teal-500 rounded-full flex items-center justify-center text-white">
                         <i class="fas fa-comment"></i>
                     </div>
@@ -1290,7 +1668,7 @@
                     </div>
                 </div>
                 
-                <div class="flex items-start space-x-3 p-3 bg-gray-800 rounded-lg">
+                <div class="flex items-start space-x-3 p-3 bg-gray-800/70 backdrop-blur-sm rounded-lg">
                     <div class="w-10 h-10 bg-gradient-to-r from-blue-500 to-indigo-500 rounded-full flex items-center justify-center text-white">
                         <i class="fas fa-user-plus"></i>
                     </div>
@@ -1316,6 +1694,7 @@
         let userLocation = null;
         let locationEnabled = false;
         let selectedPhotos = [];
+        let currentTab = 'discover';
 
         // Elementos del DOM
         const loginModal = document.getElementById('loginModal');
@@ -1325,14 +1704,43 @@
         const heartAnimation = document.getElementById('heartAnimation');
         const avatarUpload = document.getElementById('avatarUpload');
         const avatarInput = document.getElementById('avatarInput');
+        const toast = document.getElementById('toast');
+        const toastMessage = document.getElementById('toastMessage');
+        const toastClose = document.getElementById('toastClose');
+        const loading = document.getElementById('loading');
 
         // Mostrar modal de login al cargar
         window.onload = function() {
-            loginModal.style.display = 'block';
-            
-            // Generar datos de ejemplo
-            generateMockData();
+            // Simular carga
+            showLoading();
+            setTimeout(() => {
+                hideLoading();
+                loginModal.style.display = 'block';
+                
+                // Generar datos de ejemplo
+                generateMockData();
+            }, 1500);
         };
+
+        // Mostrar loading
+        function showLoading() {
+            loading.style.display = 'flex';
+        }
+
+        // Ocultar loading
+        function hideLoading() {
+            loading.style.display = 'none';
+        }
+
+        // Mostrar toast
+        function showToast(message, type = 'info') {
+            toastMessage.textContent = message;
+            toast.className = `toast toast-${type} show`;
+            
+            setTimeout(() => {
+                toast.className = 'toast';
+            }, 3000);
+        }
 
         // Generar datos de ejemplo
         function generateMockData() {
@@ -1422,46 +1830,71 @@
             const preferencia = Array.from(document.querySelectorAll('input[name="preferencia"]:checked')).map(cb => cb.value);
             
             // Validaciones
-            if (genero.length === 0) {
-                alert('Por favor selecciona al menos un género');
+            if (name.trim() === '') {
+                showToast('Por favor ingresa tu nombre', 'error');
                 return;
             }
-            if (rol.length === 0) {
-                alert('Por favor selecciona al menos un rol');
-                return;
-            }
-            if (tribu.length === 0) {
-                alert('Por favor selecciona al menos una tribu');
-                return;
-            }
-            if (preferencia.length === 0) {
-                alert('Por favor selecciona al menos una preferencia');
-                return;
-            }
-
-            currentUser = {
-                id: Date.now().toString(),
-                name: name,
-                email: email,
-                age: age,
-                genero: genero,
-                rol: rol,
-                tribu: tribu,
-                preferencia: preferencia,
-                bio: bio,
-                photos: selectedPhotos.length > 0 ? selectedPhotos : ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80'],
-                isPremium: false,
-                isVerified: true,
-                matches: 0,
-                lastActive: new Date().toISOString(),
-                createdAt: new Date().toISOString()
-            };
-
-            localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            loginModal.style.display = 'none';
             
-            // Actualizar interfaz
-            updateInterface();
+            if (email.trim() === '') {
+                showToast('Por favor ingresa tu correo electrónico', 'error');
+                return;
+            }
+            
+            if (age === '') {
+                showToast('Por favor selecciona tu edad', 'error');
+                return;
+            }
+            
+            if (genero.length === 0) {
+                showToast('Por favor selecciona al menos un género', 'error');
+                return;
+            }
+            
+            if (rol.length === 0) {
+                showToast('Por favor selecciona al menos un rol', 'error');
+                return;
+            }
+            
+            if (tribu.length === 0) {
+                showToast('Por favor selecciona al menos una tribu', 'error');
+                return;
+            }
+            
+            if (preferencia.length === 0) {
+                showToast('Por favor selecciona al menos una preferencia', 'error');
+                return;
+            }
+
+            showLoading();
+            
+            // Simular proceso de creación de perfil
+            setTimeout(() => {
+                currentUser = {
+                    id: Date.now().toString(),
+                    name: name,
+                    email: email,
+                    age: age,
+                    genero: genero,
+                    rol: rol,
+                    tribu: tribu,
+                    preferencia: preferencia,
+                    bio: bio,
+                    photos: selectedPhotos.length > 0 ? selectedPhotos : ['https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=200&q=80'],
+                    isPremium: false,
+                    isVerified: true,
+                    matches: 0,
+                    lastActive: new Date().toISOString(),
+                    createdAt: new Date().toISOString()
+                };
+
+                localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                hideLoading();
+                loginModal.style.display = 'none';
+                showToast('¡Perfil creado con éxito!', 'success');
+                
+                // Actualizar interfaz
+                updateInterface();
+            }, 1500);
         });
 
         // Actualizar interfaz según el estado del usuario
@@ -1471,37 +1904,42 @@
         }
 
         // Navegación entre pestañas
-        document.getElementById('navDiscover').addEventListener('click', function() {
-            document.getElementById('discoverContent').style.display = 'block';
+        function showTab(tabId) {
+            // Ocultar todos los contenidos
+            document.getElementById('discoverContent').style.display = 'none';
             document.getElementById('matchesContent').style.display = 'none';
             document.getElementById('messagesContent').style.display = 'none';
+            document.getElementById('profileContent').style.display = 'none';
+            
+            // Mostrar el contenido seleccionado
+            document.getElementById(tabId + 'Content').style.display = 'block';
             
             // Actualizar estilos de navegación
-            document.getElementById('tabDiscover').className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
             document.getElementById('tabMatches').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
             document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            document.getElementById('tabProfile').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            
+            document.getElementById('tab' + tabId.charAt(0).toUpperCase() + tabId.slice(1)).className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            
+            currentTab = tabId;
+        }
+
+        // Event listeners para navegación
+        document.getElementById('navDiscover').addEventListener('click', function() {
+            showTab('discover');
         });
 
         document.getElementById('navMatches').addEventListener('click', function() {
-            document.getElementById('discoverContent').style.display = 'none';
-            document.getElementById('matchesContent').style.display = 'block';
-            document.getElementById('messagesContent').style.display = 'none';
-            
-            // Actualizar estilos de navegación
-            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabMatches').className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabMessages').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            showTab('matches');
         });
 
         document.getElementById('navMessages').addEventListener('click', function() {
-            document.getElementById('discoverContent').style.display = 'none';
-            document.getElementById('matchesContent').style.display = 'none';
-            document.getElementById('messagesContent').style.display = 'block';
-            
-            // Actualizar estilos de navegación
-            document.getElementById('tabDiscover').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabMatches').className = 'tab-inactive flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
-            document.getElementById('tabMessages').className = 'tab-active flex-1 py-3 px-4 text-sm font-medium rounded-lg flex items-center justify-center space-x-1';
+            showTab('messages');
+        });
+
+        document.getElementById('navProfile').addEventListener('click', function() {
+            showTab('profile');
         });
 
         // Botones de acción
@@ -1544,9 +1982,16 @@
         avatarInput.addEventListener('change', function(e) {
             const file = e.target.files[0];
             if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('La imagen es demasiado grande. Máximo 5MB', 'error');
+                    return;
+                }
+                
                 const reader = new FileReader();
                 reader.onload = function(e) {
                     avatarUpload.innerHTML = `<img src="${e.target.result}" alt="Foto de perfil">`;
+                    selectedPhotos = [e.target.result];
+                    showToast('Foto de perfil actualizada', 'success');
                 };
                 reader.readAsDataURL(file);
             }
@@ -1565,7 +2010,7 @@
             
             // Simular match
             setTimeout(() => {
-                alert('¡Match! Ahora puedes conversar con Alex');
+                showToast('¡Match! Ahora puedes conversar con Alex', 'success');
             }, 500);
         });
 
@@ -1581,43 +2026,131 @@
             
             // Simular super like
             setTimeout(() => {
-                alert('¡Super Like enviado! Alex será notificado');
+                showToast('¡Super Like enviado! Alex será notificado', 'success');
             }, 500);
         });
 
         // Enviar mensaje
         document.getElementById('messageBtn').addEventListener('click', function() {
-            alert('Mensaje enviado. Alex será notificado.');
+            showToast('Mensaje enviado. Alex será notificado.', 'success');
             profileModal.style.display = 'none';
         });
 
         // Confirmar upgrade
         document.getElementById('confirmUpgrade').addEventListener('click', function() {
-            alert('¡Felicidades! Ahora eres un usuario Premium con acceso a todas las funciones avanzadas.');
-            upgradeModal.style.display = 'none';
+            showLoading();
             
-            // Actualizar estado del usuario
-            if (currentUser) {
-                currentUser.isPremium = true;
-                localStorage.setItem('currentUser', JSON.stringify(currentUser));
-            }
+            // Simular proceso de pago
+            setTimeout(() => {
+                hideLoading();
+                showToast('¡Felicidades! Ahora eres un usuario Premium con acceso a todas las funciones avanzadas.', 'success');
+                upgradeModal.style.display = 'none';
+                
+                // Actualizar estado del usuario
+                if (currentUser) {
+                    currentUser.isPremium = true;
+                    localStorage.setItem('currentUser', JSON.stringify(currentUser));
+                }
+            }, 2000);
         });
 
-        // Simular actividad
-        setInterval(() => {
-            // Actualizar contador de notificaciones
-            const count = Math.floor(Math.random() * 5);
-            document.getElementById('notificationCount').textContent = count > 0 ? count.toString() : '0';
-        }, 30000);
+        // Toast close button
+        toastClose.addEventListener('click', function() {
+            toast.className = 'toast';
+        });
 
         // Añadir eventos a las fotos de la galería
         document.querySelectorAll('.gallery-item').forEach(item => {
             item.addEventListener('click', function() {
                 if (this.querySelector('.private-overlay')) {
-                    alert('Esta foto es privada. Actualiza a Premium para ver fotos privadas.');
+                    showToast('Esta foto es privada. Actualiza a Premium para ver fotos privadas.', 'info');
                 }
             });
         });
+
+        // Swipe functionality
+        let startX = 0;
+        let currentX = 0;
+        let isDragging = false;
+        const swipeCard = document.querySelector('.swipe-card');
+        
+        swipeCard.addEventListener('mousedown', startDrag);
+        swipeCard.addEventListener('touchstart', startDrag);
+        
+        function startDrag(e) {
+            isDragging = true;
+            startX = e.type === 'touchstart' ? e.touches[0].clientX : e.clientX;
+            
+            document.addEventListener('mousemove', drag);
+            document.addEventListener('touchmove', drag);
+            document.addEventListener('mouseup', endDrag);
+            document.addEventListener('touchend', endDrag);
+        }
+        
+        function drag(e) {
+            if (!isDragging) return;
+            
+            currentX = e.type === 'touchmove' ? e.touches[0].clientX : e.clientX;
+            const diffX = currentX - startX;
+            
+            if (Math.abs(diffX) > 10) {
+                swipeCard.style.transform = `translateX(${diffX}px) rotate(${diffX * 0.1}deg)`;
+                
+                // Cambiar opacidad del botón de like/dislike
+                const likeOpacity = Math.max(0, Math.min(1, diffX / 100));
+                const dislikeOpacity = Math.max(0, Math.min(1, -diffX / 100));
+                
+                document.querySelector('.swipe-btn.like i').style.opacity = likeOpacity;
+                document.querySelector('.swipe-btn.dislike i').style.opacity = dislikeOpacity;
+            }
+        }
+        
+        function endDrag(e) {
+            if (!isDragging) return;
+            
+            isDragging = false;
+            const diffX = currentX - startX;
+            
+            if (Math.abs(diffX) > 100) {
+                // Swipe decisivo
+                if (diffX > 100) {
+                    // Like
+                    swipeCard.style.transform = 'translateX(500px) rotate(20deg)';
+                    setTimeout(() => {
+                        const heart = heartAnimation.cloneNode(true);
+                        heart.querySelector('i').className = 'fas fa-heart heart-3';
+                        heart.classList.add('show');
+                        document.body.appendChild(heart);
+                        
+                        setTimeout(() => {
+                            document.body.removeChild(heart);
+                        }, 1000);
+                        
+                        showToast('¡Match! Ahora puedes conversar con Alex', 'success');
+                    }, 300);
+                } else if (diffX < -100) {
+                    // Dislike
+                    swipeCard.style.transform = 'translateX(-500px) rotate(-20deg)';
+                    setTimeout(() => {
+                        showToast('Perfil descartado', 'info');
+                    }, 300);
+                }
+            } else {
+                // Volver a la posición original
+                swipeCard.style.transform = 'translateX(0) rotate(0)';
+                document.querySelector('.swipe-btn.like i').style.opacity = 1;
+                document.querySelector('.swipe-btn.dislike i').style.opacity = 1;
+            }
+            
+            // Limpiar eventos
+            document.removeEventListener('mousemove', drag);
+            document.removeEventListener('touchmove', drag);
+            document.removeEventListener('mouseup', endDrag);
+            document.removeEventListener('touchend', endDrag);
+        }
+
+        // Inicializar la primera pestaña
+        showTab('discover');
     </script>
 </body>
 </html>
